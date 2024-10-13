@@ -1,0 +1,16 @@
+.header {
+    padding-left: var(--mantine-spacing-xl);
+    padding-right: var(--mantine-spacing-xl);
+    border-bottom: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+  }
+  
+.image {
+  height: rem(40px);
+  width: rem(40px);
+}
+
+.title {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  line-height: 15px;
+}
