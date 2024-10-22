@@ -1,13 +1,9 @@
 import {
     Group,
     Button,
-    Box,
-    Image,
-    Title,
-    Text
+    Box
   } from '@mantine/core';
   import classes from './Header.module.css';
-  import icon from './resume.png'
   import { CreateResumeLogo } from '../CreateResumeLogo/CreateResumeLogo';
   
   
