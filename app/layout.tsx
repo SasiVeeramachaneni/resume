@@ -3,7 +3,7 @@ import '@mantine/core/styles.css';
 import React from 'react';
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import { theme } from '../theme';
-import { ResumeProvider } from './ResumeContext';
+import { ResumeProvider } from '../components/declarations/ResumeContext';
 
 
 export const metadata = {

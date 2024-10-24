@@ -35,6 +35,8 @@ import {
   } from '@tabler/icons-react';
   import classes from './ResumeHeader.module.css';
   import { CreateResumeLogo } from '../CreateResumeLogo/CreateResumeLogo';
+  import SettingsModal from '../Settings/Settings';
+
   
   const mockdata = [
     {
@@ -70,8 +72,9 @@ import {
   ];
   
   export function ResumeHeader() {
-    const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
     const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
+    const [opened, { open, close }] = useDisclosure(false);
+
     const theme = useMantineTheme();
   
     const links = mockdata.map((item) => (
@@ -168,51 +171,14 @@ import {
             </Group>
   
             <Group visibleFrom="sm">
-              <Button leftSection={<IconSettings size={18}/>} variant="default">Settings</Button>
+              <Button onClick={open} leftSection={<IconSettings size={18}/>} variant="default">Settings</Button>
+              <SettingsModal opened={opened} close={close} />
               <Button rightSection={<IconDownload size={18}/>}>Download</Button>
             </Group>
   
-            <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
           </Group>
         </header>
   
-        <Drawer
-          opened={drawerOpened}
-          onClose={closeDrawer}
-          size="100%"
-          padding="md"
-          title="Navigation"
-          hiddenFrom="sm"
-          zIndex={1000000}
-        >
-          <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
-            <Divider my="sm" />
-  
-            <a href="#" className={classes.link}>
-              Home
-            </a>
-            <UnstyledButton className={classes.link} onClick={toggleLinks}>
-              <Center inline>
-                <Box component="span" mr={5}>
-                  Select template
-                </Box>
-                <IconChevronDown
-                  style={{ width: rem(16), height: rem(16) }}
-                  color={theme.colors.blue[6]}
-                />
-              </Center>
-            </UnstyledButton>
-            <Collapse in={linksOpened}>{links}</Collapse>
-  
-            <Divider my="sm" />
-  
-            <Group justify="center" grow pb="xl" px="md">
-            <Button>Upload</Button>
-              <Button variant="default">Settings</Button>
-              <Button>Download</Button>
-            </Group>
-          </ScrollArea>
-        </Drawer>
       </Box>
     );
   }

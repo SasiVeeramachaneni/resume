@@ -1,11 +1,28 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Container, TextInput, Button, Title } from '@mantine/core';
+import { ResumeContext } from '../declarations/ResumeContext'; // Adjust the import path as necessary
 
 export function Awards() {
-  const [awards, setAwards] = useState([{ name: '', organization: '' }]);
+
+  const resumeContext = useContext(ResumeContext); // Use context
+  if (!resumeContext) {
+    throw new Error('ResumeContext must be used within a ResumeProvider'); // Error if context is undefined
+  }
+
+  const { resumeData, updateAwards } = resumeContext; // Destructure resumeData and updateAwards from context
+
   const [errors, setErrors] = useState<number[]>([]);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
+
+  let awards = resumeData.awards;
+
+  // Ensure there's always a blank default award
+  useEffect(() => {
+    if (awards.length === 0) {
+      updateAwards([{ name: '', organization: '' }]); // Add a blank award
+    }
+  }, [awards, updateAwards]);
 
   const handleAddAward = () => {
     // Check if all mandatory fields are filled
@@ -18,10 +35,12 @@ export function Awards() {
       return;
     }
 
-    setAwards([...awards, { name: '', organization: '' }]);
+    // Add a new blank award and update the context
+    const newAwards = [...awards, { name: '', organization: '' }];
+    updateAwards(newAwards);
     setErrors([]);
     setTimeout(() => {
-      setEditingIndex(awards.length);
+      setEditingIndex(awards.length); // Set focus on the new award
       document.getElementById(`award-name-${awards.length}`)?.focus();
     }, 0);
   };
@@ -29,7 +48,7 @@ export function Awards() {
   const handleChange = (index: number, field: string, value: string) => {
     const newAwards = [...awards];
     newAwards[index] = { ...newAwards[index], [field]: value };
-    setAwards(newAwards);
+    updateAwards(newAwards); // Update the context whenever an award is changed
 
     if (errors.includes(index)) {
       const newErrors = [...errors];
@@ -65,7 +84,7 @@ export function Awards() {
               placeholder="Award Name"
               variant="unstyled"
               value={award.name}
-              size="sm"
+              size="md"
               onChange={(e) => handleChange(index, 'name', e.currentTarget.value)}
               onFocus={() => setEditingIndex(index)}
               onBlur={() => setEditingIndex(null)}

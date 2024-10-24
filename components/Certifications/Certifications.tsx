@@ -1,11 +1,27 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Container, TextInput, Button, Title } from '@mantine/core';
+import { ResumeContext } from '../declarations/ResumeContext'; // Adjust the import path as necessary
 
 export function Certifications() {
-  const [certifications, setCertifications] = useState([{ name: '', year: '', organization: '' }]);
+  const resumeContext = useContext(ResumeContext); // Use context
+  if (!resumeContext) {
+    throw new Error('ResumeContext must be used within a ResumeProvider'); // Error if context is undefined
+  }
+
+  const { resumeData, updateCertifications } = resumeContext; // Destructure resumeData and updateCertifications from context
+
+  let certifications = resumeData.certifications;
+
   const [errors, setErrors] = useState<number[]>([]);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
+
+  // Ensure there's always a blank certification with year as a number
+  useEffect(() => {
+    if (certifications.length === 0) {
+      updateCertifications([{ name: '', year: NaN, organization: '' }]); // Add a default blank certification with `year` as number
+    }
+  }, [certifications, updateCertifications]);
 
   const handleAddCertification = () => {
     // Check if all mandatory fields are filled
@@ -18,18 +34,26 @@ export function Certifications() {
       return;
     }
 
-    setCertifications([...certifications, { name: '', year: '', organization: '' }]);
+    // Add a new blank certification and update the context
+    const newCertifications = [...certifications, { name: '', year: NaN, organization: '' }];
+    updateCertifications(newCertifications); // Update context with new certification
     setErrors([]);
     setTimeout(() => {
-      setEditingIndex(certifications.length);
+      setEditingIndex(certifications.length); // Set focus on the new certification
       document.getElementById(`cert-name-${certifications.length}`)?.focus();
     }, 0);
   };
 
   const handleChange = (index: number, field: string, value: string) => {
     const newCertifications = [...certifications];
-    newCertifications[index] = { ...newCertifications[index], [field]: value };
-    setCertifications(newCertifications);
+
+    if (field === 'year') {
+      newCertifications[index] = { ...newCertifications[index], [field]: parseInt(value) || NaN }; // Convert year to number
+    } else {
+      newCertifications[index] = { ...newCertifications[index], [field]: value };
+    }
+
+    updateCertifications(newCertifications); // Update the context whenever a certification is changed
 
     if (errors.includes(index)) {
       const newErrors = [...errors];
@@ -65,7 +89,7 @@ export function Certifications() {
               placeholder="Certification Name"
               variant="unstyled"
               value={cert.name}
-              size="sm"
+              size="md"
               onChange={(e) => handleChange(index, 'name', e.currentTarget.value)}
               onFocus={() => setEditingIndex(index)}
               onBlur={() => setEditingIndex(null)}
@@ -89,7 +113,8 @@ export function Certifications() {
               />
               <TextInput
                 placeholder="Year"
-                value={cert.year}
+                value={cert.year ? cert.year.toString() : ''}
+                variant='unstyled'
                 onChange={(e) => handleChange(index, 'year', e.currentTarget.value)}
                 style={{ fontStyle: 'italic', width: '60px' }}
               />

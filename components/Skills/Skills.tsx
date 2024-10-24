@@ -1,19 +1,35 @@
 'use client';
-import React, { useState, useRef } from 'react';
+import React, { useRef, useContext, useEffect, useState } from 'react';
 import { Container, Title, TextInput, Button } from '@mantine/core';
+import { ResumeContext } from '../declarations/ResumeContext'; // Adjust the import path as necessary
 
 export function Skills() {
-  const [skills, setSkills] = useState<string[]>(['']);
+  const resumeContext = useContext(ResumeContext); // Use context
+  if (!resumeContext) {
+    throw new Error('ResumeContext must be used within a ResumeProvider'); // Error if context is undefined
+  }
+
+  const { resumeData, updateSkills } = resumeContext; // Destructure resumeData and updateSkills from context
+
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
   const [shake, setShake] = useState<number | null>(null);
+
+  let skills = resumeData.skills; // Use skills from context
+
+  // Add a default blank skill if the skills array is empty
+  useEffect(() => {
+    if (skills.length === 0) {
+      skills = ['']; // Add a default blank skill
+      updateSkills(skills); // Update the context with the default blank skill
+    }
+  }, [skills, updateSkills]);
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
     if (e.key === 'Enter' && e.currentTarget.value.trim()) {
       const newSkills = [...skills];
       newSkills[index] = e.currentTarget.value;
-      newSkills.push('');
-      setSkills(newSkills);
-      // Move focus to the newly added input field
+      newSkills.push(''); // Add new input for the next skill
+      updateSkills(newSkills); // Update the context
       setTimeout(() => {
         inputRefs.current[newSkills.length - 1]?.focus();
       }, 0);
@@ -31,7 +47,7 @@ export function Skills() {
       return;
     }
 
-    setSkills([...skills, '']);
+    updateSkills([...skills, '']); // Update the context with a new empty skill
     setTimeout(() => {
       inputRefs.current[skills.length]?.focus();
     }, 0);
@@ -42,7 +58,7 @@ export function Skills() {
     const context = canvas.getContext('2d');
     if (context) {
       context.font = font;
-      return context.measureText(text).width;
+      return context.measureText(text).width*1.02;
     }
     return 0;
   }
@@ -63,12 +79,14 @@ export function Skills() {
             <TextInput
               key={index}
               variant='filled'
-              ref={(el) => inputRefs.current[index] = el}
+              ref={(el) => {
+                inputRefs.current[index] = el; // Assign the ref without returning anything
+              }}
               value={skill}
               onChange={(e) => {
                 const newSkills = [...skills];
                 newSkills[index] = e.currentTarget.value;
-                setSkills(newSkills);
+                updateSkills(newSkills); // Update the context when a skill changes
               }}
               onKeyDown={(e) => handleKeyPress(e, index)}
               placeholder="Skill"
