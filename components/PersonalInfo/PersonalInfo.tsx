@@ -6,10 +6,9 @@ import { ImageUpload } from "@/components/ImageUpload/ImageUpload";
 import { ResumeContext } from '../declarations/ResumeContext'; // Adjust the import path as necessary
 
 export function PersonalInfo() {
-
-  const resumeContext = useContext(ResumeContext); // Use context
+  const resumeContext = useContext(ResumeContext);
   if (!resumeContext) {
-    throw new Error('ResumeContext must be used within a ResumeProvider'); // Error if context is undefined
+    throw new Error('ResumeContext must be used within a ResumeProvider');
   }
 
   const { resumeData, updatePersonalInfo } = resumeContext;
@@ -17,41 +16,51 @@ export function PersonalInfo() {
   const { isImage } = resumeData.settings;
 
   const handleChange = (field: keyof typeof resumeData.personalInfo, value: string) => {
-    updatePersonalInfo(field, value); // Call the update function from context
+    updatePersonalInfo(field, value);
 
     if (field === 'name') {
       console.log('Updated Resume Data:', resumeData);
     }
-
   };
 
   return (
     <>
-      <Group pl={30} gap={20} justify="flex-start">
-        {isImage && (<ImageUpload />
-        )
-        }
-        <Stack gap={0}>
-          <TextInput
+      <Group pl={20} gap={20} justify="flex-start">
+        {isImage && <ImageUpload />}
+        <Stack pb={15} gap={0} style={{ width: isImage ? '87%' : '100%' }}>
+          <input
             placeholder="Your name"
-            variant="unstyled"
-            size="xl"
-            style={{ fontWeight: 'bold', width: '500px' }}
+            style={{
+              fontWeight: 'bold',
+              width: '500px',
+              fontSize: '28px',
+              padding: '0',
+              paddingBottom: '5px',
+              border: 'none'
+            }}
             value={name}
-            onChange={(e) => handleChange('name', e.currentTarget.value)}
+            onChange={(e) => handleChange('name', e.target.value)}
           />
-          <TextInput
+          <input
             placeholder="Title"
-            variant="unstyled"
-            size="lg"
+            style={{
+              fontWeight: 'bold',
+              fontSize: '20px',
+              padding: '0',
+              paddingBottom: '5px',
+              border: 'none'
+            }}
             value={title}
-            onChange={(e) => handleChange('title', e.currentTarget.value)}
+            onChange={(e) => handleChange('title', e.target.value)}
           />
           <Textarea
             variant="unstyled"
             placeholder="About me"
             size="md"
+            autosize
+            minRows={1}
             maxRows={3}
+            maxLength={isImage ? 470 : 530} // Conditional maxLength based on isImage
             style={{ width: '100%', padding: 0 }}
             value={aboutMe}
             onChange={(e) => handleChange('aboutMe', e.currentTarget.value)}

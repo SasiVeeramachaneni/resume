@@ -1,15 +1,11 @@
+'use client';
+
 import '@mantine/core/styles.css';
 
 import React from 'react';
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import { theme } from '../theme';
 import { ResumeProvider } from '../components/declarations/ResumeContext';
-
-
-export const metadata = {
-  title: 'Create resume',
-  description: 'Create resume',
-};
 
 export default function RootLayout({ children }: { children: any }) {
   return (

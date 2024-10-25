@@ -1,4 +1,5 @@
-// app/useResume.ts
+'use client';
+
 import { useContext } from 'react';
 import { ResumeContext } from './ResumeContext';
 

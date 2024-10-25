@@ -16,7 +16,6 @@ export interface Settings {
   isAwards: boolean;
   isCertifications: boolean;
   isPatents: boolean;
-  isHobbies: boolean;
   isPersonalProjects: boolean;
   isLanguages: boolean;
 }

@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { ResumeHeader } from "@/components/ResumeHeader/ResumeHeader";
-import { Container, Grid, Title, TextInput } from '@mantine/core';
+import { Container, Grid } from '@mantine/core';
 import { PersonalInfo } from "@/components/PersonalInfo/PersonalInfo";
 import { Skills } from '@/components/Skills/Skills';
 import { Certifications } from '@/components/Certifications/Certifications';

@@ -22,7 +22,6 @@ const initialResumeData: ResumeData = {
     isAwards: true,
     isCertifications: true,
     isPatents: false,
-    isHobbies: false,
     isPersonalProjects: false,
     isLanguages: false
   },

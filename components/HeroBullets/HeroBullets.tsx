@@ -1,3 +1,5 @@
+'use client';
+
 import { Image, Container, Title, Button, Group, Text, List, ThemeIcon, rem, ListItem } from '@mantine/core';
 import { IconCheck } from '@tabler/icons-react';
 import image from './resume.webp';

@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useContext, useState } from 'react';
-import { Modal, Checkbox, Select, SimpleGrid, Button, Group, Switch } from '@mantine/core';
+import { Modal, SimpleGrid, Button, Group, Switch } from '@mantine/core';
 import { ResumeContext } from '../declarations/ResumeContext';
 import { Settings } from '../declarations/types';
 import { IconDeviceFloppy } from '@tabler/icons-react';
@@ -46,6 +46,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ opened, close }) => {
                     description="Helps with the linkedin URL"
                     size="md"
                     variant="outline"
+                    style={{ fontWeight: 'bold' }}
                     checked={settings.isLinkedIn}
                     onChange={handleCheckboxChange('isLinkedIn')}
                 />
@@ -54,6 +55,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ opened, close }) => {
                     description="Show case your pet projects skills"
                     size="md"
                     variant="outline"
+                    style={{ fontWeight: 'bold' }}
+
                     checked={settings.isGithub}
                     onChange={handleCheckboxChange('isGithub')}
                 />
@@ -62,6 +65,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ opened, close }) => {
                     description="I am recognized"
                     size="md"
                     variant="outline"
+                    style={{ fontWeight: 'bold' }}
+
                     checked={settings.isAwards}
                     onChange={handleCheckboxChange('isAwards')}
                 />
@@ -69,6 +74,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ opened, close }) => {
                     label="Certifications"
                     description="We all do certifications"
                     size="md"
+                    style={{ fontWeight: 'bold' }}
+
                     variant="outline"
                     checked={settings.isCertifications}
                     onChange={handleCheckboxChange('isCertifications')}
@@ -78,6 +85,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ opened, close }) => {
                     description="Brand yourself"
                     size="md"
                     variant="outline"
+                    style={{ fontWeight: 'bold' }}
+
                     checked={settings.isImage}
                     onChange={handleCheckboxChange('isImage')}
                 />
@@ -86,22 +95,18 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ opened, close }) => {
                     description="Are you a inventor"
                     size="md"
                     variant="outline"
+                    style={{ fontWeight: 'bold' }}
+
                     checked={settings.isPatents}
                     onChange={handleCheckboxChange('isPatents')}
-                />
-                <Switch
-                    label="Hobbies"
-                    description="Needed for students"
-                    size="md"
-                    variant="outline"
-                    checked={settings.isHobbies}
-                    onChange={handleCheckboxChange('isHobbies')}
                 />
                 <Switch
                     label="Projects"
                     description="Showcase your fun time projects"
                     size="md"
                     variant="outline"
+                    style={{ fontWeight: 'bold' }}
+
                     checked={settings.isPersonalProjects}
                     onChange={handleCheckboxChange('isPersonalProjects')}
                 />
@@ -110,6 +115,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ opened, close }) => {
                     description="Needed for students"
                     size="md"
                     variant="outline"
+                    style={{ fontWeight: 'bold' }}
+
                     checked={settings.isLanguages}
                     onChange={handleCheckboxChange('isLanguages')}
                 />
