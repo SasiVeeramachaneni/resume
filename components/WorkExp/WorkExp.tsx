@@ -10,7 +10,7 @@ export function WorkExperience() {
   }
 
   const { resumeData, updateWorkExperience } = resumeContext; // Destructure resumeData and updateWorkExperience from context
-  
+
   let experiences = resumeData.workExperience;
 
   const [errors, setErrors] = useState<number[]>([]);
@@ -125,7 +125,7 @@ export function WorkExperience() {
   return (
     <>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Title order={3}>Work Experience</Title>
+        <Title order={3} style={{ color: 'light-dark(var(--mantine-color-blue-6), var(--mantine-color-blue-4))' }}>EXPERIENCE</Title>
         <Button onClick={handleAddExperience} variant="outline" size="xs">
           +Add
         </Button>
@@ -142,19 +142,20 @@ export function WorkExperience() {
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <TextInput
+              <input
                 id={`work-org-${index}`}
                 placeholder="Organization Name"
-                variant="unstyled"
                 value={exp.organization}
-                size="lg"
                 onChange={(e) => handleChange(index, 'organization', e.currentTarget.value)}
                 onFocus={() => setEditingIndex(index)}
                 onBlur={() => setEditingIndex(null)}
                 style={{
                   fontWeight: 'bold',
                   width: '400px',
-                  border: errors.includes(index) && exp.organization.trim() === '' ? '1px solid red' : 'none'
+                  border: errors.includes(index) && exp.organization.trim() === '' ? '1px solid red' : 'none',
+                  fontSize: '20px',
+                  outline: 'none',
+                  backgroundColor: 'transparent',
                 }}
               />
               <Group gap={1} pr={2}>
@@ -188,15 +189,20 @@ export function WorkExperience() {
               </Group>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <TextInput
+              <input
                 placeholder="Role in Organization"
-                variant="unstyled"
                 value={exp.role}
-                size="md"
                 onChange={(e) => handleChange(index, 'role', e.currentTarget.value)}
                 onFocus={() => setEditingIndex(index)}
                 onBlur={() => setEditingIndex(null)}
-                style={{ fontWeight: 'bold', fontStyle: 'italic', width: '300px' }}
+                style={{
+                  fontStyle: 'italic',
+                  width: '400px',
+                  fontSize: '18px', // Adjust the size to match 'md'
+                  outline: 'none',
+                  backgroundColor: 'transparent',
+                  border: 'none', // Mimics unstyled input
+                }}
               />
               <Checkbox
                 label="Current Organization"

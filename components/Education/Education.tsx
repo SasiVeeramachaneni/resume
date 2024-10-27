@@ -69,7 +69,7 @@ export function Education() {
   return (
     <>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '5px' }}>
-        <Title order={3}>Education</Title>
+        <Title order={3} style={{color: 'light-dark(var(--mantine-color-blue-6), var(--mantine-color-blue-4))'}}>EDUCATION</Title>
         <Button onClick={handleAddEducation} variant="outline" size="xs">
           +Add
         </Button>

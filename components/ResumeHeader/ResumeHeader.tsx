@@ -88,9 +88,9 @@ export function ResumeHeader() {
             <a href="#" className={classes.link}>
               <Center inline>
                 <Box component="span" mr={5}>
-                  Select color
+                  Select template
                 </Box>
-                <IconPalette
+                <IconChevronDown
                   style={{ width: rem(18), height: rem(18) }}
                   color={theme.colors.blue[6]}
                 />
@@ -101,9 +101,9 @@ export function ResumeHeader() {
                 <a href="#" className={classes.link}>
                   <Center inline>
                     <Box component="span" mr={5}>
-                      Select template
+                      Select theme
                     </Box>
-                    <IconChevronDown
+                    <IconPalette
                       style={{ width: rem(18), height: rem(18) }}
                       color={theme.colors.blue[6]}
                     />

@@ -64,7 +64,7 @@ export function Awards() {
   return (
     <>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '5px' }}>
-        <Title order={3}>Awards</Title>
+        <Title order={3} style={{color: 'light-dark(var(--mantine-color-blue-6), var(--mantine-color-blue-4))'}}>AWARDS</Title>
         <Button onClick={handleAddAward} variant="outline" size="xs">
           +Add
         </Button>

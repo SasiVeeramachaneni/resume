@@ -31,3 +31,15 @@
     color: var(--mantine-color-dimmed);
     font-size: var(--mantine-font-size-xs);
   }
+
+  .subLink {
+    width: 100%;
+    padding: var(--mantine-spacing-xs) var(--mantine-spacing-md);
+    border-radius: var(--mantine-radius-md);
+  
+    @mixin hover {
+      background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-7));
+    }
+  }
+
+  

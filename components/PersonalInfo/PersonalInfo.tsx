@@ -44,6 +44,7 @@ export function PersonalInfo() {
               paddingBottom: '5px',
               border: 'none',
               outline: 'none',
+              color: 'light-dark(var(--mantine-color-blue-6), var(--mantine-color-blue-4))',
               backgroundColor: activeField === 'name' ? '#eff8ff' : 'transparent'
             }}
             value={name}
