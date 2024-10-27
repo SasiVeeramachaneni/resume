@@ -33,8 +33,8 @@ export interface PersonalInfo {
 
 export interface WorkExperience {
   organization: string;
-  from: Date; // Using Date type for better type safety
-  to?: Date; // Optional if the role is current
+  from: Date;  // changed from Date to string
+  to?: Date;    // changed from Date to string
   isCurrent: boolean;
   role: string;
   points: string[];

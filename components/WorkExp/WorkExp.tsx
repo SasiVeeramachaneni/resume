@@ -230,7 +230,6 @@ export function WorkExperience() {
                   onBlur={() => setEditingIndex(null)}
                   autosize
                   minRows={1}
-                  maxRows={4}
                   style={{
                     lineHeight: '24px',
                     width: '100%',

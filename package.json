@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "NEXT_PUBLIC_DISABLE_LINTING=true next build",
     "analyze": "ANALYZE=true next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
@@ -19,9 +19,10 @@
     "storybook:build": "storybook build"
   },
   "dependencies": {
-    "@mantine/core": "^7.13.3",
-    "@mantine/dropzone": "^7.13.3",
-    "@mantine/hooks": "^7.13.3",
+    "@mantine/core": "^7.13.4",
+    "@mantine/dates": "^7.13.4",
+    "@mantine/dropzone": "^7.13.4",
+    "@mantine/hooks": "^7.13.4",
     "@next/bundle-analyzer": "^14.2.4",
     "@react-pdf/renderer": "^4.0.0",
     "@tabler/icons-react": "^3.6.0",
