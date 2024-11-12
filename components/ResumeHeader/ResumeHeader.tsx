@@ -9,9 +9,8 @@ import classes from './ResumeHeader.module.css';
 import { CreateResumeLogo } from '../CreateResumeLogo/CreateResumeLogo';
 import SettingsModal from '../Settings/Settings';
 import ResumePDF from '../ResumePDF/ResumePDF';
+import { ResumeData } from '../declarations/types'; 
 import { ResumeContext } from '../declarations/ResumeContext';
-
-
 
 const mockdata = [
   {
@@ -53,7 +52,18 @@ export function ResumeHeader() {
     throw new Error('ResumeContext must be used within a ResumeProvider');
   }
 
-  const { resumeData } = resumeContext;
+  const { resumeData, setResumeData } = resumeContext;
+
+  const handleDownload = async () => {
+    localStorage.setItem('resumeData', JSON.stringify(resumeData));
+  }
+
+  const handleUpload = () => {
+    const storedData = localStorage.getItem('resumeData');
+    if (storedData) {
+      setResumeData(JSON.parse(storedData));
+    }
+  };
 
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const [opened, { open, close }] = useDisclosure(false);
@@ -140,7 +150,7 @@ export function ResumeHeader() {
                 </div>
               </HoverCard.Dropdown>
             </HoverCard>
-            <a href="#" className={classes.link}>
+            <a href="#" onClick={handleUpload} className={classes.link}>
               <Center inline>
                 <Box component="span" mr={5}>
                   Upload resume
@@ -164,7 +174,7 @@ export function ResumeHeader() {
               }
               fileName="resume.pdf"
             >
-              <Button rightSection={<IconDownload size={18} />}>
+              <Button onClick={handleDownload} rightSection={<IconDownload size={18} />}>
                 Download
               </Button>
             </PDFDownloadLink>

@@ -35,6 +35,7 @@ const initialResumeData: ResumeData = {
 
 interface ResumeContextType {
   resumeData: ResumeData;
+  setResumeData: React.Dispatch<React.SetStateAction<ResumeData>>; // Add this line
   updatePersonalInfo: (field: keyof ResumeData['personalInfo'], value: string) => void;
   updateSettings: (updatedSettings: Partial<Settings>) => void;
   updateWorkExperience: (workExperience: WorkExperience[]) => void;
@@ -92,6 +93,7 @@ const ResumeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     <ResumeContext.Provider
       value={{
         resumeData,
+        setResumeData,
         updatePersonalInfo,
         updateSettings,
         updateWorkExperience,

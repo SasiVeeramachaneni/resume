@@ -3,31 +3,32 @@ import React from 'react';
 import { View, Text, StyleSheet } from '@react-pdf/renderer';
 import { ResumeData } from '../declarations/types';
 import WorkExperiencePDF from '../WorkExp/WorkExpPDF'
+import SkillsPDF from '../Skills/SkillsPDF';
+import CertificationsPDF from '../Certifications/CertificationsPDF';
+import AwardsPDF from '../Awards/AwardsPDF';
+import EducationPDF from '../Education/EducationPDF';
 
 const styles = StyleSheet.create({
     container: {
         padding: 10
     },
     name: {
-        fontFamily: 'Times-Roman', // Use Times-Roman
         fontWeight: 900,
         fontSize: 16,
         paddingBottom: 4,
-        color: '#077ee6'
+        color: '#448DEC'
     },
     title: {
-        fontFamily: 'Times-Roman', // Use Times-Roman
-        fontSize: 10,
+        fontSize: 12,
         fontWeight: 800,
         paddingBottom: 4,
         color: '#333',
     },
     aboutMe: {
-        fontFamily: 'Times-Roman', // Use Times-Roman
-        fontSize: 7,
+        fontSize: 8,
         paddingBottom: 4,
-        color: '#555',
-        lineHeight: 1.3,
+        color: '#333',
+        lineHeight: 1.8,
     },
     divider: {
         width: '100%',
@@ -50,7 +51,6 @@ const styles = StyleSheet.create({
         fontSize: 7,
     },
     inputText: {
-        fontFamily: 'Times-Roman', // Use Times-Roman
         fontSize: 7,
         color: '#333',
     },
@@ -58,15 +58,14 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         width: '100%',
-      },
-      col8: {
+    },
+    col8: {
         flex: 2, // Spans 8/12 columns
-        padding: 5,
-      },
-      col4: {
-        flex: 1, // Spans 4/12 columns
-        padding: 5,
-      }
+    },
+    col4: {
+        flex: 1,
+        paddingLeft: 10 // Spans 4/12 columns
+    }
 });
 
 interface PersonalInfoPDFProps {
@@ -74,7 +73,7 @@ interface PersonalInfoPDFProps {
 }
 
 export const PersonalInfoPDF: React.FC<PersonalInfoPDFProps> = ({ resumeData }) => {
-    const { personalInfo, settings, workExperience } = resumeData;
+    const { personalInfo, settings, workExperience, skills, certifications, awards, education } = resumeData;
     const { name, title, aboutMe, phoneNumber, email, linkedIn } = personalInfo;
     const isImageEnabled = settings.isImage;
 
@@ -115,16 +114,19 @@ export const PersonalInfoPDF: React.FC<PersonalInfoPDFProps> = ({ resumeData }) 
 
             <View style={styles.divider} />
             <View style={styles.grid}>
-        {/* Equivalent to Grid.Col span={8} */}
-        <View style={styles.col8}>
-          <WorkExperiencePDF workExperience={workExperience} />
-        </View>
+                {/* Equivalent to Grid.Col span={8} */}
+                <View style={styles.col8}>
+                    <WorkExperiencePDF workExperience={workExperience} />
+                </View>
 
-        {/* Equivalent to Grid.Col span={4} */}
-        <View style={styles.col4}>
-          {/* Content for the second column */}
-        </View>
-      </View>
+                {/* Equivalent to Grid.Col span={4} */}
+                <View style={styles.col4}>
+                    <SkillsPDF skills={skills} />
+                    <CertificationsPDF certifications={certifications} />
+                    <AwardsPDF awards={awards} />
+                    <EducationPDF education={education} />
+                </View>
+            </View>
         </View>
     );
 };

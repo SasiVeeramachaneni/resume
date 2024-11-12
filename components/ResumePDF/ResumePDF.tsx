@@ -1,13 +1,22 @@
+'use client';
 // components/ResumeBuilder.tsx
 import React from 'react';
-import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer';
+import { Document, Page, View, StyleSheet, Font } from '@react-pdf/renderer';
 import { PersonalInfoPDF } from "../PersonalInfo/PersonalInfoPDF";
 import { ResumeData } from '../declarations/types'; // Adjust path if needed
+
+
+Font.register({ family: 'Merriweather', fonts: [
+  { src: '/fonts/Merriweather-Regular.ttf' }, // font-style: normal, font-weight: normal
+  { src: '/fonts/Merriweather-Italic.ttf', fontStyle: 'italic' },
+  { src: '/fonts/Merriweather-Bold.ttf', fontWeight: 'bold' },
+ ]});
 
 // Define styles for PDF components
 const styles = StyleSheet.create({
   page: {
-    padding: 5,
+    padding: 12,
+    fontFamily: 'Merriweather',
     backgroundColor: '#FFF',
   },
   section: {

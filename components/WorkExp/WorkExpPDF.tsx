@@ -1,19 +1,10 @@
 import React from 'react';
-import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer';
+import { View, Text, StyleSheet } from '@react-pdf/renderer';
 import { WorkExperience } from '../declarations/types'; // Import the type
+import { pdfStyles } from '../ResumePDF/ResumeStyles';
 
 // Define styles for PDF
 const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-  },
-  title: {
-    fontSize: 13,
-    fontWeight: 'bold',
-    marginBottom: 5,
-    color: '#077ee6',
-    fontFamily: 'Times-Roman', // Use Times-Roman
-  },
   experienceContainer: {
     paddingBottom: 10,
   },
@@ -22,39 +13,33 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 4,
-    fontFamily: 'Times-Roman', // Use Times-Roman
   },
   organization: {
     fontWeight: 'bold',
     fontSize: 10,
-    fontFamily: 'Times-Roman', // Use Times-Roman
   },
   dates: {
     fontSize: 7,
     fontStyle: 'italic',
-    fontFamily: 'Times-Roman', // Use Times-Roman
   },
   role: {
     fontSize: 10,
-    fontWeight: 'bold',
     fontStyle: 'italic',
     marginBottom: 5,
-    fontFamily: 'Times-Roman', // Use Times-Roman
   },
   bulletPoint: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'flex-start',
-    fontSize: 7,
+    fontSize: 8,
     marginBottom: 2,
-    lineHeight: 1.3,
+    lineHeight: 1.8,
   },
   bulletSymbol: {
     width: 10,
   },
   bulletText: {
     flex: 1,
-    fontFamily: 'Times-Roman', // Use Times-Roman
   },
 });
 
@@ -67,16 +52,18 @@ interface WorkExperiencePDFProps {
 const WorkExperiencePDF: React.FC<WorkExperiencePDFProps> = ({ workExperience }) => {
   return (
     <>
-        <Text style={styles.title}>WORK EXPERIENCE</Text>
+      <Text style={pdfStyles.sectionTitle}>WORK EXPERIENCE</Text>
 
-        {workExperience.map((exp, index) => (
+      {workExperience.map((exp, index) => {
+        const dateRange = `${exp.from} - ${exp.isCurrent ? 'Present' : exp.to}`;
+
+        return (
           <View key={index} style={styles.experienceContainer}>
             {/* Organization and Dates */}
             <View style={styles.header}>
               <Text style={styles.organization}>{exp.organization}</Text>
-              <Text style={styles.dates}>
-                {exp.from} - {exp.isCurrent ? 'Present' : exp.to}
-              </Text>
+              <Text style={styles.dates}>{dateRange}</Text>
+
             </View>
 
             {/* Role */}
@@ -90,8 +77,9 @@ const WorkExperiencePDF: React.FC<WorkExperiencePDFProps> = ({ workExperience })
               </View>
             ))}
           </View>
-        ))}
-          </>
+        )
+      })}
+    </>
 
   );
 };

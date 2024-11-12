@@ -68,7 +68,7 @@ export function Skills() {
   return (
     <>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Title order={3} style={{color: 'light-dark(var(--mantine-color-blue-6), var(--mantine-color-blue-4))'}}>Skills</Title>
+        <Title order={3} style={{color: 'light-dark(var(--mantine-color-blue-6), var(--mantine-color-blue-4))'}}>SKILLS</Title>
         <Button onClick={handleAddSkill} variant="outline" size="xs">
           +Add
         </Button>
