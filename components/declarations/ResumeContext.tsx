@@ -1,5 +1,3 @@
-'use client';
-
 import React, { createContext, useState, ReactNode } from 'react';
 import { ResumeData, WorkExperience, Award, Education, Certification, Publication, Settings, PersonalInfo } from './types';
 

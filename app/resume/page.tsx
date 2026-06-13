@@ -1,4 +1,3 @@
-'use client';
 import React from 'react';
 import { ResumeHeader } from "@/components/ResumeHeader/ResumeHeader";
 import { Container, Grid } from '@mantine/core';

@@ -1,5 +1,3 @@
-'use client';
-
 import {
     Group,
     Image,
@@ -14,7 +12,7 @@ export function CreateResumeLogo() {
     return (
 
         <Group>
-            <Image src={icon.src} className={classes.image} />
+            <Image src={icon} className={classes.image} />
             <h3 className={classes.title}>
                 Create<span className={classes.highlight}>
                     <Text inherit variant="gradient" component="span" gradient={{ from: 'blue', to: 'yellow' }}>

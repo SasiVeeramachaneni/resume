@@ -1,4 +1,3 @@
-'use client';
 import { useState } from 'react';
 import { Image, ActionIcon, rem } from '@mantine/core';
 import { Dropzone, IMAGE_MIME_TYPE, FileWithPath } from '@mantine/dropzone';

@@ -1,4 +1,3 @@
-'use client';
 import React, { useState, useContext, useEffect } from 'react';
 import { Container, TextInput, Button, Title, Checkbox, Textarea, Group, Text } from '@mantine/core';
 import { ResumeContext } from '../declarations/ResumeContext';

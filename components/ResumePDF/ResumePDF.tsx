@@ -1,4 +1,3 @@
-'use client';
 // components/ResumeBuilder.tsx
 import React from 'react';
 import { Document, Page, View, StyleSheet, Font } from '@react-pdf/renderer';

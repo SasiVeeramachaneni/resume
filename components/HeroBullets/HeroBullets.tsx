@@ -1,7 +1,6 @@
-'use client';
-
 import { Image, Container, Title, Button, Group, Text, List, ThemeIcon, rem, ListItem } from '@mantine/core';
 import { IconCheck } from '@tabler/icons-react';
+import { Link } from 'react-router-dom';
 import image from './resume.webp';
 import classes from './HeroBullets.module.css';
 
@@ -42,12 +41,12 @@ export function HeroBullets() {
           </List>
 
           <Group mt={30}>
-            <Button component="a" href="/resume" radius="xl" size="md" className={classes.control}>
+            <Button component={Link} to="/resume" radius="xl" size="md" className={classes.control}>
               Create your resume
             </Button> <Text c="dimmed" size="sm">No sign-up required</Text>
           </Group>
         </div>
-        <Image src={image.src} className={classes.image} />
+        <Image src={image} className={classes.image} />
       </div>
     </Container>
   );

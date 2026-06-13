@@ -1,5 +1,3 @@
-'use client';
-
 import { HoverCard, Group, Button, UnstyledButton, Text, SimpleGrid, ThemeIcon, Anchor, Divider, Center, Box, rem, useMantineTheme} from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { PDFDownloadLink } from '@react-pdf/renderer';

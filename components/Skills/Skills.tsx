@@ -1,4 +1,3 @@
-'use client';
 import React, { useRef, useContext, useEffect, useState } from 'react';
 import { Container, Title, TextInput, Button } from '@mantine/core';
 import { ResumeContext } from '../declarations/ResumeContext'; // Adjust the import path as necessary
@@ -100,7 +99,7 @@ export function Skills() {
         </div>
       </Container>
 
-      <style jsx global>{`
+      <style>{`
         @keyframes shake {
           0% { transform: translateX(0); }
           25% { transform: translateX(-5px); }
