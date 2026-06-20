@@ -7,8 +7,20 @@ import classes from './ResumeHeader.module.css';
 import { CreateResumeLogo } from '../CreateResumeLogo/CreateResumeLogo';
 import SettingsModal from '../Settings/Settings';
 import ResumePDF from '../ResumePDF/ResumePDF';
-import { ResumeData } from '../declarations/types'; 
 import { ResumeContext } from '../declarations/ResumeContext';
+
+const templateOptions = [
+  {
+    value: 'standard',
+    title: 'Standard',
+    description: 'Two-column professional resume layout',
+  },
+  {
+    value: 'student',
+    title: 'Student',
+    description: 'Single-column resume layout',
+  },
+] as const;
 
 const mockdata = [
   {
@@ -50,7 +62,12 @@ export function ResumeHeader() {
     throw new Error('ResumeContext must be used within a ResumeProvider');
   }
 
-  const { resumeData, setResumeData } = resumeContext;
+  const { resumeData, setResumeData, updateSettings } = resumeContext;
+  const selectedTemplate = resumeData.settings.template ?? 'standard';
+
+  const handleTemplateSelect = (template: typeof templateOptions[number]['value']) => {
+    updateSettings({ template });
+  };
 
   const handleDownload = async () => {
     localStorage.setItem('resumeData', JSON.stringify(resumeData));
@@ -93,17 +110,46 @@ export function ResumeHeader() {
           <CreateResumeLogo />
 
           <Group h="100%" gap={0} visibleFrom="sm">
-            <a href="#" className={classes.link}>
-              <Center inline>
-                <Box component="span" mr={5}>
-                  Select template
-                </Box>
-                <IconChevronDown
-                  style={{ width: rem(18), height: rem(18) }}
-                  color={theme.colors.blue[6]}
-                />
-              </Center>
-            </a>
+            <HoverCard width={460} position="bottom" radius="md" shadow="md" withinPortal>
+              <HoverCard.Target>
+                <a href="#" className={classes.link}>
+                  <Center inline>
+                    <Box component="span" mr={5}>
+                      Select template
+                    </Box>
+                    <IconChevronDown
+                      style={{ width: rem(18), height: rem(18) }}
+                      color={theme.colors.blue[6]}
+                    />
+                  </Center>
+                </a>
+              </HoverCard.Target>
+
+              <HoverCard.Dropdown>
+                <SimpleGrid cols={2} spacing="sm">
+                  {templateOptions.map((template) => {
+                    const isSelected = selectedTemplate === template.value;
+
+                    return (
+                      <UnstyledButton
+                        key={template.value}
+                        className={classes.templateOption}
+                        data-selected={isSelected || undefined}
+                        onClick={() => handleTemplateSelect(template.value)}
+                      >
+                        <Box className={classes.templatePreview} data-template={template.value} />
+                        <Text fw={600} size="sm">
+                          {template.title}
+                        </Text>
+                        <Text size="xs" c="dimmed">
+                          {template.description}
+                        </Text>
+                      </UnstyledButton>
+                    );
+                  })}
+                </SimpleGrid>
+              </HoverCard.Dropdown>
+            </HoverCard>
             <HoverCard width={600} position="bottom" radius="md" shadow="md" withinPortal>
               <HoverCard.Target>
                 <a href="#" className={classes.link}>
@@ -148,6 +194,7 @@ export function ResumeHeader() {
                 </div>
               </HoverCard.Dropdown>
             </HoverCard>
+            {/*
             <a href="#" onClick={handleUpload} className={classes.link}>
               <Center inline>
                 <Box component="span" mr={5}>
@@ -159,12 +206,14 @@ export function ResumeHeader() {
                 />
               </Center>
             </a>
+            */}
           </Group>
 
           <Group visibleFrom="sm">
             <Button onClick={open} leftSection={<IconSettings size={18} />} variant="default">Settings</Button>
             <SettingsModal opened={opened} close={close} />
             <PDFDownloadLink
+              key={JSON.stringify(resumeData)}
               document={
                 <ResumePDF
                   resumeData={resumeData}

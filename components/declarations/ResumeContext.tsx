@@ -1,5 +1,5 @@
 import React, { createContext, useState, ReactNode } from 'react';
-import { ResumeData, WorkExperience, Award, Education, Certification, Publication, Settings, PersonalInfo } from './types';
+import { ResumeData, WorkExperience, Award, Education, Certification, Publication, Settings, PersonalInfo, Patent, Project, Language } from './types';
 
 // Initializing the resume data with correct property names
 const initialResumeData: ResumeData = {
@@ -14,6 +14,7 @@ const initialResumeData: ResumeData = {
     github: '',
   },
   settings: {
+    template: 'standard',
     isLinkedIn: true,
     isGithub: false,
     isImage: false,
@@ -28,6 +29,9 @@ const initialResumeData: ResumeData = {
   certifications: [],
   awards: [],
   education: [],
+  languages: [],
+  patents: [],
+  projects: [],
   publications: [],
 };
 
@@ -41,6 +45,9 @@ interface ResumeContextType {
   updateCertifications: (certifications: Certification[]) => void;
   updateAwards: (awards: Award[]) => void;
   updateEducation: (education: Education[]) => void;
+  updateLanguages: (languages: Language[]) => void;
+  updatePatents: (patents: Patent[]) => void;
+  updateProjects: (projects: Project[]) => void;
   updatePublications: (publications: Publication[]) => void;
 }
 
@@ -83,6 +90,18 @@ const ResumeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     setResumeData((prevData) => ({ ...prevData, education }));
   };
 
+  const updateLanguages = (languages: Language[]) => {
+    setResumeData((prevData) => ({ ...prevData, languages }));
+  };
+
+  const updatePatents = (patents: Patent[]) => {
+    setResumeData((prevData) => ({ ...prevData, patents }));
+  };
+
+  const updateProjects = (projects: Project[]) => {
+    setResumeData((prevData) => ({ ...prevData, projects }));
+  };
+
   const updatePublications = (publications: Publication[]) => {
     setResumeData((prevData) => ({ ...prevData, publications }));
   };
@@ -99,6 +118,9 @@ const ResumeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         updateCertifications,
         updateAwards,
         updateEducation,
+        updateLanguages,
+        updatePatents,
+        updateProjects,
         updatePublications,
       }}
     >

@@ -7,6 +7,9 @@ import SkillsPDF from '../Skills/SkillsPDF';
 import CertificationsPDF from '../Certifications/CertificationsPDF';
 import AwardsPDF from '../Awards/AwardsPDF';
 import EducationPDF from '../Education/EducationPDF';
+import LanguagesPDF from '../Languages/LanguagesPDF';
+import PatentsPDF from '../Patents/PatentsPDF';
+import ProjectsPDF from '../Projects/ProjectsPDF';
 
 const styles = StyleSheet.create({
     container: {
@@ -73,9 +76,22 @@ interface PersonalInfoPDFProps {
 }
 
 export const PersonalInfoPDF: React.FC<PersonalInfoPDFProps> = ({ resumeData }) => {
-    const { personalInfo, settings, workExperience, skills, certifications, awards, education } = resumeData;
+    const { personalInfo, settings, workExperience, skills, certifications, awards, education, patents, projects } = resumeData;
+    const languages = resumeData.languages ?? [];
+    const hasLanguages = languages.some((language) => language.name.trim() || language.proficiency.trim());
     const { name, title, aboutMe, phoneNumber, email, linkedIn } = personalInfo;
     const isImageEnabled = settings.isImage;
+    const isStudentTemplate = settings.template === 'student';
+    const sectionItems = [
+        <WorkExperiencePDF key="work" workExperience={workExperience} />,
+        settings.isPersonalProjects && <ProjectsPDF key="projects" projects={projects} />,
+        <SkillsPDF key="skills" skills={skills} />,
+        settings.isCertifications && <CertificationsPDF key="certifications" certifications={certifications} />,
+        settings.isAwards && <AwardsPDF key="awards" awards={awards} />,
+        <EducationPDF key="education" education={education} />,
+        (settings.isLanguages || hasLanguages) && <LanguagesPDF key="languages" languages={languages} />,
+        settings.isPatents && <PatentsPDF key="patents" patents={patents} />,
+    ].filter(Boolean);
 
     return (
         <View style={styles.container}>
@@ -113,20 +129,29 @@ export const PersonalInfoPDF: React.FC<PersonalInfoPDFProps> = ({ resumeData }) 
             </View>
 
             <View style={styles.divider} />
-            <View style={styles.grid}>
-                {/* Equivalent to Grid.Col span={8} */}
-                <View style={styles.col8}>
-                    <WorkExperiencePDF workExperience={workExperience} />
+            {isStudentTemplate ? (
+                <View>
+                    {sectionItems}
                 </View>
+            ) : (
+                <View style={styles.grid}>
+                    {/* Equivalent to Grid.Col span={8} */}
+                    <View style={styles.col8}>
+                        <WorkExperiencePDF workExperience={workExperience} />
+                        {settings.isPersonalProjects && <ProjectsPDF projects={projects} />}
+                    </View>
 
-                {/* Equivalent to Grid.Col span={4} */}
-                <View style={styles.col4}>
-                    <SkillsPDF skills={skills} />
-                    <CertificationsPDF certifications={certifications} />
-                    <AwardsPDF awards={awards} />
-                    <EducationPDF education={education} />
+                    {/* Equivalent to Grid.Col span={4} */}
+                    <View style={styles.col4}>
+                        <SkillsPDF skills={skills} />
+                        {settings.isCertifications && <CertificationsPDF certifications={certifications} />}
+                        {settings.isAwards && <AwardsPDF awards={awards} />}
+                        <EducationPDF education={education} />
+                        {(settings.isLanguages || hasLanguages) && <LanguagesPDF languages={languages} />}
+                        {settings.isPatents && <PatentsPDF patents={patents} />}
+                    </View>
                 </View>
-            </View>
+            )}
         </View>
     );
 };

@@ -6,10 +6,14 @@ export interface ResumeData {
   certifications: Certification[];
   awards: Award[];
   education: Education[];
+  languages: Language[];
+  patents: Patent[];
+  projects: Project[];
   publications: Publication[];
 }
 
 export interface Settings {
+  template: 'standard' | 'student';
   isLinkedIn: boolean;
   isGithub: boolean;
   isImage: boolean;
@@ -51,6 +55,25 @@ export interface Education {
   discipline: string;
   year: number;
   percentage: number;
+}
+
+export interface Language {
+  name: string;
+  proficiency: 'High' | 'medium' | 'low' | '';
+}
+
+export interface Patent {
+  name: string;
+  year: number;
+  description: string;
+  link: string;
+}
+
+export interface Project {
+  name: string;
+  githubLink: string;
+  websiteLink: string;
+  description: string;
 }
 
 export interface Publication {
