@@ -4,7 +4,7 @@ import { ResumeContext } from '../declarations/ResumeContext';
 
 const blankProject = { name: '', githubLink: '', websiteLink: '', description: '' };
 
-export function Projects() {
+export function Projects({ editingIndex, onEditingChange }: { editingIndex: number | null; onEditingChange: (index: number | null) => void }) {
   const resumeContext = useContext(ResumeContext);
 
   if (!resumeContext) {
@@ -14,7 +14,6 @@ export function Projects() {
   const { resumeData, updateProjects } = resumeContext;
   const projects = resumeData.projects;
   const [errors, setErrors] = useState<number[]>([]);
-  const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
   useEffect(() => {
     if (projects.length === 0) {
@@ -36,7 +35,7 @@ export function Projects() {
     updateProjects([...projects, blankProject]);
     setErrors([]);
     setTimeout(() => {
-      setEditingIndex(projects.length);
+      onEditingChange(projects.length);
       document.getElementById(`project-name-${projects.length}`)?.focus();
     }, 0);
   };
@@ -50,7 +49,7 @@ export function Projects() {
       setErrors(errors.filter((errorIndex) => errorIndex !== index));
     }
 
-    setEditingIndex(index);
+    onEditingChange(index);
   };
 
   return (
@@ -61,7 +60,7 @@ export function Projects() {
           +Add
         </Button>
       </div>
-      <Container p={0} style={{ paddingInline: 0 }}>
+      <Container p={0} m={0} fluid style={{ paddingInline: 0 }}>
         {projects.map((project, index) => (
           <div
             key={index}
@@ -71,52 +70,54 @@ export function Projects() {
               borderRadius: '4px',
             }}
           >
-            <TextInput
-              id={`project-name-${index}`}
-              placeholder="Project Name"
-              variant="unstyled"
-              value={project.name}
-              size="md"
-              onChange={(e) => handleChange(index, 'name', e.currentTarget.value)}
-              onFocus={() => setEditingIndex(index)}
-              onBlur={() => setEditingIndex(null)}
-              style={{
-                fontWeight: 'bold',
-                border: errors.includes(index) && project.name.trim() === '' ? '1px solid red' : 'none',
-              }}
-            />
-            <Textarea
-              placeholder="Project description"
-              variant="unstyled"
-              value={project.description}
-              size="sm"
-              autosize
-              minRows={1}
-              maxRows={3}
-              onChange={(e) => handleChange(index, 'description', e.currentTarget.value)}
-              onFocus={() => setEditingIndex(index)}
-              onBlur={() => setEditingIndex(null)}
-            />
-            <TextInput
-              placeholder="GitHub link"
-              variant="unstyled"
-              value={project.githubLink}
-              size="sm"
-              onChange={(e) => handleChange(index, 'githubLink', e.currentTarget.value)}
-              onFocus={() => setEditingIndex(index)}
-              onBlur={() => setEditingIndex(null)}
-              style={{ fontStyle: 'italic' }}
-            />
-            <TextInput
-              placeholder="Website link"
-              variant="unstyled"
-              value={project.websiteLink}
-              size="sm"
-              onChange={(e) => handleChange(index, 'websiteLink', e.currentTarget.value)}
-              onFocus={() => setEditingIndex(index)}
-              onBlur={() => setEditingIndex(null)}
-              style={{ fontStyle: 'italic' }}
-            />
+            <div>
+              <TextInput
+                id={`project-name-${index}`}
+                placeholder="Project Name"
+                variant="unstyled"
+                value={project.name}
+                size="md"
+                onChange={(e) => handleChange(index, 'name', e.currentTarget.value)}
+                onFocus={() => onEditingChange(index)}
+                onBlur={() => onEditingChange(null)}
+                style={{
+                  fontWeight: 'bold',
+                  border: errors.includes(index) && project.name.trim() === '' ? '1px solid red' : 'none',
+                }}
+              />
+              <Textarea
+                placeholder="Project description"
+                variant="unstyled"
+                value={project.description}
+                size="sm"
+                autosize
+                minRows={1}
+                maxRows={3}
+                onChange={(e) => handleChange(index, 'description', e.currentTarget.value)}
+                onFocus={() => onEditingChange(index)}
+                onBlur={() => onEditingChange(null)}
+              />
+              <TextInput
+                placeholder="GitHub link"
+                variant="unstyled"
+                value={project.githubLink}
+                size="sm"
+                onChange={(e) => handleChange(index, 'githubLink', e.currentTarget.value)}
+                onFocus={() => onEditingChange(index)}
+                onBlur={() => onEditingChange(null)}
+                style={{ fontStyle: 'italic' }}
+              />
+              <TextInput
+                placeholder="Website link"
+                variant="unstyled"
+                value={project.websiteLink}
+                size="sm"
+                onChange={(e) => handleChange(index, 'websiteLink', e.currentTarget.value)}
+                onFocus={() => onEditingChange(index)}
+                onBlur={() => onEditingChange(null)}
+                style={{ fontStyle: 'italic' }}
+              />
+            </div>
           </div>
         ))}
       </Container>

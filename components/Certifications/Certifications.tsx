@@ -1,29 +1,26 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Container, TextInput, Button, Title } from '@mantine/core';
-import { ResumeContext } from '../declarations/ResumeContext'; // Adjust the import path as necessary
+import { ResumeContext } from '../declarations/ResumeContext';
 
-export function Certifications() {
-  const resumeContext = useContext(ResumeContext); // Use context
+export function Certifications({ editingIndex, onEditingChange }: { editingIndex: number | null; onEditingChange: (index: number | null) => void }) {
+  const resumeContext = useContext(ResumeContext);
   if (!resumeContext) {
-    throw new Error('ResumeContext must be used within a ResumeProvider'); // Error if context is undefined
+    throw new Error('ResumeContext must be used within a ResumeProvider');
   }
 
-  const { resumeData, updateCertifications } = resumeContext; // Destructure resumeData and updateCertifications from context
+  const { resumeData, updateCertifications } = resumeContext;
 
   let certifications = resumeData.certifications;
 
   const [errors, setErrors] = useState<number[]>([]);
-  const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
-  // Ensure there's always a blank certification with year as a number
   useEffect(() => {
     if (certifications.length === 0) {
-      updateCertifications([{ name: '', year: NaN, organization: '' }]); // Add a default blank certification with `year` as number
+      updateCertifications([{ name: '', year: NaN, organization: '' }]);
     }
   }, [certifications, updateCertifications]);
 
   const handleAddCertification = () => {
-    // Check if all mandatory fields are filled
     const emptyFields = certifications.some(cert => cert.name.trim() === '' || cert.organization.trim() === '');
     if (emptyFields) {
       const newErrors = certifications
@@ -33,12 +30,11 @@ export function Certifications() {
       return;
     }
 
-    // Add a new blank certification and update the context
     const newCertifications = [...certifications, { name: '', year: NaN, organization: '' }];
-    updateCertifications(newCertifications); // Update context with new certification
+    updateCertifications(newCertifications);
     setErrors([]);
     setTimeout(() => {
-      setEditingIndex(certifications.length); // Set focus on the new certification
+      onEditingChange(certifications.length);
       document.getElementById(`cert-name-${certifications.length}`)?.focus();
     }, 0);
   };
@@ -47,12 +43,12 @@ export function Certifications() {
     const newCertifications = [...certifications];
 
     if (field === 'year') {
-      newCertifications[index] = { ...newCertifications[index], [field]: parseInt(value) || NaN }; // Convert year to number
+      newCertifications[index] = { ...newCertifications[index], [field]: parseInt(value) || NaN };
     } else {
       newCertifications[index] = { ...newCertifications[index], [field]: value };
     }
 
-    updateCertifications(newCertifications); // Update the context whenever a certification is changed
+    updateCertifications(newCertifications);
 
     if (errors.includes(index)) {
       const newErrors = [...errors];
@@ -62,7 +58,7 @@ export function Certifications() {
       }
     }
 
-    setEditingIndex(index);
+    onEditingChange(index);
   };
 
   return (
@@ -73,7 +69,7 @@ export function Certifications() {
           +Add
         </Button>
       </div>
-      <Container p={0} style={{ paddingInline: 0 }}>
+      <Container p={0} m={0} fluid style={{ paddingInline: 0 }}>
         {certifications.map((cert, index) => (
           <div
             key={index}
@@ -83,43 +79,45 @@ export function Certifications() {
               borderRadius: '4px',
             }}
           >
-            <TextInput
-              id={`cert-name-${index}`}
-              placeholder="Certification Name"
-              variant="unstyled"
-              value={cert.name}
-              size="md"
-              onChange={(e) => handleChange(index, 'name', e.currentTarget.value)}
-              onFocus={() => setEditingIndex(index)}
-              onBlur={() => setEditingIndex(null)}
-              style={{
-                fontWeight: 'bold',
-                border: errors.includes(index) && cert.name.trim() === '' ? '1px solid red' : 'none'
-              }}
-              styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
-            />
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div>
               <TextInput
-                placeholder="Issuing Organization"
-                variant='unstyled'
-                value={cert.organization}
-                onChange={(e) => handleChange(index, 'organization', e.currentTarget.value)}
-                onFocus={() => setEditingIndex(index)}
-                onBlur={() => setEditingIndex(null)}
+                id={`cert-name-${index}`}
+                placeholder="Certification Name"
+                variant="unstyled"
+                value={cert.name}
+                size="md"
+                onChange={(e) => handleChange(index, 'name', e.currentTarget.value)}
+                onFocus={() => onEditingChange(index)}
+                onBlur={() => onEditingChange(null)}
                 style={{
-                  fontStyle: 'italic',
-                  border: errors.includes(index) && cert.organization.trim() === '' ? '1px solid red' : 'none'
+                  fontWeight: 'bold',
+                  border: errors.includes(index) && cert.name.trim() === '' ? '1px solid red' : 'none'
                 }}
                 styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
               />
-              <TextInput
-                placeholder="Year"
-                value={cert.year ? cert.year.toString() : ''}
-                variant='unstyled'
-                onChange={(e) => handleChange(index, 'year', e.currentTarget.value)}
-                style={{ fontStyle: 'italic', width: '60px' }}
-                styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
-              />
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <TextInput
+                  placeholder="Issuing Organization"
+                  variant='unstyled'
+                  value={cert.organization}
+                  onChange={(e) => handleChange(index, 'organization', e.currentTarget.value)}
+                  onFocus={() => onEditingChange(index)}
+                  onBlur={() => onEditingChange(null)}
+                  style={{
+                    fontStyle: 'italic',
+                    border: errors.includes(index) && cert.organization.trim() === '' ? '1px solid red' : 'none'
+                  }}
+                  styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
+                />
+                <TextInput
+                  placeholder="Year"
+                  value={cert.year ? cert.year.toString() : ''}
+                  variant='unstyled'
+                  onChange={(e) => handleChange(index, 'year', e.currentTarget.value)}
+                  style={{ fontStyle: 'italic', width: '60px' }}
+                  styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
+                />
+              </div>
             </div>
           </div>
         ))}

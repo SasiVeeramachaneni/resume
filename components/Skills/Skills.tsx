@@ -1,25 +1,24 @@
 import React, { useRef, useContext, useEffect, useState } from 'react';
 import { Container, Title, TextInput, Button } from '@mantine/core';
-import { ResumeContext } from '../declarations/ResumeContext'; // Adjust the import path as necessary
+import { ResumeContext } from '../declarations/ResumeContext';
 
-export function Skills() {
-  const resumeContext = useContext(ResumeContext); // Use context
+export function Skills({ editingIndex, onEditingChange }: { editingIndex: number | null; onEditingChange: (index: number | null) => void }) {
+  const resumeContext = useContext(ResumeContext);
   if (!resumeContext) {
-    throw new Error('ResumeContext must be used within a ResumeProvider'); // Error if context is undefined
+    throw new Error('ResumeContext must be used within a ResumeProvider');
   }
 
-  const { resumeData, updateSkills } = resumeContext; // Destructure resumeData and updateSkills from context
+  const { resumeData, updateSkills } = resumeContext;
 
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
   const [shake, setShake] = useState<number | null>(null);
 
-  let skills = resumeData.skills; // Use skills from context
+  let skills = resumeData.skills;
 
-  // Add a default blank skill if the skills array is empty
   useEffect(() => {
     if (skills.length === 0) {
-      skills = ['']; // Add a default blank skill
-      updateSkills(skills); // Update the context with the default blank skill
+      skills = [''];
+      updateSkills(skills);
     }
   }, [skills, updateSkills]);
 
@@ -27,8 +26,8 @@ export function Skills() {
     if (e.key === 'Enter' && e.currentTarget.value.trim()) {
       const newSkills = [...skills];
       newSkills[index] = e.currentTarget.value;
-      newSkills.push(''); // Add new input for the next skill
-      updateSkills(newSkills); // Update the context
+      newSkills.push('');
+      updateSkills(newSkills);
       setTimeout(() => {
         inputRefs.current[newSkills.length - 1]?.focus();
       }, 0);
@@ -46,7 +45,7 @@ export function Skills() {
       return;
     }
 
-    updateSkills([...skills, '']); // Update the context with a new empty skill
+    updateSkills([...skills, '']);
     setTimeout(() => {
       inputRefs.current[skills.length]?.focus();
     }, 0);
@@ -57,7 +56,7 @@ export function Skills() {
     const context = canvas.getContext('2d');
     if (context) {
       context.font = font;
-      return context.measureText(text).width*1.02;
+      return context.measureText(text).width * 1.02;
     }
     return 0;
   }
@@ -72,31 +71,37 @@ export function Skills() {
           +Add
         </Button>
       </div>
-      <Container p={0} pt={5} pb={5} style={{ paddingInline: 0 }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-          {skills.map((skill, index) => (
+      <Container p={0} pt={5} pb={5} m={0} fluid style={{ paddingInline: 0 }}>
+        {skills.map((skill, index) => (
+          <div
+            key={index}
+            style={{
+              marginBottom: '4px'
+            }}
+          >
             <TextInput
-              key={index}
               variant='filled'
               ref={(el) => {
-                inputRefs.current[index] = el; // Assign the ref without returning anything
+                inputRefs.current[index] = el;
               }}
               value={skill}
               onChange={(e) => {
                 const newSkills = [...skills];
                 newSkills[index] = e.currentTarget.value;
-                updateSkills(newSkills); // Update the context when a skill changes
+                updateSkills(newSkills);
               }}
               onKeyDown={(e) => handleKeyPress(e, index)}
+              onFocus={() => onEditingChange(index)}
+              onBlur={() => onEditingChange(null)}
               placeholder="Skill"
               style={{
                 width: `${Math.max(60, getTextWidth(skill, font) + 23)}px`,
                 fontWeight: 'bold',
                 animation: shake === index ? 'shake 0.3s' : undefined
-              }} // Adjust width based on content
+              }}
             />
-          ))}
-        </div>
+          </div>
+        ))}
       </Container>
 
       <style>{`

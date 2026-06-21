@@ -1,30 +1,27 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Container, TextInput, Button, Title } from '@mantine/core';
-import { ResumeContext } from '../declarations/ResumeContext'; // Adjust the import path as necessary
+import { ResumeContext } from '../declarations/ResumeContext';
 
-export function Awards() {
+export function Awards({ editingIndex, onEditingChange }: { editingIndex: number | null; onEditingChange: (index: number | null) => void }) {
 
-  const resumeContext = useContext(ResumeContext); // Use context
+  const resumeContext = useContext(ResumeContext);
   if (!resumeContext) {
-    throw new Error('ResumeContext must be used within a ResumeProvider'); // Error if context is undefined
+    throw new Error('ResumeContext must be used within a ResumeProvider');
   }
 
-  const { resumeData, updateAwards } = resumeContext; // Destructure resumeData and updateAwards from context
+  const { resumeData, updateAwards } = resumeContext;
 
   const [errors, setErrors] = useState<number[]>([]);
-  const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
   let awards = resumeData.awards;
 
-  // Ensure there's always a blank default award
   useEffect(() => {
     if (awards.length === 0) {
-      updateAwards([{ name: '', organization: '' }]); // Add a blank award
+      updateAwards([{ name: '', organization: '' }]);
     }
   }, [awards, updateAwards]);
 
   const handleAddAward = () => {
-    // Check if all mandatory fields are filled
     const emptyFields = awards.some(award => award.name.trim() === '' || award.organization.trim() === '');
     if (emptyFields) {
       const newErrors = awards
@@ -34,12 +31,11 @@ export function Awards() {
       return;
     }
 
-    // Add a new blank award and update the context
     const newAwards = [...awards, { name: '', organization: '' }];
     updateAwards(newAwards);
     setErrors([]);
     setTimeout(() => {
-      setEditingIndex(awards.length); // Set focus on the new award
+      onEditingChange(awards.length);
       document.getElementById(`award-name-${awards.length}`)?.focus();
     }, 0);
   };
@@ -47,7 +43,7 @@ export function Awards() {
   const handleChange = (index: number, field: string, value: string) => {
     const newAwards = [...awards];
     newAwards[index] = { ...newAwards[index], [field]: value };
-    updateAwards(newAwards); // Update the context whenever an award is changed
+    updateAwards(newAwards);
 
     if (errors.includes(index)) {
       const newErrors = [...errors];
@@ -57,7 +53,7 @@ export function Awards() {
       }
     }
 
-    setEditingIndex(index);
+    onEditingChange(index);
   };
 
   return (
@@ -68,45 +64,47 @@ export function Awards() {
           +Add
         </Button>
       </div>
-      <Container p={0} style={{ paddingInline: 0 }}>
+      <Container p={0} m={0} fluid style={{ paddingInline: 0 }}>
         {awards.map((award, index) => (
           <div
             key={index}
             style={{
               marginBottom: '10px',
               backgroundColor: editingIndex === index ? '#eff8ff' : 'transparent',
-              borderRadius: '4px'
+              borderRadius: '4px',
             }}
           >
-            <TextInput
-              id={`award-name-${index}`}
-              placeholder="Award Name"
-              variant="unstyled"
-              value={award.name}
-              size="md"
-              onChange={(e) => handleChange(index, 'name', e.currentTarget.value)}
-              onFocus={() => setEditingIndex(index)}
-              onBlur={() => setEditingIndex(null)}
-              style={{
-                fontWeight: 'bold',
-                border: errors.includes(index) && award.name.trim() === '' ? '0.25px solid red' : 'none'
-              }}
-              styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
-            />
-            <TextInput
-              placeholder="Issuing Organization"
-              variant='unstyled'
-              value={award.organization}
-              size="sm"
-              onChange={(e) => handleChange(index, 'organization', e.currentTarget.value)}
-              onFocus={() => setEditingIndex(index)}
-              onBlur={() => setEditingIndex(null)}
-              style={{
-                fontStyle: 'italic',
-                border: errors.includes(index) && award.organization.trim() === '' ? '0.25px solid red' : 'none'
-              }}
-              styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
-            />
+            <div>
+              <TextInput
+                id={`award-name-${index}`}
+                placeholder="Award Name"
+                variant="unstyled"
+                value={award.name}
+                size="md"
+                onChange={(e) => handleChange(index, 'name', e.currentTarget.value)}
+                onFocus={() => onEditingChange(index)}
+                onBlur={() => onEditingChange(null)}
+                style={{
+                  fontWeight: 'bold',
+                  border: errors.includes(index) && award.name.trim() === '' ? '0.25px solid red' : 'none'
+                }}
+                styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
+              />
+              <TextInput
+                placeholder="Issuing Organization"
+                variant='unstyled'
+                value={award.organization}
+                size="sm"
+                onChange={(e) => handleChange(index, 'organization', e.currentTarget.value)}
+                onFocus={() => onEditingChange(index)}
+                onBlur={() => onEditingChange(null)}
+                style={{
+                  fontStyle: 'italic',
+                  border: errors.includes(index) && award.organization.trim() === '' ? '0.25px solid red' : 'none'
+                }}
+                styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
+              />
+            </div>
           </div>
         ))}
       </Container>

@@ -2,23 +2,21 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Container, TextInput, Button, Title, Checkbox, Textarea, Group, Text } from '@mantine/core';
 import { ResumeContext } from '../declarations/ResumeContext';
 
-export function WorkExperience() {
-  const resumeContext = useContext(ResumeContext); // Use context
+export function WorkExperience({ editingIndex, onEditingChange }: { editingIndex: number | null; onEditingChange: (index: number | null) => void }) {
+  const resumeContext = useContext(ResumeContext);
   if (!resumeContext) {
-    throw new Error('ResumeContext must be used within a ResumeProvider'); // Error if context is undefined
+    throw new Error('ResumeContext must be used within a ResumeProvider');
   }
 
-  const { resumeData, updateWorkExperience } = resumeContext; // Destructure resumeData and updateWorkExperience from context
+  const { resumeData, updateWorkExperience } = resumeContext;
 
   let experiences = resumeData.workExperience;
 
   const [errors, setErrors] = useState<number[]>([]);
-  const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
-  // Ensure there's always a blank work experience entry
   useEffect(() => {
     if (experiences.length === 0) {
-      updateWorkExperience([{ organization: '', from: '', to: '', isCurrent: false, role: '', points: [''] }]); // Add default blank experience with empty strings for from and to
+      updateWorkExperience([{ organization: '', from: '', to: '', isCurrent: false, role: '', points: [''] }]);
     }
   }, [experiences, updateWorkExperience]);
 
@@ -36,15 +34,14 @@ export function WorkExperience() {
       return;
     }
 
-    // Add a new blank work experience and update the context
     const newExperiences = [
       ...experiences,
       { organization: '', from: '', to: '', isCurrent: false, role: '', points: [''] }
     ];
-    updateWorkExperience(newExperiences); // Update the context
+    updateWorkExperience(newExperiences);
     setErrors([]);
     setTimeout(() => {
-      setEditingIndex(experiences.length);
+      onEditingChange(experiences.length);
       document.getElementById(`work-org-${experiences.length}`)?.focus();
     }, 0);
   };
@@ -53,47 +50,45 @@ export function WorkExperience() {
     const newExperiences = [...experiences];
 
     if (field === 'from' || field === 'to') {
-      newExperiences[index] = { ...newExperiences[index], [field]: value }; // Store value as string
+      newExperiences[index] = { ...newExperiences[index], [field]: value };
     } else if (field === 'isCurrent') {
       newExperiences[index] = { ...newExperiences[index], isCurrent: value as boolean };
     } else {
-      // Handle other string fields
       if (typeof value === 'string') {
         newExperiences[index] = { ...newExperiences[index], [field]: value };
       }
     }
 
-    updateWorkExperience(newExperiences); // Update the context
+    updateWorkExperience(newExperiences);
 
     if (errors.includes(index) && (typeof value === 'string' ? value.trim() !== '' : true)) {
       const newErrors = errors.filter(errIndex => errIndex !== index);
       setErrors(newErrors);
     }
 
-    setEditingIndex(index);
+    onEditingChange(index);
   };
 
-  // Format the Date object to mm/yyyy format
   const formatDate = (date: string | null | undefined) => {
-    return date ? date : ''; // Return empty string if date is empty
+    return date ? date : '';
   };
 
   const handlePointChange = (expIndex: number, pointIndex: number, value: string) => {
     const newExperiences = [...experiences];
     newExperiences[expIndex].points[pointIndex] = value;
-    updateWorkExperience(newExperiences); // Update the context
+    updateWorkExperience(newExperiences);
   };
 
   const addBulletPoint = (index: number) => {
     const newExperiences = [...experiences];
     newExperiences[index].points.push('');
-    updateWorkExperience(newExperiences); // Update the context
+    updateWorkExperience(newExperiences);
   };
 
   const removeBulletPoint = (expIndex: number, pointIndex: number) => {
     const newExperiences = [...experiences];
     newExperiences[expIndex].points.splice(pointIndex, 1);
-    updateWorkExperience(newExperiences); // Update the context
+    updateWorkExperience(newExperiences);
   };
 
   const handlePointKeyPress = (
@@ -102,17 +97,15 @@ export function WorkExperience() {
     pointIndex: number
   ) => {
     if (e.key === 'Enter') {
-      e.preventDefault(); // Prevent new line
+      e.preventDefault();
 
-      // Add a new bullet point and move focus to it
       addBulletPoint(expIndex);
       setTimeout(() => {
         document.getElementById(`point-${expIndex}-${pointIndex + 1}`)?.focus();
       }, 0);
     } else if (e.key === 'Backspace' && e.currentTarget.value === '' && pointIndex > 0) {
-      e.preventDefault(); // Prevent deleting the previous bullet's content
+      e.preventDefault();
 
-      // Remove the current bullet point if empty and move focus to the previous one
       removeBulletPoint(expIndex, pointIndex);
       setTimeout(() => {
         document.getElementById(`point-${expIndex}-${pointIndex - 1}`)?.focus();
@@ -128,7 +121,7 @@ export function WorkExperience() {
           +Add
         </Button>
       </div>
-      <Container p={0} style={{ paddingInline: 0 }}>
+      <Container p={0} m={0} fluid style={{ paddingInline: 0 }}>
         {experiences.map((exp, index) => (
           <div
             key={index}
@@ -139,111 +132,111 @@ export function WorkExperience() {
               paddingTop: '2px'
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <input
-                id={`work-org-${index}`}
-                placeholder="Organization Name"
-                value={exp.organization}
-                onChange={(e) => handleChange(index, 'organization', e.currentTarget.value)}
-                onFocus={() => setEditingIndex(index)}
-                onBlur={() => setEditingIndex(null)}
-                style={{
-                  fontWeight: 'bold',
-                  width: '400px',
-                  border: errors.includes(index) && exp.organization.trim() === '' ? '1px solid red' : 'none',
-                  fontSize: '20px',
-                  outline: 'none',
-                  backgroundColor: 'transparent',
-                }}
-              />
-              <Group gap={1} pr={2}>
-                <TextInput
-                  placeholder="mm/yyyy"
-                  value={formatDate(exp.from)} // Keep the date as blank initially
-                  size="sm"
-                  onChange={(e) => handleChange(index, 'from', e.currentTarget.value)}
-                  onFocus={() => setEditingIndex(index)}
-                  onBlur={() => setEditingIndex(null)}
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <input
+                  id={`work-org-${index}`}
+                  placeholder="Organization Name"
+                  value={exp.organization}
+                  onChange={(e) => handleChange(index, 'organization', e.currentTarget.value)}
+                  onFocus={() => onEditingChange(index)}
+                  onBlur={() => onEditingChange(null)}
+                  style={{
+                    fontWeight: 'bold',
+                    width: '400px',
+                    border: errors.includes(index) && exp.organization.trim() === '' ? '1px solid red' : 'none',
+                    fontSize: '20px',
+                    outline: 'none',
+                    backgroundColor: 'transparent',
+                  }}
+                />
+                <Group gap={1} pr={2}>
+                  <TextInput
+                    placeholder="mm/yyyy"
+                    value={formatDate(exp.from)}
+                    size="sm"
+                    onChange={(e) => handleChange(index, 'from', e.currentTarget.value)}
+                    onFocus={() => onEditingChange(index)}
+                    onBlur={() => onEditingChange(null)}
+                    style={{
+                      fontStyle: 'italic',
+                      width: '83px',
+                      border: errors.includes(index) && exp.from === '' ? '1px solid red' : 'none'
+                    }}
+                  />
+                  {!exp.isCurrent && (
+                    <>
+                      <Text>-</Text>
+                      <TextInput
+                        placeholder="mm/yyyy"
+                        value={formatDate(exp.to)}
+                        size="sm"
+                        onChange={(e) => handleChange(index, 'to', e.currentTarget.value)}
+                        onFocus={() => onEditingChange(index)}
+                        onBlur={() => onEditingChange(null)}
+                        style={{ fontStyle: 'italic', width: '83px' }}
+                      />
+                    </>
+                  )}
+                </Group>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <input
+                  placeholder="Role in Organization"
+                  value={exp.role}
+                  onChange={(e) => handleChange(index, 'role', e.currentTarget.value)}
+                  onFocus={() => onEditingChange(index)}
+                  onBlur={() => onEditingChange(null)}
                   style={{
                     fontStyle: 'italic',
-                    width: '83px',
-                    border: errors.includes(index) && exp.from === '' ? '1px solid red' : 'none'
+                    width: '400px',
+                    fontSize: '18px',
+                    outline: 'none',
+                    backgroundColor: 'transparent',
+                    border: 'none',
                   }}
                 />
-                {!exp.isCurrent && (
-                  <>
-                    <Text>-</Text>
-                    <TextInput
-                      placeholder="mm/yyyy"
-                      value={formatDate(exp.to)} // Keep the date as blank initially
-                      size="sm"
-                      onChange={(e) => handleChange(index, 'to', e.currentTarget.value)}
-                      onFocus={() => setEditingIndex(index)}
-                      onBlur={() => setEditingIndex(null)}
-                      style={{ fontStyle: 'italic', width: '83px' }}
-                    />
-                  </>
-                )}
-              </Group>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <input
-                placeholder="Role in Organization"
-                value={exp.role}
-                onChange={(e) => handleChange(index, 'role', e.currentTarget.value)}
-                onFocus={() => setEditingIndex(index)}
-                onBlur={() => setEditingIndex(null)}
-                style={{
-                  fontStyle: 'italic',
-                  width: '400px',
-                  fontSize: '18px', // Adjust the size to match 'md'
-                  outline: 'none',
-                  backgroundColor: 'transparent',
-                  border: 'none', // Mimics unstyled input
-                }}
-              />
-              <Checkbox
-                label="Current Organization"
-                checked={exp.isCurrent}
-                onChange={(e) => handleChange(index, 'isCurrent', e.currentTarget.checked)}
-                size="sm"
-              />
-            </div>
-
-            {exp.points.map((point, pointIndex) => (
-              <div
-                key={pointIndex}
-                style={{
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: '8px',
-                  marginTop: '5px',
-                  width: '100%',
-                }}
-              >
-                <Text style={{ fontSize: '18px', lineHeight: '24px', paddingTop: '4px' }}>•</Text>
-                <Textarea
-                  id={`point-${index}-${pointIndex}`}
-                  placeholder={`Bullet point ${pointIndex + 1}`}
-                  variant="unstyled"
-                  value={point}
-                  size="md"
-                  onChange={(e) => handlePointChange(index, pointIndex, e.currentTarget.value)}
-                  onKeyDown={(e) => handlePointKeyPress(e, index, pointIndex)}
-                  onFocus={() => setEditingIndex(index)}
-                  onBlur={() => setEditingIndex(null)}
-                  autosize
-                  minRows={1}
-                  style={{
-                    lineHeight: '24px',
-                    width: '100%',
-                    padding: '0',
-                  }}
+                <Checkbox
+                  label="Current Organization"
+                  checked={exp.isCurrent}
+                  onChange={(e) => handleChange(index, 'isCurrent', e.currentTarget.checked)}
+                  size="sm"
                 />
               </div>
-            ))}
 
-
+              {exp.points.map((point, pointIndex) => (
+                <div
+                  key={pointIndex}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '8px',
+                    marginTop: '5px',
+                    width: '100%',
+                  }}
+                >
+                  <Text style={{ fontSize: '18px', lineHeight: '24px', paddingTop: '4px' }}>•</Text>
+                  <Textarea
+                    id={`point-${index}-${pointIndex}`}
+                    placeholder={`Bullet point ${pointIndex + 1}`}
+                    variant="unstyled"
+                    value={point}
+                    size="md"
+                    onChange={(e) => handlePointChange(index, pointIndex, e.currentTarget.value)}
+                    onKeyDown={(e) => handlePointKeyPress(e, index, pointIndex)}
+                    onFocus={() => onEditingChange(index)}
+                    onBlur={() => onEditingChange(null)}
+                    autosize
+                    minRows={1}
+                    style={{
+                      lineHeight: '24px',
+                      width: '100%',
+                      padding: '0',
+                    }}
+                />
+                </div>
+              ))}
+            </div>
           </div>
         ))}
       </Container>

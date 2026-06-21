@@ -1,29 +1,26 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Container, TextInput, Button, Title } from '@mantine/core';
-import { ResumeContext } from '../declarations/ResumeContext'; // Adjust the import path as necessary
+import { ResumeContext } from '../declarations/ResumeContext';
 
-export function Education() {
+export function Education({ editingIndex, onEditingChange }: { editingIndex: number | null; onEditingChange: (index: number | null) => void }) {
 
-  const resumeContext = useContext(ResumeContext); // Use context
+  const resumeContext = useContext(ResumeContext);
   if (!resumeContext) {
-    throw new Error('ResumeContext must be used within a ResumeProvider'); // Error if context is undefined
+    throw new Error('ResumeContext must be used within a ResumeProvider');
   }
 
-  const { resumeData, updateEducation } = resumeContext; // Destructure resumeData and updateEducation from context
+  const { resumeData, updateEducation } = resumeContext;
 
   let educations = resumeData.education;
   const [errors, setErrors] = useState<number[]>([]);
-  const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
-  // Ensure there's always a blank education entry
   useEffect(() => {
     if (educations.length === 0) {
-      updateEducation([{ degree: '', college: '', discipline: '', year: NaN, percentage: NaN }]); // Set percentage as NaN
+      updateEducation([{ degree: '', college: '', discipline: '', year: NaN, percentage: NaN }]);
     }
   }, [educations, updateEducation]);
 
   const handleAddEducation = () => {
-    // Check if all mandatory fields are filled
     const emptyFields = educations.some(edu => edu.degree.trim() === '' || edu.college.trim() === '');
     if (emptyFields) {
       const newErrors = educations
@@ -33,12 +30,11 @@ export function Education() {
       return;
     }
 
-    // Add a new blank education and update the context
     const newEducations = [...educations, { degree: '', college: '', discipline: '', year: NaN, percentage: NaN }];
-    updateEducation(newEducations); // Update the context
+    updateEducation(newEducations);
     setErrors([]);
     setTimeout(() => {
-      setEditingIndex(educations.length);
+      onEditingChange(educations.length);
       document.getElementById(`edu-degree-${educations.length}`)?.focus();
     }, 0);
   };
@@ -47,12 +43,12 @@ export function Education() {
     const newEducations = [...educations];
 
     if (field === 'year' || field === 'percentage') {
-      newEducations[index] = { ...newEducations[index], [field]: parseFloat(value) || NaN }; // Convert year and percentage to numbers
+      newEducations[index] = { ...newEducations[index], [field]: parseFloat(value) || NaN };
     } else {
       newEducations[index] = { ...newEducations[index], [field]: value };
     }
 
-    updateEducation(newEducations); // Update the context whenever education is changed
+    updateEducation(newEducations);
 
     if (errors.includes(index)) {
       const newErrors = [...errors];
@@ -62,7 +58,7 @@ export function Education() {
       }
     }
 
-    setEditingIndex(index);
+    onEditingChange(index);
   };
 
   return (
@@ -73,7 +69,7 @@ export function Education() {
           +Add
         </Button>
       </div>
-      <Container p={0} style={{ paddingInline: 0 }}>
+      <Container p={0} m={0} fluid style={{ paddingInline: 0 }}>
         {educations.map((edu, index) => (
           <div
             key={index}
@@ -83,78 +79,80 @@ export function Education() {
               borderRadius: '4px',
             }}
           >
-            <TextInput
-              id={`edu-degree-${index}`}
-              placeholder="Name of Degree"
-              variant="unstyled"
-              value={edu.degree}
-              size="md"
-              onChange={(e) => handleChange(index, 'degree', e.currentTarget.value)}
-              onFocus={() => setEditingIndex(index)}
-              onBlur={() => setEditingIndex(null)}
-              style={{
-                fontWeight: 'bold',
-                border: errors.includes(index) && edu.degree.trim() === '' ? '1px solid red' : 'none'
-              }}
-              styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
-            />
-
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div>
               <TextInput
-                placeholder="Discipline"
-                variant='unstyled'
-                value={edu.discipline}
-                size="sm"
-                onChange={(e) => handleChange(index, 'discipline', e.currentTarget.value)}
-                onFocus={() => setEditingIndex(index)}
-                onBlur={() => setEditingIndex(null)}
+                id={`edu-degree-${index}`}
+                placeholder="Name of Degree"
+                variant="unstyled"
+                value={edu.degree}
+                size="md"
+                onChange={(e) => handleChange(index, 'degree', e.currentTarget.value)}
+                onFocus={() => onEditingChange(index)}
+                onBlur={() => onEditingChange(null)}
                 style={{
                   fontWeight: 'bold',
-                  fontStyle: 'italic',
-                  width: '310px'
+                  border: errors.includes(index) && edu.degree.trim() === '' ? '1px solid red' : 'none'
                 }}
                 styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
               />
 
-              <TextInput
-                placeholder="Per%"
-                variant='unstyled'
-                value={edu.percentage ? edu.percentage.toString() : ''}
-                size="sm"
-                onChange={(e) => handleChange(index, 'percentage', e.currentTarget.value)}
-                onFocus={() => setEditingIndex(index)}
-                onBlur={() => setEditingIndex(null)}
-                style={{ fontStyle: 'italic', width: '60px' }}
-                styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
-              />
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <TextInput
-                placeholder="Name of the College/School"
-                variant='unstyled'
-                value={edu.college}
-                size="sm"
-                onChange={(e) => handleChange(index, 'college', e.currentTarget.value)}
-                onFocus={() => setEditingIndex(index)}
-                onBlur={() => setEditingIndex(null)}
-                style={{
-                  fontWeight: 'bold',
-                  width: '300px',
-                  border: errors.includes(index) && edu.college.trim() === '' ? '1px solid red' : 'none'
-                }}
-                styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
-              />
-              <TextInput
-                placeholder="Year"
-                variant='unstyled'
-                value={edu.year ? edu.year.toString() : ''}
-                size="sm"
-                onChange={(e) => handleChange(index, 'year', e.currentTarget.value)}
-                onFocus={() => setEditingIndex(index)}
-                onBlur={() => setEditingIndex(null)}
-                style={{ fontStyle: 'italic', width: '60px' }}
-                styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
-              />
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <TextInput
+                  placeholder="Discipline"
+                  variant='unstyled'
+                  value={edu.discipline}
+                  size="sm"
+                  onChange={(e) => handleChange(index, 'discipline', e.currentTarget.value)}
+                  onFocus={() => onEditingChange(index)}
+                  onBlur={() => onEditingChange(null)}
+                  style={{
+                    fontWeight: 'bold',
+                    fontStyle: 'italic',
+                    width: '310px'
+                  }}
+                  styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
+                />
+
+                <TextInput
+                  placeholder="Per%"
+                  variant='unstyled'
+                  value={edu.percentage ? edu.percentage.toString() : ''}
+                  size="sm"
+                  onChange={(e) => handleChange(index, 'percentage', e.currentTarget.value)}
+                  onFocus={() => onEditingChange(index)}
+                  onBlur={() => onEditingChange(null)}
+                  style={{ fontStyle: 'italic', width: '60px' }}
+                  styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
+                />
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <TextInput
+                  placeholder="Name of the College/School"
+                  variant='unstyled'
+                  value={edu.college}
+                  size="sm"
+                  onChange={(e) => handleChange(index, 'college', e.currentTarget.value)}
+                  onFocus={() => onEditingChange(index)}
+                  onBlur={() => onEditingChange(null)}
+                  style={{
+                    fontWeight: 'bold',
+                    width: '300px',
+                    border: errors.includes(index) && edu.college.trim() === '' ? '1px solid red' : 'none'
+                  }}
+                  styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
+                />
+                <TextInput
+                  placeholder="Year"
+                  variant='unstyled'
+                  value={edu.year ? edu.year.toString() : ''}
+                  size="sm"
+                  onChange={(e) => handleChange(index, 'year', e.currentTarget.value)}
+                  onFocus={() => onEditingChange(index)}
+                  onBlur={() => onEditingChange(null)}
+                  style={{ fontStyle: 'italic', width: '60px' }}
+                  styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
+                />
+              </div>
             </div>
           </div>
         ))}

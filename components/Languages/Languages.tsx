@@ -4,7 +4,7 @@ import { ResumeContext } from '../declarations/ResumeContext';
 
 const blankLanguage = { name: '', proficiency: '' as const };
 
-export function Languages() {
+export function Languages({ editingIndex, onEditingChange }: { editingIndex: number | null; onEditingChange: (index: number | null) => void }) {
   const resumeContext = useContext(ResumeContext);
 
   if (!resumeContext) {
@@ -14,7 +14,6 @@ export function Languages() {
   const { resumeData, updateLanguages } = resumeContext;
   const languages = resumeData.languages ?? [];
   const [errors, setErrors] = useState<number[]>([]);
-  const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
   useEffect(() => {
     if (languages.length === 0) {
@@ -36,7 +35,7 @@ export function Languages() {
     updateLanguages([...languages, { ...blankLanguage }]);
     setErrors([]);
     setTimeout(() => {
-      setEditingIndex(languages.length);
+      onEditingChange(languages.length);
       document.getElementById(`language-name-${languages.length}`)?.focus();
     }, 0);
   };
@@ -50,7 +49,7 @@ export function Languages() {
       setErrors(errors.filter((errorIndex) => errorIndex !== index));
     }
 
-    setEditingIndex(index);
+    onEditingChange(index);
   };
 
   return (
@@ -63,7 +62,7 @@ export function Languages() {
           +Add
         </Button>
       </div>
-      <Container p={0} style={{ paddingInline: 0 }}>
+      <Container p={0} m={0} fluid style={{ paddingInline: 0 }}>
         {languages.map((language, index) => (
           <div
             key={index}
@@ -73,43 +72,56 @@ export function Languages() {
               borderRadius: '4px',
             }}
           >
-            <Group wrap="nowrap" align="center" justify="space-between" gap="xs">
-              <TextInput
-                id={`language-name-${index}`}
-                placeholder="Language name"
-                variant="unstyled"
-                value={language.name}
-                size="md"
-                onChange={(e) => handleChange(index, 'name', e.currentTarget.value)}
-                onFocus={() => setEditingIndex(index)}
-                onBlur={() => setEditingIndex(null)}
-                style={{
-                  flex: 1,
-                  fontWeight: 'bold',
-                  border: errors.includes(index) && language.name.trim() === '' ? '1px solid red' : 'none',
-                }}
-              />
-              <Select
-                placeholder="Proficiency"
-                variant="unstyled"
-                value={language.proficiency || null}
-                data={['High', 'Medium', 'Low']}
-                onChange={(value) => handleChange(index, 'proficiency', value ?? '')}
-                onFocus={() => setEditingIndex(index)}
-                onBlur={() => setEditingIndex(null)}
-                allowDeselect
-                searchable={false}
-                size="sm"
-                w={110}
-                styles={{
-                  input: {
-                    fontStyle: 'italic',
-                    textAlign: 'right',
-                    border: errors.includes(index) && language.proficiency.trim() === '' ? '1px solid red' : 'none',
-                  },
-                }}
-              />
-            </Group>
+            <div>
+              <Group wrap="nowrap" align="center" justify="space-between" gap="xs">
+                <TextInput
+                  id={`language-name-${index}`}
+                  placeholder="Language name"
+                  variant="unstyled"
+                  value={language.name}
+                  size="md"
+                  onChange={(e) => handleChange(index, 'name', e.currentTarget.value)}
+                  onFocus={() => onEditingChange(index)}
+                  onBlur={() => onEditingChange(null)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Tab') {
+                      e.preventDefault();
+                      const proficiencyInput = document.getElementById(`language-proficiency-${index}`);
+                      if (proficiencyInput) {
+                        proficiencyInput.focus();
+                        proficiencyInput.click();
+                      }
+                    }
+                  }}
+                  style={{
+                    flex: 1,
+                    fontWeight: 'bold',
+                    border: errors.includes(index) && language.name.trim() === '' ? '1px solid red' : 'none',
+                  }}
+                />
+                <Select
+                  id={`language-proficiency-${index}`}
+                  placeholder="Proficiency"
+                  variant="unstyled"
+                  value={language.proficiency || null}
+                  data={['High', 'Medium', 'Low']}
+                  onChange={(value) => handleChange(index, 'proficiency', value ?? '')}
+                  onFocus={() => onEditingChange(index)}
+                  onBlur={() => onEditingChange(null)}
+                  allowDeselect
+                  searchable={false}
+                  size="sm"
+                  w={110}
+                  styles={{
+                    input: {
+                      fontStyle: 'italic',
+                      textAlign: 'right',
+                      border: errors.includes(index) && language.proficiency.trim() === '' ? '1px solid red' : 'none',
+                    },
+                  }}
+                />
+              </Group>
+            </div>
           </div>
         ))}
       </Container>
