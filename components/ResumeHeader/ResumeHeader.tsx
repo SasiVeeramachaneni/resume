@@ -186,6 +186,10 @@ export function ResumeHeader() {
         </Group>
       </header>
 
+      <Text ta="center" size="md" c="dimmed" py={4}>
+        Open <Anchor onClick={open} style={{ textDecoration: 'underline', cursor: 'pointer' }}>Settings</Anchor> for enabling more configurations
+      </Text>
+
     </Box>
   );
 }
