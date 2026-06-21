@@ -2,7 +2,7 @@
 
 import React, { useState, useContext } from 'react';
 import { Group, TextInput, Textarea, Divider, Stack, Grid } from '@mantine/core';
-import { IconPhone, IconMail, IconBrandLinkedin } from "@tabler/icons-react";
+import { IconPhone, IconMail, IconBrandLinkedin, IconBrandGithub } from "@tabler/icons-react";
 import { ImageUpload } from "@/components/ImageUpload/ImageUpload";
 import { ResumeContext } from '../declarations/ResumeContext'; // Adjust the import path as necessary
 
@@ -13,8 +13,8 @@ export function PersonalInfo() {
   }
 
   const { resumeData, updatePersonalInfo } = resumeContext;
-  const { name, title, aboutMe, phoneNumber, email, linkedIn } = resumeData.personalInfo;
-  const { isImage } = resumeData.settings;
+  const { name, title, aboutMe, phoneNumber, email, linkedIn, github } = resumeData.personalInfo;
+  const { isImage, isGithub } = resumeData.settings;
 
   // State to track the currently active (focused) field
   const [activeField, setActiveField] = useState<string | null>(null);
@@ -120,7 +120,7 @@ export function PersonalInfo() {
             }}
           />
         </Grid.Col>
-        <Grid.Col span={6}>
+        <Grid.Col span={3}>
           <TextInput
             placeholder="LinkedIn"
             leftSection={<IconBrandLinkedin size={22} />}
@@ -131,10 +131,27 @@ export function PersonalInfo() {
             onFocus={() => handleFocus('linkedIn')}
             onBlur={handleBlur}
             style={{
-              width: '100%',backgroundColor: activeField === 'linkedIn' ? '#eff8ff' : 'transparent'
+              backgroundColor: activeField === 'linkedIn' ? '#eff8ff' : 'transparent'
             }}
           />
         </Grid.Col>
+        {isGithub && (
+          <Grid.Col span={3}>
+            <TextInput
+              placeholder="GitHub"
+              leftSection={<IconBrandGithub size={22} />}
+              variant="unstyled"
+              size="md"
+              value={github || ''}
+              onChange={(e) => handleChange('github', e.currentTarget.value)}
+              onFocus={() => handleFocus('github')}
+              onBlur={handleBlur}
+              style={{
+                backgroundColor: activeField === 'github' ? '#eff8ff' : 'transparent'
+              }}
+            />
+          </Grid.Col>
+        )}
       </Grid>
       <Divider size="sm" />
     </>

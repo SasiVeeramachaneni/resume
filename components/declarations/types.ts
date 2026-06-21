@@ -37,8 +37,8 @@ export interface PersonalInfo {
 
 export interface WorkExperience {
   organization: string;
-  from: Date;  // changed from Date to string
-  to?: Date;    // changed from Date to string
+  from: string;
+  to?: string;
   isCurrent: boolean;
   role: string;
   points: string[];

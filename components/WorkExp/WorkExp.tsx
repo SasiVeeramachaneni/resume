@@ -55,8 +55,7 @@ export function WorkExperience() {
     if (field === 'from' || field === 'to') {
       newExperiences[index] = { ...newExperiences[index], [field]: value }; // Store value as string
     } else if (field === 'isCurrent') {
-      // Handle boolean value for 'isCurrent'
-      newExperiences[index] = { ...newExperiences[index], [field]: value };
+      newExperiences[index] = { ...newExperiences[index], isCurrent: value as boolean };
     } else {
       // Handle other string fields
       if (typeof value === 'string') {
@@ -75,7 +74,7 @@ export function WorkExperience() {
   };
 
   // Format the Date object to mm/yyyy format
-  const formatDate = (date: string | null) => {
+  const formatDate = (date: string | null | undefined) => {
     return date ? date : ''; // Return empty string if date is empty
   };
 

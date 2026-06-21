@@ -48,7 +48,7 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({ field, label, description, 
     >
       <Group wrap="nowrap" align="flex-start">
         <ThemeIcon size={34} variant="default" radius="md">
-          {React.cloneElement(icon as React.ReactElement, {
+          {React.cloneElement(icon as React.ReactElement<{ style?: React.CSSProperties; color?: string }>, {
             style: { width: rem(30), height: rem(30) },
             color: isActive ? "var(--mantine-color-blue-filled)" : "#000",
           })}
