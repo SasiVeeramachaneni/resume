@@ -129,7 +129,7 @@ export function WorkExperience() {
           +Add
         </Button>
       </div>
-      <Container p={0}>
+      <Container p={0} style={{ paddingInline: 0 }}>
         {experiences.map((exp, index) => (
           <div
             key={index}

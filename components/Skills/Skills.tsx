@@ -72,7 +72,7 @@ export function Skills() {
           +Add
         </Button>
       </div>
-      <Container p={0} pt={5} pb={5}>
+      <Container p={0} pt={5} pb={5} style={{ paddingInline: 0 }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
           {skills.map((skill, index) => (
             <TextInput

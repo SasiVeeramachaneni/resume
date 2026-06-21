@@ -67,7 +67,7 @@ export function Patents() {
           +Add
         </Button>
       </div>
-      <Container p={0}>
+      <Container p={0} style={{ paddingInline: 0 }}>
         {patents.map((patent, index) => (
           <div
             key={index}

@@ -1,15 +1,26 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Image, ActionIcon, rem } from '@mantine/core';
 import { Dropzone, IMAGE_MIME_TYPE, FileWithPath } from '@mantine/dropzone';
 import { IconCamera } from "@tabler/icons-react";
+import { ResumeContext } from '../declarations/ResumeContext';
 
 export function ImageUpload() {
-    const [file, setFile] = useState<FileWithPath | null>(null);
-    const [imageUploaded, setImageUploaded] = useState(false);
+    const resumeContext = useContext(ResumeContext);
+    if (!resumeContext) {
+        throw new Error('ResumeContext must be used within a ResumeProvider');
+    }
+
+    const { resumeData, updatePersonalInfo } = resumeContext;
+    const [imageUploaded, setImageUploaded] = useState(!!resumeData.personalInfo.image);
 
     const handleDrop = (files: FileWithPath[]) => {
-        setFile(files[0]); // Only upload the first file
-        setImageUploaded(true);
+        const file = files[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+            updatePersonalInfo('image', reader.result as string);
+            setImageUploaded(true);
+        };
+        reader.readAsDataURL(file);
     };
 
     const imageNotUploaded = (
@@ -18,21 +29,18 @@ export function ImageUpload() {
         </ActionIcon>
     );
 
-    const preview = file ? (
+    const preview = resumeData.personalInfo.image ? (
         <Image
             height={120}
             fit="contain"
-            radius="xl"
-            src={URL.createObjectURL(file)}
+            radius="lg"
+            src={resumeData.personalInfo.image}
         />
     ) : null;
 
     return (
-        <>
-                <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleDrop}>
-                    {!imageUploaded ? imageNotUploaded : preview}
-                </Dropzone>
-
-        </>
+        <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleDrop}>
+            {!imageUploaded ? imageNotUploaded : preview}
+        </Dropzone>
     );
 }

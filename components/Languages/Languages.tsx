@@ -63,7 +63,7 @@ export function Languages() {
           +Add
         </Button>
       </div>
-      <Container p={0}>
+      <Container p={0} style={{ paddingInline: 0 }}>
         {languages.map((language, index) => (
           <div
             key={index}

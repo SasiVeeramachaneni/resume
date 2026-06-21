@@ -73,7 +73,7 @@ export function Education() {
           +Add
         </Button>
       </div>
-      <Container p={0}>
+      <Container p={0} style={{ paddingInline: 0 }}>
         {educations.map((edu, index) => (
           <div
             key={index}
@@ -96,6 +96,7 @@ export function Education() {
                 fontWeight: 'bold',
                 border: errors.includes(index) && edu.degree.trim() === '' ? '1px solid red' : 'none'
               }}
+              styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
             />
 
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -112,6 +113,7 @@ export function Education() {
                   fontStyle: 'italic',
                   width: '310px'
                 }}
+                styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
               />
 
               <TextInput
@@ -123,6 +125,7 @@ export function Education() {
                 onFocus={() => setEditingIndex(index)}
                 onBlur={() => setEditingIndex(null)}
                 style={{ fontStyle: 'italic', width: '60px' }}
+                styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
               />
             </div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -139,6 +142,7 @@ export function Education() {
                   width: '300px',
                   border: errors.includes(index) && edu.college.trim() === '' ? '1px solid red' : 'none'
                 }}
+                styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
               />
               <TextInput
                 placeholder="Year"
@@ -149,6 +153,7 @@ export function Education() {
                 onFocus={() => setEditingIndex(index)}
                 onBlur={() => setEditingIndex(null)}
                 style={{ fontStyle: 'italic', width: '60px' }}
+                styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
               />
             </div>
           </div>

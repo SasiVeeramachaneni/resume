@@ -73,7 +73,7 @@ export function Certifications() {
           +Add
         </Button>
       </div>
-      <Container p={0}>
+      <Container p={0} style={{ paddingInline: 0 }}>
         {certifications.map((cert, index) => (
           <div
             key={index}
@@ -96,6 +96,7 @@ export function Certifications() {
                 fontWeight: 'bold',
                 border: errors.includes(index) && cert.name.trim() === '' ? '1px solid red' : 'none'
               }}
+              styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
             />
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <TextInput
@@ -109,6 +110,7 @@ export function Certifications() {
                   fontStyle: 'italic',
                   border: errors.includes(index) && cert.organization.trim() === '' ? '1px solid red' : 'none'
                 }}
+                styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
               />
               <TextInput
                 placeholder="Year"
@@ -116,6 +118,7 @@ export function Certifications() {
                 variant='unstyled'
                 onChange={(e) => handleChange(index, 'year', e.currentTarget.value)}
                 style={{ fontStyle: 'italic', width: '60px' }}
+                styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
               />
             </div>
           </div>

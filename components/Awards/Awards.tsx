@@ -68,7 +68,7 @@ export function Awards() {
           +Add
         </Button>
       </div>
-      <Container p={0}>
+      <Container p={0} style={{ paddingInline: 0 }}>
         {awards.map((award, index) => (
           <div
             key={index}
@@ -91,6 +91,7 @@ export function Awards() {
                 fontWeight: 'bold',
                 border: errors.includes(index) && award.name.trim() === '' ? '0.25px solid red' : 'none'
               }}
+              styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
             />
             <TextInput
               placeholder="Issuing Organization"
@@ -104,6 +105,7 @@ export function Awards() {
                 fontStyle: 'italic',
                 border: errors.includes(index) && award.organization.trim() === '' ? '0.25px solid red' : 'none'
               }}
+              styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
             />
           </div>
         ))}

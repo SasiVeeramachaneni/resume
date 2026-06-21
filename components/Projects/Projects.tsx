@@ -61,7 +61,7 @@ export function Projects() {
           +Add
         </Button>
       </div>
-      <Container p={0}>
+      <Container p={0} style={{ paddingInline: 0 }}>
         {projects.map((project, index) => (
           <div
             key={index}

@@ -14,10 +14,10 @@ const initialResumeData: ResumeData = {
     github: '',
   },
   settings: {
-    template: 'standard',
+    template: 'professional',
     isLinkedIn: true,
     isGithub: false,
-    isImage: false,
+        isImage: true,
     isAwards: true,
     isCertifications: true,
     isPatents: false,

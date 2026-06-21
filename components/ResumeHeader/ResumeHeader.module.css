@@ -57,13 +57,13 @@
     background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-7));
   }
 
-  .templatePreview[data-template='standard'] {
+  .templatePreview[data-template='professional'] {
     background:
       linear-gradient(90deg, transparent 66%, light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5)) 66%),
       linear-gradient(light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5)) 12%, transparent 12%);
   }
 
-  .templatePreview[data-template='student'] {
+  .templatePreview[data-template='classic'] {
     background: repeating-linear-gradient(
       180deg,
       light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5)) 0,

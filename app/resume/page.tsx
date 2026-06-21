@@ -20,7 +20,7 @@ export default function ResumeBuilder() {
     throw new Error('ResumeContext must be used within a ResumeProvider');
   }
 
-  const { isPatents, isPersonalProjects, isLanguages } = resumeContext.resumeData.settings;
+  const { isPatents, isPersonalProjects, isLanguages, template } = resumeContext.resumeData.settings;
 
   return (
     <>
@@ -28,23 +28,35 @@ export default function ResumeBuilder() {
       <Container pt={20} pb={40} fluid bg="var(--mantine-color-blue-light)">
         <Container size="xl" pt={40} pb={40} bg="var(--mantine-color-white)">
           <PersonalInfo />
-          <Container fluid>
-            <Grid columns={12} pt={10}>
-              <Grid.Col span={8}>
-                <WorkExperience />
-                {isPersonalProjects && <Projects />}
-              </Grid.Col>
-              <Grid.Col span={4}>
-                <Skills />
-                <Certifications />
-                <Awards />
-                <Education />
-                {isLanguages && <Languages />}
-                {isPatents && <Patents />}
-              </Grid.Col>
-            </Grid>
-          </Container>
-
+          {template === 'classic' ? (
+            <>
+              <Skills />
+              <WorkExperience />
+              {isPersonalProjects && <Projects />}
+              <Certifications />
+              <Awards />
+              <Education />
+              {isLanguages && <Languages />}
+              {isPatents && <Patents />}
+            </>
+          ) : (
+            <Container fluid>
+              <Grid columns={12} pt={10}>
+                <Grid.Col span={8}>
+                  <WorkExperience />
+                  {isPersonalProjects && <Projects />}
+                </Grid.Col>
+                <Grid.Col span={4}>
+                  <Skills />
+                  <Certifications />
+                  <Awards />
+                  <Education />
+                  {isLanguages && <Languages />}
+                  {isPatents && <Patents />}
+                </Grid.Col>
+              </Grid>
+            </Container>
+          )}
         </Container>
       </Container>
     </>

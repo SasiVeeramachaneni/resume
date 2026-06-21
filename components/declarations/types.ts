@@ -13,7 +13,7 @@ export interface ResumeData {
 }
 
 export interface Settings {
-  template: 'standard' | 'student';
+  template: 'professional' | 'classic';
   isLinkedIn: boolean;
   isGithub: boolean;
   isImage: boolean;

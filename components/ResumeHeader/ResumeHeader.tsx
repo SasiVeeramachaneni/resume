@@ -11,13 +11,13 @@ import { ResumeContext } from '../declarations/ResumeContext';
 
 const templateOptions = [
   {
-    value: 'standard',
-    title: 'Standard',
+    value: 'professional',
+    title: 'Professional',
     description: 'Two-column professional resume layout',
   },
   {
-    value: 'student',
-    title: 'Student',
+    value: 'classic',
+    title: 'Classic',
     description: 'Single-column resume layout',
   },
 ] as const;
@@ -63,7 +63,7 @@ export function ResumeHeader() {
   }
 
   const { resumeData, setResumeData, updateSettings } = resumeContext;
-  const selectedTemplate = resumeData.settings.template ?? 'standard';
+  const selectedTemplate = resumeData.settings.template ?? 'professional';
 
   const handleTemplateSelect = (template: typeof templateOptions[number]['value']) => {
     updateSettings({ template });

@@ -1,6 +1,6 @@
 // components/PersonalInfo/PersonalInfoPDF.tsx
 import React from 'react';
-import { View, Text, StyleSheet } from '@react-pdf/renderer';
+import { View, Text, Image, StyleSheet } from '@react-pdf/renderer';
 import { ResumeData } from '../declarations/types';
 import WorkExperiencePDF from '../WorkExp/WorkExpPDF'
 import SkillsPDF from '../Skills/SkillsPDF';
@@ -33,10 +33,27 @@ const styles = StyleSheet.create({
         color: '#333',
         lineHeight: 1.8,
     },
+    headerRow: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        marginBottom:5
+    },
+    imageCol: {
+        marginRight: 15,
+    },
+    image: {
+        height: 80,
+        objectFit: 'contain' as const,
+        borderRadius: 8,
+    },
+    infoCol: {
+        flex: 1,
+    },
     divider: {
         width: '100%',
         height: 1,
-        backgroundColor: '#000', // Change color as needed
+        backgroundColor: '#000',
     },
     contactSection: {
         display: 'flex',
@@ -79,13 +96,13 @@ export const PersonalInfoPDF: React.FC<PersonalInfoPDFProps> = ({ resumeData }) 
     const { personalInfo, settings, workExperience, skills, certifications, awards, education, patents, projects } = resumeData;
     const languages = resumeData.languages ?? [];
     const hasLanguages = languages.some((language) => language.name.trim() || language.proficiency.trim());
-    const { name, title, aboutMe, phoneNumber, email, linkedIn } = personalInfo;
+    const { name, title, aboutMe, phoneNumber, email, linkedIn, image } = personalInfo;
     const isImageEnabled = settings.isImage;
-    const isStudentTemplate = settings.template === 'student';
+    const isClassicTemplate = settings.template === 'classic';
     const sectionItems = [
+        <SkillsPDF key="skills" skills={skills} />,
         <WorkExperiencePDF key="work" workExperience={workExperience} />,
         settings.isPersonalProjects && <ProjectsPDF key="projects" projects={projects} />,
-        <SkillsPDF key="skills" skills={skills} />,
         settings.isCertifications && <CertificationsPDF key="certifications" certifications={certifications} />,
         settings.isAwards && <AwardsPDF key="awards" awards={awards} />,
         <EducationPDF key="education" education={education} />,
@@ -95,15 +112,18 @@ export const PersonalInfoPDF: React.FC<PersonalInfoPDFProps> = ({ resumeData }) 
 
     return (
         <View style={styles.container}>
-            {isImageEnabled && (
-                <View>
-                    {/* Image Placeholder - Update to actual image if needed */}
-                    <Text>Image Placeholder</Text>
+            <View style={styles.headerRow}>
+                {isImageEnabled && personalInfo.image && (
+                    <View style={styles.imageCol}>
+                        <Image style={styles.image} src={personalInfo.image} />
+                    </View>
+                )}
+                <View style={styles.infoCol}>
+                    <Text style={styles.name}>{name}</Text>
+                    <Text style={styles.title}>{title}</Text>
+                    <Text style={styles.aboutMe}>{aboutMe}</Text>
                 </View>
-            )}
-            <Text style={styles.name}>{name}</Text>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.aboutMe}>{aboutMe}</Text>
+            </View>
             <View style={styles.divider} />
             <View style={{ paddingTop: '5px', paddingBottom: '5px' }}>
                 <View style={styles.contactSection}>
@@ -129,7 +149,7 @@ export const PersonalInfoPDF: React.FC<PersonalInfoPDFProps> = ({ resumeData }) 
             </View>
 
             <View style={styles.divider} />
-            {isStudentTemplate ? (
+            {isClassicTemplate ? (
                 <View>
                     {sectionItems}
                 </View>
