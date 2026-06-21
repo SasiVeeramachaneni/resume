@@ -4,7 +4,6 @@ import {
     Text
 } from '@mantine/core';
 import classes from './CreateResumeLogo.module.css';
-import icon from './resume.png'
 
 
 export function CreateResumeLogo() {
@@ -12,7 +11,7 @@ export function CreateResumeLogo() {
     return (
 
         <Group>
-            <Image src={icon} className={classes.image} />
+            <Image src="./resume.webp" className={classes.image} />
             <h3 className={classes.title}>
                 Create<span className={classes.highlight}>
                     <Text inherit variant="gradient" component="span" gradient={{ from: 'blue', to: 'yellow' }}>
