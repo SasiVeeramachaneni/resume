@@ -1,8 +1,8 @@
-import { HoverCard, Group, Button, UnstyledButton, Text, SimpleGrid, ThemeIcon, Anchor, Divider, Center, Box, rem, useMantineTheme} from '@mantine/core';
+import { HoverCard, Group, Button, UnstyledButton, Text, SimpleGrid, ThemeIcon, Anchor, Divider, Center, Box, rem, useMantineTheme, ActionIcon, Menu} from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { useContext } from 'react';
-import { IconNotification, IconCode, IconBook, IconChartPie3, IconFingerprint, IconCoin, IconChevronDown, IconUpload, IconPalette, IconDownload, IconSettings } from '@tabler/icons-react';
+import { IconNotification, IconCode, IconBook, IconChartPie3, IconFingerprint, IconCoin, IconChevronDown, IconUpload, IconPalette, IconDownload, IconSettings, IconMenu2 } from '@tabler/icons-react';
 import classes from './ResumeHeader.module.css';
 import { CreateResumeLogo } from '../CreateResumeLogo/CreateResumeLogo';
 import SettingsModal from '../Settings/Settings';
@@ -165,9 +165,9 @@ export function ResumeHeader() {
             */}
           </Group>
 
+          <SettingsModal opened={opened} close={close} />
           <Group visibleFrom="sm">
             <Button onClick={open} leftSection={<IconSettings size={18} />} variant="default">Settings</Button>
-            <SettingsModal opened={opened} close={close} />
             <PDFDownloadLink
               key={JSON.stringify(resumeData)}
               document={
@@ -181,6 +181,48 @@ export function ResumeHeader() {
                 Download
               </Button>
             </PDFDownloadLink>
+          </Group>
+
+          <Group hiddenFrom="sm" gap="xs">
+            <PDFDownloadLink
+              key={JSON.stringify(resumeData)}
+              document={<ResumePDF resumeData={resumeData} />}
+              fileName="resume.pdf"
+            >
+              <ActionIcon onClick={handleDownload} variant="default" size="lg" aria-label="Download">
+                <IconDownload size={20} />
+              </ActionIcon>
+            </PDFDownloadLink>
+
+            <Menu shadow="md" width={200}>
+              <Menu.Target>
+                <ActionIcon variant="default" size="lg" aria-label="Menu">
+                  <IconMenu2 size={20} />
+                </ActionIcon>
+              </Menu.Target>
+
+              <Menu.Dropdown>
+                <Menu.Label>Template</Menu.Label>
+                {templateOptions.map((template) => {
+                  const isSelected = selectedTemplate === template.value;
+                  return (
+                    <Menu.Item
+                      key={template.value}
+                      onClick={() => handleTemplateSelect(template.value)}
+                      rightSection={isSelected ? <IconChevronDown size={16} /> : null}
+                    >
+                      {template.title}
+                    </Menu.Item>
+                  );
+                })}
+
+                <Menu.Divider />
+
+                <Menu.Item onClick={open} leftSection={<IconSettings size={16} />}>
+                  Settings
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
           </Group>
 
         </Group>

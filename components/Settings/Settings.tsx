@@ -1,10 +1,9 @@
 'use client';
 
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import {
   Modal,
   SimpleGrid,
-  Button,
   Group,
   Text,
   UnstyledButton,
@@ -14,7 +13,7 @@ import {
   Checkbox,
 } from '@mantine/core';
 import { ResumeContext } from '../declarations/ResumeContext';
-import { IconBrandLinkedin, IconDeviceFloppy, IconBrandGithub, IconAward, IconCertificate, IconCamera, IconApps, IconLanguage, IconFileCertificate } from '@tabler/icons-react';
+import { IconBrandLinkedin, IconBrandGithub, IconAward, IconCertificate, IconCamera, IconApps, IconLanguage, IconFileCertificate } from '@tabler/icons-react';
 import { Settings } from '../declarations/types';
 import classes from './Settings.module.css';
 
@@ -80,7 +79,6 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({ field, label, description, 
 };
 
 const SettingsModal: React.FC<SettingsModalProps> = ({ opened, close }) => {
-  const theme = useMantineTheme();
   const resumeContext = useContext(ResumeContext);
 
   if (!resumeContext) {
@@ -88,18 +86,10 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ opened, close }) => {
   }
 
   const { resumeData, updateSettings } = resumeContext;
-  const [settings, setSettings] = useState<Settings>(resumeData.settings);
+  const settings = resumeData.settings;
 
-  const handleCheckboxChange = (field: keyof Settings) => () => {
-    setSettings((prevSettings) => ({
-      ...prevSettings,
-      [field]: !prevSettings[field],
-    }));
-  };
-
-  const handleSave = () => {
-    updateSettings(settings);
-    close();
+  const handleToggle = (field: keyof Settings) => () => {
+    updateSettings({ ...settings, [field]: !settings[field] });
   };
 
   return (
@@ -112,7 +102,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ opened, close }) => {
           description="Helps with the LinkedIn URL"
           icon={<IconBrandLinkedin />}
           isActive={settings.isLinkedIn}
-          onToggle={handleCheckboxChange('isLinkedIn')}
+          onToggle={handleToggle('isLinkedIn')}
         />
         
         {/* GitHub Toggle Button */}
@@ -122,7 +112,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ opened, close }) => {
           description="Showcase your pet projects skills"
           icon={<IconBrandGithub />}
           isActive={settings.isGithub}
-          onToggle={handleCheckboxChange('isGithub')}
+          onToggle={handleToggle('isGithub')}
         />
 
         {/* Awards Toggle Button */}
@@ -132,7 +122,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ opened, close }) => {
           description="I am recognized"
           icon={<IconAward />}
           isActive={settings.isAwards}
-          onToggle={handleCheckboxChange('isAwards')}
+          onToggle={handleToggle('isAwards')}
         />
 
         {/* Certifications Toggle Button */}
@@ -142,7 +132,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ opened, close }) => {
           description="We all do certifications"
           icon={<IconCertificate />}
           isActive={settings.isCertifications}
-          onToggle={handleCheckboxChange('isCertifications')}
+          onToggle={handleToggle('isCertifications')}
         />
 
         {/* Image Toggle Button */}
@@ -152,7 +142,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ opened, close }) => {
           description="Brand yourself"
           icon={<IconCamera />}
           isActive={settings.isImage}
-          onToggle={handleCheckboxChange('isImage')}
+          onToggle={handleToggle('isImage')}
         />
 
         {/* Patents Toggle Button */}
@@ -162,7 +152,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ opened, close }) => {
           description="Are you an inventor?"
           icon={<IconFileCertificate />}
           isActive={settings.isPatents}
-          onToggle={handleCheckboxChange('isPatents')}
+          onToggle={handleToggle('isPatents')}
         />
 
         {/* Projects Toggle Button */}
@@ -172,7 +162,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ opened, close }) => {
           description="Showcase your fun time projects"
           icon={<IconApps />}
           isActive={settings.isPersonalProjects}
-          onToggle={handleCheckboxChange('isPersonalProjects')}
+          onToggle={handleToggle('isPersonalProjects')}
         />
 
         {/* Languages Toggle Button */}
@@ -182,14 +172,9 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ opened, close }) => {
           description="Needed for students"
           icon={<IconLanguage />}
           isActive={settings.isLanguages}
-          onToggle={handleCheckboxChange('isLanguages')}
+          onToggle={handleToggle('isLanguages')}
         />
       </SimpleGrid>
-      <Group justify="center" pt={30}>
-        <Button onClick={handleSave} size="md" rightSection={<IconDeviceFloppy size={20} />}>
-          Save
-        </Button>
-      </Group>
     </Modal>
   );
 };
