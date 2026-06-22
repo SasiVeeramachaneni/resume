@@ -194,7 +194,7 @@ export function ResumeHeader() {
               </ActionIcon>
             </PDFDownloadLink>
 
-            <Menu shadow="md" width={200}>
+            <Menu shadow="md" width={220}>
               <Menu.Target>
                 <ActionIcon variant="default" size="lg" aria-label="Menu">
                   <IconMenu2 size={20} />
@@ -209,9 +209,11 @@ export function ResumeHeader() {
                     <Menu.Item
                       key={template.value}
                       onClick={() => handleTemplateSelect(template.value)}
-                      rightSection={isSelected ? <IconChevronDown size={16} /> : null}
+                      className={classes.mobileTemplateItem}
+                      data-selected={isSelected || undefined}
                     >
-                      {template.title}
+                      <Box className={classes.mobileTemplatePreview} data-template={template.value} />
+                      <Text size="sm" fw={500}>{template.title}</Text>
                     </Menu.Item>
                   );
                 })}
