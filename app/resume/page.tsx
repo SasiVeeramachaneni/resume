@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useRef, useLayoutEffect } from 'react';
 import { ResumeHeader } from "@/components/ResumeHeader/ResumeHeader";
 import { Container, Grid } from '@mantine/core';
 import { PersonalInfo } from "@/components/PersonalInfo/PersonalInfo";
@@ -17,6 +17,17 @@ import type { WorkExperience as WorkExpType, Project, Education as EduType, Awar
 
 type SectionName = 'workExperience' | 'projects' | 'education' | 'awards' | 'certifications' | 'skills' | 'languages' | 'patents';
 
+const SECTION_SIDES: Record<SectionName, 'left' | 'right'> = {
+  workExperience: 'left',
+  projects: 'left',
+  skills: 'right',
+  certifications: 'right',
+  awards: 'right',
+  education: 'right',
+  languages: 'right',
+  patents: 'right',
+};
+
 export default function ResumeBuilder() {
   const resumeContext = React.useContext(ResumeContext);
 
@@ -30,12 +41,37 @@ export default function ResumeBuilder() {
   const [activeSection, setActiveSection] = useState<SectionName | null>(null);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
+  const innerContainerRef = useRef<HTMLDivElement>(null);
+  const sectionRefs = useRef<Partial<Record<SectionName, HTMLDivElement | null>>>({});
+  const [widgetPos, setWidgetPos] = useState<{ top: number; side: 'left' | 'right' } | null>(null);
+
   const handleEditingChange = (section: SectionName, index: number | null) => {
     setActiveSection(index !== null ? section : null);
     setEditingIndex(index);
   };
 
-  const isActive = (section: SectionName) => activeSection === section && editingIndex !== null;
+  useLayoutEffect(() => {    const updatePos = () => {
+      if (
+        activeSection &&
+        editingIndex !== null &&
+        innerContainerRef.current &&
+        sectionRefs.current[activeSection]
+      ) {
+        const containerRect = innerContainerRef.current.getBoundingClientRect();
+        const sectionRect = sectionRefs.current[activeSection]!.getBoundingClientRect();
+        setWidgetPos({
+          top: sectionRect.top - containerRect.top + 4,
+          side: template === 'classic' ? 'left' : SECTION_SIDES[activeSection],
+        });
+      } else {
+        setWidgetPos(null);
+      }
+    };
+
+    updatePos();
+    window.addEventListener('resize', updatePos);
+    return () => window.removeEventListener('resize', updatePos);
+  }, [activeSection, editingIndex, resumeData, template]);
 
   function getData(section: SectionName) {
     switch (section) {
@@ -89,25 +125,14 @@ export default function ResumeBuilder() {
     setActiveSection(null);
   };
 
-  const SectionShell = ({ section, side, children }: { section: SectionName; side: 'left' | 'right'; children: React.ReactNode }) => {
-    const padding = side === 'left' ? { paddingLeft: '28px' } : { paddingRight: '28px' };
-    const position = side === 'left' ? { left: '0' } : { right: '0' };
-    const data = getData(section);
-
+  const renderSection = (section: SectionName, side: 'left' | 'right', children: React.ReactNode) => {
     return (
-      <div style={{ position: 'relative' }}>
+      <div
+        ref={(el) => {
+          sectionRefs.current[section] = el;
+        }}
+      >
         {children}
-        {isActive(section) && (
-          <div style={{ position: 'absolute', ...position, top: '4px' }}>
-            <ReorderWidget
-              onMoveUp={handleMoveUp}
-              onMoveDown={handleMoveDown}
-              onDelete={handleDelete}
-              isFirst={editingIndex === 0}
-              isLast={editingIndex === data.length - 1}
-            />
-          </div>
-        )}
       </div>
     );
   };
@@ -116,76 +141,82 @@ export default function ResumeBuilder() {
     <>
       <ResumeHeader />
       <Container pt={20} pb={40} fluid bg="var(--mantine-color-blue-light)">
-        <Container size="xl" pt={40} pb={40} bg="var(--mantine-color-white)">
+        <Container ref={innerContainerRef} size="xl" pt={40} pb={40} bg="var(--mantine-color-white)" style={{ position: 'relative' }}>
+          {widgetPos && (
+            <div
+              style={{
+                position: 'absolute',
+                top: `${widgetPos.top}px`,
+                ...(widgetPos.side === 'left' ? { left: '-36px' } : { right: '-36px' }),
+                zIndex: 10,
+              }}
+            >
+              <ReorderWidget
+                onMoveUp={handleMoveUp}
+                onMoveDown={handleMoveDown}
+                onDelete={handleDelete}
+                isFirst={editingIndex === 0}
+                isLast={activeSection !== null && editingIndex === getData(activeSection).length - 1}
+              />
+            </div>
+          )}
           <PersonalInfo />
           {template === 'classic' ? (
             <>
-              <SectionShell section="skills" side="right">
+              {renderSection('skills', 'right',
                 <Skills editingIndex={activeSection === 'skills' ? editingIndex : null} onEditingChange={(i) => handleEditingChange('skills', i)} />
-              </SectionShell>
-              <SectionShell section="workExperience" side="left">
+              )}
+              {renderSection('workExperience', 'left',
                 <WorkExperience editingIndex={activeSection === 'workExperience' ? editingIndex : null} onEditingChange={(i) => handleEditingChange('workExperience', i)} />
-              </SectionShell>
-              {isPersonalProjects && (
-                <SectionShell section="projects" side="left">
-                  <Projects editingIndex={activeSection === 'projects' ? editingIndex : null} onEditingChange={(i) => handleEditingChange('projects', i)} />
-                </SectionShell>
               )}
-              <SectionShell section="certifications" side="right">
+              {isPersonalProjects && renderSection('projects', 'left',
+                <Projects editingIndex={activeSection === 'projects' ? editingIndex : null} onEditingChange={(i) => handleEditingChange('projects', i)} />
+              )}
+              {renderSection('certifications', 'right',
                 <Certifications editingIndex={activeSection === 'certifications' ? editingIndex : null} onEditingChange={(i) => handleEditingChange('certifications', i)} />
-              </SectionShell>
-              <SectionShell section="awards" side="right">
-                <Awards editingIndex={activeSection === 'awards' ? editingIndex : null} onEditingChange={(i) => handleEditingChange('awards', i)} />
-              </SectionShell>
-              <SectionShell section="education" side="right">
-                <Education editingIndex={activeSection === 'education' ? editingIndex : null} onEditingChange={(i) => handleEditingChange('education', i)} />
-              </SectionShell>
-              {isLanguages && (
-                <SectionShell section="languages" side="right">
-                  <Languages editingIndex={activeSection === 'languages' ? editingIndex : null} onEditingChange={(i) => handleEditingChange('languages', i)} />
-                </SectionShell>
               )}
-              {isPatents && (
-                <SectionShell section="patents" side="right">
-                  <Patents editingIndex={activeSection === 'patents' ? editingIndex : null} onEditingChange={(i) => handleEditingChange('patents', i)} />
-                </SectionShell>
+              {renderSection('awards', 'right',
+                <Awards editingIndex={activeSection === 'awards' ? editingIndex : null} onEditingChange={(i) => handleEditingChange('awards', i)} />
+              )}
+              {renderSection('education', 'right',
+                <Education editingIndex={activeSection === 'education' ? editingIndex : null} onEditingChange={(i) => handleEditingChange('education', i)} />
+              )}
+              {isLanguages && renderSection('languages', 'right',
+                <Languages editingIndex={activeSection === 'languages' ? editingIndex : null} onEditingChange={(i) => handleEditingChange('languages', i)} />
+              )}
+              {isPatents && renderSection('patents', 'right',
+                <Patents editingIndex={activeSection === 'patents' ? editingIndex : null} onEditingChange={(i) => handleEditingChange('patents', i)} />
               )}
             </>
           ) : (
             <Container fluid>
               <Grid columns={12} pt={10}>
                 <Grid.Col span={8}>
-                  <SectionShell section="workExperience" side="left">
+                  {renderSection('workExperience', 'left',
                     <WorkExperience editingIndex={activeSection === 'workExperience' ? editingIndex : null} onEditingChange={(i) => handleEditingChange('workExperience', i)} />
-                  </SectionShell>
-                  {isPersonalProjects && (
-                    <SectionShell section="projects" side="left">
-                      <Projects editingIndex={activeSection === 'projects' ? editingIndex : null} onEditingChange={(i) => handleEditingChange('projects', i)} />
-                    </SectionShell>
+                  )}
+                  {isPersonalProjects && renderSection('projects', 'left',
+                    <Projects editingIndex={activeSection === 'projects' ? editingIndex : null} onEditingChange={(i) => handleEditingChange('projects', i)} />
                   )}
                 </Grid.Col>
                 <Grid.Col span={4}>
-                  <SectionShell section="skills" side="right">
+                  {renderSection('skills', 'right',
                     <Skills editingIndex={activeSection === 'skills' ? editingIndex : null} onEditingChange={(i) => handleEditingChange('skills', i)} />
-                  </SectionShell>
-                  <SectionShell section="certifications" side="right">
-                    <Certifications editingIndex={activeSection === 'certifications' ? editingIndex : null} onEditingChange={(i) => handleEditingChange('certifications', i)} />
-                  </SectionShell>
-                  <SectionShell section="awards" side="right">
-                    <Awards editingIndex={activeSection === 'awards' ? editingIndex : null} onEditingChange={(i) => handleEditingChange('awards', i)} />
-                  </SectionShell>
-                  <SectionShell section="education" side="right">
-                    <Education editingIndex={activeSection === 'education' ? editingIndex : null} onEditingChange={(i) => handleEditingChange('education', i)} />
-                  </SectionShell>
-                  {isLanguages && (
-                    <SectionShell section="languages" side="right">
-                      <Languages editingIndex={activeSection === 'languages' ? editingIndex : null} onEditingChange={(i) => handleEditingChange('languages', i)} />
-                    </SectionShell>
                   )}
-                  {isPatents && (
-                    <SectionShell section="patents" side="right">
-                      <Patents editingIndex={activeSection === 'patents' ? editingIndex : null} onEditingChange={(i) => handleEditingChange('patents', i)} />
-                    </SectionShell>
+                  {renderSection('certifications', 'right',
+                    <Certifications editingIndex={activeSection === 'certifications' ? editingIndex : null} onEditingChange={(i) => handleEditingChange('certifications', i)} />
+                  )}
+                  {renderSection('awards', 'right',
+                    <Awards editingIndex={activeSection === 'awards' ? editingIndex : null} onEditingChange={(i) => handleEditingChange('awards', i)} />
+                  )}
+                  {renderSection('education', 'right',
+                    <Education editingIndex={activeSection === 'education' ? editingIndex : null} onEditingChange={(i) => handleEditingChange('education', i)} />
+                  )}
+                  {isLanguages && renderSection('languages', 'right',
+                    <Languages editingIndex={activeSection === 'languages' ? editingIndex : null} onEditingChange={(i) => handleEditingChange('languages', i)} />
+                  )}
+                  {isPatents && renderSection('patents', 'right',
+                    <Patents editingIndex={activeSection === 'patents' ? editingIndex : null} onEditingChange={(i) => handleEditingChange('patents', i)} />
                   )}
                 </Grid.Col>
               </Grid>

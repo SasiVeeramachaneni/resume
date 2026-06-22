@@ -71,13 +71,10 @@ export function Skills({ editingIndex, onEditingChange }: { editingIndex: number
           +Add
         </Button>
       </div>
-      <Container p={0} pt={5} pb={5} m={0} fluid style={{ paddingInline: 0 }}>
+      <Container p={0} pt={5} pb={5} m={0} fluid style={{ paddingInline: 0, display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
         {skills.map((skill, index) => (
           <div
             key={index}
-            style={{
-              marginBottom: '4px'
-            }}
           >
             <TextInput
               variant='filled'
