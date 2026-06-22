@@ -103,8 +103,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ opened, close }) => {
   };
 
   return (
-    <Modal opened={opened} radius='xl' onClose={close} size="50%" centered>
-      <SimpleGrid cols={2} spacing="xl" pl={30} pr={30}>
+    <Modal opened={opened} radius='xl' onClose={close} size="50%" centered classNames={{ content: classes.modalContent }}>
+      <SimpleGrid cols={{ base: 1, xs: 2 }} spacing="xl" pl={{ base: 0, xs: 30 }} pr={{ base: 0, xs: 30 }}>
         {/* LinkedIn Toggle Button */}
         <ToggleButton
           field="isLinkedIn"

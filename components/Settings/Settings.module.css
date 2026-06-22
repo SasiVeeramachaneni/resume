@@ -42,4 +42,10 @@
     }
   }
 
+  .modalContent {
+    @media (max-width: $mantine-breakpoint-xs) {
+      flex: 0 0 auto;
+    }
+  }
+
   
