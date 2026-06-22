@@ -51,3 +51,12 @@
   border-radius: var(--mantine-radius-sm);
   padding: rem(4px) rem(12px);
 }
+
+.signupText {
+  @media (max-width: $mantine-breakpoint-xs) {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: var(--mantine-spacing-xs);
+  }
+}

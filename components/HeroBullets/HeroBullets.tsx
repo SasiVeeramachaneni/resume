@@ -43,7 +43,8 @@ export function HeroBullets() {
           <Group mt={30}>
             <Button component={Link} to="/resume" radius="xl" size="md" className={classes.control}>
               Create your resume
-            </Button> <Text c="dimmed" size="sm">No sign-up required</Text>
+            </Button>
+            <Text c="dimmed" size="sm" className={classes.signupText}>No sign-up required</Text>
           </Group>
         </div>
         <Image src={image} className={classes.image} />
