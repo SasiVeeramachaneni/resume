@@ -31,9 +31,9 @@ export function PersonalInfo() {
 
   return (
     <>
-      <Group pl={20} gap={20} justify="flex-start">
+      <Group pl={20} pb={15} gap={20} justify="flex-start">
         {isImage && <ImageUpload />}
-        <Stack pb={15} gap={0} style={{ width: isImage ? '87%' : '100%' }}>
+        <Stack gap={0} style={{ width: isImage ? '87%' : '100%' }}>
           <input
             placeholder="Your name"
             style={{
