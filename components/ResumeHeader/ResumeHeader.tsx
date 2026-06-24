@@ -1,8 +1,9 @@
-import { HoverCard, Group, Button, UnstyledButton, Text, SimpleGrid, ThemeIcon, Anchor, Divider, Center, Box, rem, useMantineTheme, ActionIcon, Menu} from '@mantine/core';
+import { HoverCard, Group, Button, UnstyledButton, Text, SimpleGrid, ThemeIcon, Anchor, Divider, Center, Box, rem, useMantineTheme, ActionIcon, Menu } from '@mantine/core';
+import { Link } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { useContext } from 'react';
-import { IconNotification, IconCode, IconBook, IconChartPie3, IconFingerprint, IconCoin, IconChevronDown, IconUpload, IconPalette, IconDownload, IconSettings, IconMenu2 } from '@tabler/icons-react';
+import { IconNotification, IconCode, IconBook, IconChartPie3, IconFingerprint, IconCoin, IconChevronDown, IconUpload, IconPalette, IconDownload, IconSettings, IconMenu2, IconBook2 } from '@tabler/icons-react';
 import classes from './ResumeHeader.module.css';
 import { CreateResumeLogo } from '../CreateResumeLogo/CreateResumeLogo';
 import SettingsModal from '../Settings/Settings';
@@ -168,6 +169,7 @@ export function ResumeHeader() {
           <SettingsModal opened={opened} close={close} />
           <Group visibleFrom="sm">
             <Button onClick={open} leftSection={<IconSettings size={18} />} variant="default">Settings</Button>
+            <Button component={Link} to="/blog" leftSection={<IconBook2 size={18} />} variant="default">Blog</Button>
             <PDFDownloadLink
               key={JSON.stringify(resumeData)}
               document={
@@ -222,6 +224,9 @@ export function ResumeHeader() {
 
                 <Menu.Item onClick={open} leftSection={<IconSettings size={16} />}>
                   Settings
+                </Menu.Item>
+                <Menu.Item component={Link} to="/blog" leftSection={<IconBook2 size={16} />}>
+                  Blog
                 </Menu.Item>
               </Menu.Dropdown>
             </Menu>
