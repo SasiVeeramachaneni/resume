@@ -1,5 +1,5 @@
 import { Image, Container, Title, Button, Group, Text, List, ThemeIcon, rem, ListItem } from '@mantine/core';
-import { IconCheck } from '@tabler/icons-react';
+import { IconCheck, IconBook2 } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 import image from './resume.webp';
 import classes from './HeroBullets.module.css';
@@ -15,8 +15,11 @@ export function HeroBullets() {
           Resume
         </Text></span>
           </Title>
-          <Text c="dimmed" mt="md">
-          Create a standout resume effortlessly. Highlight your skills, and showcase your achievements. Whether you’re a seasoned professional or just starting out, our tools help you craft a resume that gets noticed. Start building your future today!
+          <Text size="lg" fw={500} mt="sm">
+            Expert tips and strategies for your best resume
+          </Text>
+          <Text c="dimmed" mt="sm">
+          Create a standout resume effortlessly. Highlight your skills, and showcase your achievements. Whether you're a seasoned professional or just starting out, our tools help you craft a resume that gets noticed. Start building your future today!
           </Text>
 
           <List
@@ -40,12 +43,15 @@ export function HeroBullets() {
             </ListItem>
           </List>
 
-          <Group mt={30}>
+          <Group mt={30} className={classes.buttons}>
             <Button component={Link} to="/resume" radius="xl" size="md" className={classes.control}>
               Create your resume
             </Button>
-            <Text c="dimmed" size="sm" className={classes.signupText}>No sign-up required</Text>
+            <Button component={Link} to="/blog" radius="xl" size="md" variant="outline" className={classes.control} leftSection={<IconBook2 size={18} />}>
+              Blogs
+            </Button>
           </Group>
+          <Text c="dimmed" size="sm" mt="sm" className={classes.signupText}>No sign-up required</Text>
         </div>
         <Image src={image} className={classes.image} />
       </div>

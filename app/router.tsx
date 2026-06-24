@@ -4,22 +4,24 @@ import { AppLayout } from '@/components/AppLayout/AppLayout';
 import HomePage from './page';
 import ResumeBuilder from './resume/page';
 import AboutPage from './about/page';
+import BlogPage from './blog/page';
+import BlogPostPage from './blog/BlogPostPage';
+import EditorPage from './editor/page';
 
-function withLayout(Page: () => React.JSX.Element) {
+function withLayout(Page: () => React.JSX.Element | null) {
   return <AppLayout><Page /></AppLayout>;
 }
 
-export const router = createBrowserRouter([
-  {
-    path: '/',
-    element: withLayout(HomePage),
-  },
-  {
-    path: '/resume',
-    element: withLayout(ResumeBuilder),
-  },
-  {
-    path: '/about',
-    element: withLayout(AboutPage),
-  },
-]);
+const routes = [
+  { path: '/', element: withLayout(HomePage) },
+  { path: '/resume', element: withLayout(ResumeBuilder) },
+  { path: '/about', element: withLayout(AboutPage) },
+  { path: '/blog', element: withLayout(BlogPage) },
+  { path: '/blog/:slug', element: withLayout(BlogPostPage) },
+];
+
+if (import.meta.env.DEV) {
+  routes.push({ path: '/editor', element: withLayout(EditorPage) });
+}
+
+export const router = createBrowserRouter(routes);

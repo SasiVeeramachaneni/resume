@@ -1,0 +1,99 @@
+.root {
+  border: 1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+  border-radius: var(--mantine-radius-md);
+  overflow: hidden;
+}
+
+.toolbar {
+  border-bottom: 1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+  background: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+  flex-wrap: wrap;
+}
+
+.content {
+  min-height: 300px;
+  padding: var(--mantine-spacing-md);
+}
+
+.editor {
+  outline: none;
+  min-height: 280px;
+}
+
+.editor :global(.ProseMirror) {
+  outline: none;
+  min-height: 280px;
+}
+
+.editor :global(.ProseMirror p) {
+  margin: 0 0 0.5rem;
+  line-height: 1.7;
+}
+
+.editor :global(.ProseMirror h2) {
+  margin: 1.5rem 0 0.5rem;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.editor :global(.ProseMirror h3) {
+  margin: 1.25rem 0 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.editor :global(.ProseMirror ul),
+.editor :global(.ProseMirror ol) {
+  padding-left: 1.5rem;
+  margin: 0 0 0.75rem;
+}
+
+.editor :global(.ProseMirror li) {
+  margin-bottom: 0.25rem;
+  line-height: 1.6;
+}
+
+.editor :global(.ProseMirror blockquote) {
+  border-left: 3px solid var(--mantine-color-blue-5);
+  padding: 0.5rem 1rem;
+  margin: 0 0 0.75rem;
+  background: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+  border-radius: 0 var(--mantine-radius-sm) var(--mantine-radius-sm) 0;
+  font-style: italic;
+}
+
+.editor :global(.ProseMirror a) {
+  color: var(--mantine-color-blue-6);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.editor :global(.ProseMirror img) {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--mantine-radius-md);
+  margin: 1rem 0;
+}
+
+.editor :global(.ProseMirror p.is-editor-empty:first-child::before) {
+  content: attr(data-placeholder);
+  float: left;
+  color: var(--mantine-color-gray-5);
+  pointer-events: none;
+  height: 0;
+}
+
+.editor :global(.ProseMirror pre) {
+  background: light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-7));
+  border-radius: var(--mantine-radius-sm);
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  overflow-x: auto;
+}
+
+.editor :global(.ProseMirror code) {
+  background: light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-7));
+  border-radius: 3px;
+  padding: 0.15rem 0.3rem;
+  font-size: 0.9em;
+}
