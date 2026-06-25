@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import {
   Container, Title, Text, TextInput, Textarea, Button, Group, Paper,
-  Card, SimpleGrid, ActionIcon, Badge, Code, Anchor,
+  Card, SimpleGrid, ActionIcon, Badge, Code, Anchor, Alert,
 } from '@mantine/core';
 import { useNavigate, Link } from 'react-router-dom';
-import { IconTrash, IconEdit, IconEye } from '@tabler/icons-react';
+import { IconTrash, IconEdit, IconEye, IconInfoCircle } from '@tabler/icons-react';
 import { BlogPost, saveBlogPost, deleteBlogPost, getBlogPosts, isCustomPost } from '@/app/blog/posts';
 import { Header } from '@/components/Heading/Header';
 import { RichEditor } from '@/components/RichEditor/RichEditor';
@@ -26,6 +26,7 @@ export default function EditorPage() {
   const [editing, setEditing] = useState<string | null>(null);
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [exportCode, setExportCode] = useState('');
+  const [lastSavedSlug, setLastSavedSlug] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isDev) { navigate('/', { replace: true }); return; }
@@ -55,6 +56,7 @@ export default function EditorPage() {
     };
     saveBlogPost(post);
     setPosts(getBlogPosts().filter(p => isCustomPost(p.slug)));
+    setLastSavedSlug(post.slug);
     resetForm();
   }
 
@@ -145,6 +147,16 @@ export default function EditorPage() {
               <Text size="sm" fw={500} mb="xs">Copy this into app/blog/posts.ts:</Text>
               <Code block style={{ whiteSpace: 'pre', fontSize: 12 }}>{exportCode}</Code>
             </Paper>
+          )}
+
+          {lastSavedSlug && (
+            <Alert icon={<IconInfoCircle size={16} />} color="blue" mt="md" withCloseButton onClose={() => setLastSavedSlug(null)}>
+              <Text size="sm">
+                Add slug <Code>{lastSavedSlug}</Code> to{' '}
+                <Code>app/blog/custom-posts.json</Code> for sitemap inclusion, then run{' '}
+                <Code>npm run sitemap</Code>.
+              </Text>
+            </Alert>
           )}
         </Paper>
 
