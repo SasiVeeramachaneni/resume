@@ -7,12 +7,12 @@ const root = resolve(__dirname, '..');
 
 const SITE_URL = 'https://createresume.in';
 
-const postsPath = resolve(root, 'app/blog/posts.ts');
-const source = readFileSync(postsPath, 'utf-8');
-const slugRegex = /slug:\s*'([^']+)'/g;
+const indexPath = resolve(root, 'app/blog/posts/index.ts');
+const source = readFileSync(indexPath, 'utf-8');
+const importRegex = /from\s+'\.\/([^']+)'/g;
 const slugs = [];
 let match;
-while ((match = slugRegex.exec(source)) !== null) {
+while ((match = importRegex.exec(source)) !== null) {
   slugs.push(match[1]);
 }
 
