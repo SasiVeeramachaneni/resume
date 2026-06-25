@@ -3,8 +3,13 @@ import { Container, Title, Text, SimpleGrid, Card, Badge, Group, Button, Center,
 import { Link } from 'react-router-dom';
 import { BlogPost, getBlogPosts } from './posts';
 import { Header } from '@/components/Heading/Header';
+import { usePageMeta } from '@/app/usePageMeta';
 
 export default function BlogPage() {
+  usePageMeta(
+    'Blog - Resume Tips, Templates & Career Advice | Create Resume',
+    'Expert resume tips, career advice, and guides to help you build a standout resume. Learn how to tailor your resume for any industry.',
+  );
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
 

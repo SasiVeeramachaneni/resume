@@ -20,6 +20,7 @@ const pages = [
   { loc: '/', priority: '1.0', changefreq: 'monthly' },
   { loc: '/resume', priority: '0.9', changefreq: 'monthly' },
   { loc: '/about', priority: '0.5', changefreq: 'monthly' },
+  { loc: '/tech', priority: '0.5', changefreq: 'monthly' },
   { loc: '/blog', priority: '0.8', changefreq: 'weekly' },
   ...slugs.map(slug => ({
     loc: `/blog/${slug}`,

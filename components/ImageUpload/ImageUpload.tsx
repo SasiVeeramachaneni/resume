@@ -35,6 +35,7 @@ export function ImageUpload() {
             fit="contain"
             radius="lg"
             src={resumeData.personalInfo.image}
+            alt="Profile photo preview"
         />
     ) : null;
 

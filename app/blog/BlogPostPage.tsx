@@ -4,6 +4,7 @@ import { useParams, Link } from 'react-router-dom';
 import { IconArrowLeft } from '@tabler/icons-react';
 import { BlogPost, getBlogPost } from './posts';
 import { Header } from '@/components/Heading/Header';
+import { usePageMeta } from '@/app/usePageMeta';
 
 export default function BlogPostPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -12,6 +13,11 @@ export default function BlogPostPage() {
   useEffect(() => {
     if (slug) setPost(getBlogPost(slug) ?? null);
   }, [slug]);
+
+  usePageMeta(
+    post ? `${post.title} | Create Resume Blog` : 'Blog Post | Create Resume',
+    post ? post.excerpt : 'Read our blog post for expert resume tips and career advice.',
+  );
 
   if (!post) {
     return (

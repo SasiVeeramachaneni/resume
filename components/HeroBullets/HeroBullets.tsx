@@ -53,7 +53,7 @@ export function HeroBullets() {
           </Group>
           <Text c="dimmed" size="sm" mt="sm" className={classes.signupText}>No sign-up required</Text>
         </div>
-        <Image src={image} className={classes.image} />
+        <Image src={image} className={classes.image} alt="Resume builder preview showing a professional resume template" />
       </div>
     </Container>
   );

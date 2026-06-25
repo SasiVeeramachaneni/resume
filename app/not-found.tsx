@@ -1,8 +1,13 @@
 import { Container, Title, Text, Group, Button } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { Header } from '@/components/Heading/Header';
+import { usePageMeta } from '@/app/usePageMeta';
 
 export default function NotFoundPage() {
+  usePageMeta(
+    'Page Not Found (404) | Create Resume',
+    'The page you are looking for does not exist. Browse our resume builder, blog, or learn more about us.',
+  );
   return (
     <>
       <Header />

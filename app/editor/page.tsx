@@ -8,10 +8,12 @@ import { IconTrash, IconEdit, IconEye } from '@tabler/icons-react';
 import { BlogPost, saveBlogPost, deleteBlogPost, getBlogPosts, isCustomPost } from '@/app/blog/posts';
 import { Header } from '@/components/Heading/Header';
 import { RichEditor } from '@/components/RichEditor/RichEditor';
+import { usePageMeta } from '@/app/usePageMeta';
 
 const isDev = import.meta.env.DEV;
 
 export default function EditorPage() {
+  usePageMeta('Blog Editor | Create Resume', 'Write and manage blog posts for Create Resume.');
   const navigate = useNavigate();
 
   const [title, setTitle] = useState('');

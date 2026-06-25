@@ -36,9 +36,9 @@ function MenuBar({ editor }: { editor: NonNullable<ReturnType<typeof useEditor>>
 
   const addImageByUrl = useCallback(() => {
     const url = window.prompt('Image URL');
-    if (url) {
-      editor.chain().focus().setImage({ src: url }).run();
-    }
+    if (!url) return;
+    const alt = window.prompt('Image description (alt text)', '');
+    editor.chain().focus().setImage({ src: url, alt: alt || '' }).run();
   }, [editor]);
 
   const handleImageUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {

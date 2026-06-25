@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useRef, useLayoutEffect } from 'react';
+import { usePageMeta } from '@/app/usePageMeta';
 import { ResumeHeader } from "@/components/ResumeHeader/ResumeHeader";
 import { Container, Grid } from '@mantine/core';
 import { PersonalInfo } from "@/components/PersonalInfo/PersonalInfo";
@@ -29,6 +30,10 @@ const SECTION_SIDES: Record<SectionName, 'left' | 'right'> = {
 };
 
 export default function ResumeBuilder() {
+  usePageMeta(
+    'Resume Builder - Edit & Customize Your Resume Online',
+    'Edit your resume with our intuitive builder. Add work experience, skills, education, and more. Choose between professional and classic templates.',
+  );
   const resumeContext = React.useContext(ResumeContext);
 
   if (!resumeContext) {

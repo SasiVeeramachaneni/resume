@@ -10,9 +10,11 @@ export function Footer() {
           <Text size="sm" c="dimmed">
             &copy; {new Date().getFullYear()} Resume Builder
           </Text>
-          <Anchor component={Link} to="/about" size="sm">
-            About
-          </Anchor>
+          <Group gap="md">
+            <Anchor component={Link} to="/blog" size="sm">Blog</Anchor>
+            <Anchor component={Link} to="/tech" size="sm">Tech Stack</Anchor>
+            <Anchor component={Link} to="/about" size="sm">About</Anchor>
+          </Group>
         </Group>
       </Container>
     </footer>
