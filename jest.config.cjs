@@ -11,6 +11,7 @@ module.exports = {
           module: 'commonjs',
           esModuleInterop: true,
           isolatedModules: true,
+          rootDir: '<rootDir>',
         },
       },
     ],

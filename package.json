@@ -1,5 +1,5 @@
 {
-  "name": "mantine-next-template",
+  "name": "resume-builder",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -16,7 +16,8 @@
     "prettier:write": "prettier --write \"**/*.{ts,tsx}\"",
     "test": "npm run prettier:check && npm run typecheck && npm run jest",
     "storybook": "storybook dev -p 6006",
-    "storybook:build": "storybook build"
+    "storybook:build": "storybook build",
+    "docs": "npx --yes serve -l 5174 ."
   },
   "dependencies": {
     "@mantine/core": "^9.3.2",
@@ -73,6 +74,7 @@
     "postcss-preset-mantine": "1.18.0",
     "postcss-simple-vars": "^7.0.1",
     "prettier": "^3.8.4",
+    "puppeteer-core": "^25.3.0",
     "storybook": "^10.4.6",
     "storybook-dark-mode": "^5.0.0",
     "stylelint": "^17.13.0",

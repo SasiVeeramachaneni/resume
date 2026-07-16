@@ -1,8 +1,21 @@
-import { Image, Container, Title, Button, Group, Text, List, ThemeIcon, rem, ListItem } from '@mantine/core';
-import { IconCheck, IconBook2 } from '@tabler/icons-react';
-import { Link } from 'react-router-dom';
-import image from './resume.webp';
-import classes from './HeroBullets.module.css';
+import {
+  Image,
+  Container,
+  Title,
+  Button,
+  Group,
+  Text,
+  List,
+  ThemeIcon,
+  rem,
+  ListItem,
+  Stack,
+} from "@mantine/core";
+import { IconCheck, IconBook2, IconBrandGithub } from "@tabler/icons-react";
+import { Link } from "react-router-dom";
+import { GITHUB_REPO_URL } from "@/config";
+import image from "./resume.webp";
+import classes from "./HeroBullets.module.css";
 
 export function HeroBullets() {
   return (
@@ -10,16 +23,26 @@ export function HeroBullets() {
       <div className={classes.inner}>
         <div className={classes.content}>
           <Title className={classes.title}>
-            Create <span className={classes.highlight}>
-        <Text inherit variant="gradient" component="span" gradient={{ from: 'blue', to: 'yellow' }}>
-          Resume
-        </Text></span>
+            Create{" "}
+            <span className={classes.highlight}>
+              <Text
+                inherit
+                variant="gradient"
+                component="span"
+                gradient={{ from: "blue", to: "yellow" }}
+              >
+                Resume
+              </Text>
+            </span>
           </Title>
           <Text size="lg" fw={500} mt="sm">
             Expert tips and strategies for your best resume
           </Text>
           <Text c="dimmed" mt="sm">
-          Create a standout resume effortlessly. Highlight your skills, and showcase your achievements. Whether you're a seasoned professional or just starting out, our tools help you craft a resume that gets noticed. Start building your future today!
+            Create a standout resume effortlessly. Highlight your skills, and
+            showcase your achievements. Whether you're a seasoned professional
+            or just starting out, our tools help you craft a resume that gets
+            noticed. Start building your future today!
           </Text>
 
           <List
@@ -28,7 +51,10 @@ export function HeroBullets() {
             size="md"
             icon={
               <ThemeIcon size={25} radius="xl">
-                <IconCheck style={{ width: rem(18), height: rem(18) }} stroke={1.5} />
+                <IconCheck
+                  style={{ width: rem(18), height: rem(18) }}
+                  stroke={1.5}
+                />
               </ThemeIcon>
             }
           >
@@ -43,17 +69,55 @@ export function HeroBullets() {
             </ListItem>
           </List>
 
-          <Group mt={30} className={classes.buttons}>
-            <Button component={Link} to="/resume" radius="xl" size="md" className={classes.control}>
+          <Group mt={30} className={classes.buttons} align="flex-start">
+            <Button
+              component={Link}
+              to="/resume"
+              radius="xl"
+              size="md"
+              className={classes.control}
+            >
               Create your resume
             </Button>
-            <Button component={Link} to="/blog" radius="xl" size="md" variant="outline" className={classes.control} leftSection={<IconBook2 size={18} />}>
+            <Button
+              component={Link}
+              to="/blog"
+              radius="xl"
+              size="md"
+              variant="outline"
+              className={classes.control}
+              leftSection={<IconBook2 size={18} />}
+            >
               Blogs
             </Button>
+            <Stack gap={4} className={classes.control}>
+              <Button
+                component="a"
+                href={GITHUB_REPO_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                radius="xl"
+                size="md"
+                variant="light"
+                color="gray"
+                leftSection={<IconBrandGithub size={18} />}
+              >
+                GitHub
+              </Button>
+              <Text size="xs" c="dimmed" ta="center">
+                Enhance as you like
+              </Text>
+            </Stack>
           </Group>
-          <Text c="dimmed" size="sm" mt="sm" className={classes.signupText}>No sign-up required</Text>
+          <Text c="dimmed" size="sm" mt="sm" className={classes.signupText}>
+            No sign-up required
+          </Text>
         </div>
-        <Image src={image} className={classes.image} alt="Resume builder preview showing a professional resume template" />
+        <Image
+          src={image}
+          className={classes.image}
+          alt="Resume builder preview showing a professional resume template"
+        />
       </div>
     </Container>
   );

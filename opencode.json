@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "linkedin": {
+      "type": "local",
+      "command": ["node", "scripts/linkedin-mcp-server.mjs"],
+      "enabled": true,
+      "env": {
+        "LINKEDIN_CDP_URL": "http://127.0.0.1:9222",
+        "LINKEDIN_PROFILE_URL": "https://www.linkedin.com/in/me",
+        "LINKEDIN_RENDER_TIMEOUT": "45000"
+      }
+    }
+  }
+}

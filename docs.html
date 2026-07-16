@@ -1,0 +1,83 @@
+<!doctype html>
+<!--
+  Zero-build Docsify shell that renders README.md as a polished, navigable site.
+  No build step: open this file through any static server that serves the repo
+  root (e.g. `npm run docs` -> http://localhost:5174/docs.html).
+
+  README.md stays the single source of truth — Docsify fetches it at runtime and
+  renders it. The Vite app's own entry (index.html) is untouched.
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Resume Builder — Docs</title>
+    <link rel="icon" href="/resume.webp" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/docsify@4/lib/themes/dark.css"
+    />
+    <style>
+      :root {
+        --theme-color: #e9692e;
+        --base-font-size: 16px;
+      }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+      }
+      .markdown-section {
+        max-width: 860px;
+        padding: 2rem 2.5rem 6rem;
+      }
+      .markdown-section h1,
+      .markdown-section h2 {
+        border-bottom-color: rgba(255, 255, 255, 0.08);
+        padding-bottom: 0.3em;
+      }
+      .markdown-section table {
+        display: block;
+        overflow-x: auto;
+      }
+      /* nicer code blocks */
+      .markdown-section pre {
+        border-radius: 8px;
+      }
+      /* tighter sidebar */
+      aside.sidebar {
+        padding-top: 1.25rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      window.$docsify = {
+        name: "Resume Builder",
+        repo: "https://github.com/SasiVeeramachaneni/resume",
+        homepage: "README.md",
+        loadSidebar: true,
+        subMaxLevel: 4,
+        auto2top: true,
+        autoHeader: true,
+        executeScript: true,
+        cornerRadius: 12,
+        themeColor: "#e9692e",
+        copyCode: { buttonText: "Copy" },
+        "flexible-alerts": { style: "flat" },
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/copy-code.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/flexible-alerts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-jsx.min.js"></script>
+  </body>
+</html>
