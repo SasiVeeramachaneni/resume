@@ -1,5 +1,8 @@
 # Resume Builder
 
+> **Try it online:** <https://createresume.in> — build, edit and download a
+> professional PDF resume right from your browser. No sign-up required.
+
 An open-source resume builder built with **Vite + React + Mantine**, routed with
 **React Router**. Build, edit and download a professional PDF resume in the
 browser. No backend required — the only server-side piece is an
@@ -26,20 +29,92 @@ Protocol.
   the GitHub icon in the header of every other page link back to the repo.
   Enhance it as you like!)
 
-## Quick start
+## Local setup
+
+### Prerequisites
+
+- **Node.js 18+** (built and tested on Node 20/22) — check with `node -v`.
+  Use [nvm](https://github.com/nvm-sh/nvm) if you need to switch versions.
+- **npm 9+** — ships with Node (check with `npm -v`).
+- (Optional, only for the LinkedIn import) **Google Chrome** started with
+  remote debugging — see [Connect with LinkedIn (CDP import)](#connect-with-linkedin-cdp-import).
+
+No global packages, no Docker, no database — everything runs from the repo.
+
+### 1. Get the code
+
+```bash
+git clone https://github.com/SasiVeeramachaneni/resume.git
+cd resume
+```
+
+### 2. Install dependencies
 
 ```bash
 npm install
-npm run dev      # open the printed URL, then visit /resume
 ```
 
-Other scripts:
+This pulls the app deps plus the dev-only `puppeteer-core` (used by the
+optional LinkedIn scraper). Nothing is installed globally.
 
-- `npm run build` — production build (outputs to `dist/`)
-- `npm run preview` — preview the production build
-- `npm run typecheck` — run `tsc --noEmit`
-- `npm run jest` — run tests
-- `npm run prettier:write` — format the codebase
+### 3. Start the dev server
+
+```bash
+npm run dev
+```
+
+Vite prints a local URL (default <http://localhost:5173>). Open it in your
+browser, then visit `/resume` — e.g. <http://localhost:5173/resume> — to use
+the resume builder. Changes to the code hot-reload instantly.
+
+### 4. Build the resume
+
+On `/resume`:
+
+- Fill in your personal info, experience, education, skills, etc. in the
+  WYSIWYG editor.
+- Pick a template (`professional` or `classic`) from the header.
+- Toggle sections and dark/light theme as needed.
+- Click **Download** to export a one-click PDF via `@react-pdf/renderer`.
+
+### 5. (Optional) Import from LinkedIn
+
+To pull your LinkedIn profile straight into the form, start Chrome with
+remote debugging while signed into LinkedIn, then click
+**Connect with LinkedIn** in the builder. See
+[Connect with LinkedIn (CDP import)](#connect-with-linkedin-cdp-import) and
+[Connect with LinkedIn via MCP](#connect-with-linkedin-via-mcp) for the two
+ways to do it.
+
+### 6. (Optional) Production build / preview
+
+```bash
+npm run build       # outputs the static site to dist/
+npm run preview     # serves the production build locally
+```
+
+## npm scripts
+
+### Build and dev
+
+- `dev` — start the dev server (incl. the LinkedIn CDP bridge)
+- `build` — production build (also generates the sitemap)
+- `preview` — preview the production build
+
+### Quality
+
+- `typecheck` — TypeScript type check (`tsc --noEmit`)
+- `jest` / `jest:watch` — run tests
+- `prettier:check` / `prettier:write` — format code
+- `lint:stylelint` — lint CSS
+
+### Docs
+
+- `docs` — serve this README as a Docsify site (see [Docs](#docs-rendered-with-docsify))
+
+### Other
+
+- `storybook` / `storybook:build` — Storybook
 
 ## Docs (rendered with Docsify)
 
@@ -304,25 +379,6 @@ message (Chrome not reachable, not signed in, page timed out) — see
   backend — the Connect button simply shows a helpful "dev-only" message.
 - The scraper only operates on the LinkedIn session _you_ are logged into; it
   cannot scrape arbitrary profiles.
-
-## npm scripts
-
-### Build and dev
-
-- `dev` — start the dev server (incl. the LinkedIn CDP bridge)
-- `build` — production build (also generates the sitemap)
-- `preview` — preview the production build
-
-### Quality
-
-- `typecheck` — TypeScript type check
-- `jest` / `jest:watch` — run tests
-- `prettier:check` / `prettier:write` — format
-- `lint:stylelint` — lint CSS
-
-### Other
-
-- `storybook` / `storybook:build` — Storybook
 
 ## Project layout
 
