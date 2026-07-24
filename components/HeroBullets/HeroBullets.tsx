@@ -59,13 +59,13 @@ export function HeroBullets() {
             }
           >
             <ListItem>
-              <b>2 templates</b> – Supporting professionals and freshers
+              <b>3 templates</b> – Professional, classic, and sidebar-photo layouts
             </ListItem>
             <ListItem>
-              <b>Edit anytime</b> – Edit your resume any time
+              <b>No sign-up required</b> – Build and download your professional PDF instantly
             </ListItem>
             <ListItem>
-              <b>Focus</b> – Clean and simple interface
+              <b>Focus</b> – Clean, simple editor interface to focus on your content
             </ListItem>
           </List>
 
@@ -109,8 +109,8 @@ export function HeroBullets() {
               </Text>
             </Stack>
           </Group>
-          <Text c="dimmed" size="sm" mt="sm" className={classes.signupText}>
-            No sign-up required
+          <Text c="blue.6" fw={700} size="md" mt="md" className={classes.signupText}>
+            ⚡ No sign-up required — start building your resume instantly!
           </Text>
         </div>
         <Image
