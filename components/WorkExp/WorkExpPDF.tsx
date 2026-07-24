@@ -49,6 +49,32 @@ interface WorkExperiencePDFProps {
   template?: string;
 }
 
+// Helper function to parse simple markdown bold / italic syntax for PDF rendering
+const parseMarkdownText = (text: string) => {
+  if (!text) return [];
+
+  // Split on bold (**text**) and italic (*text*) patterns safely
+  const parts = text.split(/(\*\*[^*]+?\*\*|\*[^*]+?\*)/g);
+
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**') && part.length > 4) {
+      return (
+        <Text key={i} style={{ fontFamily: 'Merriweather', fontWeight: 'bold' }}>
+          {part.slice(2, -2)}
+        </Text>
+      );
+    }
+    if (part.startsWith('*') && part.endsWith('*') && part.length > 2) {
+      return (
+        <Text key={i} style={{ fontFamily: 'Merriweather', fontStyle: 'italic' }}>
+          {part.slice(1, -1)}
+        </Text>
+      );
+    }
+    return <Text key={i} style={{ fontFamily: 'Merriweather' }}>{part}</Text>;
+  });
+};
+
 // WorkExperience PDF component with TypeScript
 const WorkExperiencePDF: React.FC<WorkExperiencePDFProps> = ({ workExperience, template }) => {
   return (
@@ -70,11 +96,11 @@ const WorkExperiencePDF: React.FC<WorkExperiencePDFProps> = ({ workExperience, t
             {/* Role */}
             <Text style={styles.role}>{exp.role}</Text>
 
-            {/* Bullet Points */}
+            {/* Bullet Points with inline Bold/Italic formatting support */}
             {exp.points.map((point, pointIndex) => (
               <View key={pointIndex} style={styles.bulletPoint}>
                 <Text style={styles.bulletSymbol}>•</Text>
-                <Text style={styles.bulletText}>{point}</Text>
+                <Text style={styles.bulletText}>{parseMarkdownText(point)}</Text>
               </View>
             ))}
           </View>

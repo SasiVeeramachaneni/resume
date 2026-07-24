@@ -113,17 +113,25 @@ export function PhotoLayout({
       <div className="photo-template-main">
         {/* HUGE all-caps Name and Title */}
         <div style={{ marginBottom: "28px" }}>
-          <input
+          <Textarea
+            variant="unstyled"
             placeholder="YOUR NAME"
+            autosize
+            minRows={1}
+            maxRows={3}
             value={name || ""}
             onChange={(e) => handlePersonalInfoChange("name", e.target.value)}
-            className="main-name-input"
+            className="main-name-textarea"
           />
-          <input
+          <Textarea
+            variant="unstyled"
             placeholder="UX Designer"
+            autosize
+            minRows={1}
+            maxRows={3}
             value={title || ""}
             onChange={(e) => handlePersonalInfoChange("title", e.target.value)}
-            className="main-title-input"
+            className="main-title-textarea"
           />
         </div>
 
@@ -304,7 +312,7 @@ export function PhotoLayout({
         }
 
         /* All-caps massive Name */
-        .photo-template-main .main-name-input {
+        .photo-template-main .main-name-textarea textarea {
           font-weight: 900 !important;
           font-size: 38px !important;
           width: 100% !important;
@@ -317,10 +325,12 @@ export function PhotoLayout({
           padding: 0 !important;
           margin-bottom: 2px !important;
           background: transparent !important;
+          line-height: 1.2 !important;
+          min-height: unset !important;
         }
 
         /* Medium Subtitle/Title */
-        .photo-template-main .main-title-input {
+        .photo-template-main .main-title-textarea textarea {
           font-weight: 600 !important;
           font-size: 18px !important;
           width: 100% !important;
@@ -330,6 +340,8 @@ export function PhotoLayout({
           font-family: inherit !important;
           padding: 0 !important;
           background: transparent !important;
+          line-height: 1.3 !important;
+          min-height: unset !important;
         }
 
         /* Overwrite headings in the main column of the photo layout */

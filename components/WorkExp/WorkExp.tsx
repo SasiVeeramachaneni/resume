@@ -13,6 +13,25 @@ export function WorkExperience({ editingIndex, onEditingChange }: { editingIndex
   let experiences = resumeData.workExperience;
 
   const [errors, setErrors] = useState<number[]>([]);
+  const [focusedPoint, setFocusedPoint] = useState<{ expIndex: number; pointIndex: number } | null>(null);
+
+  // Helper to parse split tokens from markdown bullet text and render React formatted inline elements
+  const renderFormattedHtml = (text: string) => {
+    if (!text) return "";
+
+    // Split on bold (**text**) and italic (*text*) patterns safely
+    const parts = text.split(/(\*\*[^*]+?\*\*|\*[^*]+?\*)/g);
+
+    return parts.map((part, i) => {
+      if (part.startsWith('**') && part.endsWith('**') && part.length > 4) {
+        return <strong key={i}>{part.slice(2, -2)}</strong>;
+      }
+      if (part.startsWith('*') && part.endsWith('*') && part.length > 2) {
+        return <em key={i}>{part.slice(1, -1)}</em>;
+      }
+      return part;
+    });
+  };
 
   useEffect(() => {
     if (experiences.length === 0) {
@@ -96,6 +115,29 @@ export function WorkExperience({ editingIndex, onEditingChange }: { editingIndex
     expIndex: number,
     pointIndex: number
   ) => {
+    // Bold (Cmd+B/Ctrl+B) or Italic (Cmd+I/Ctrl+I)
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'b' || e.key === 'i')) {
+      e.preventDefault();
+      const textarea = e.currentTarget;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const val = textarea.value;
+
+      const syntax = e.key === 'b' ? '**' : '*';
+      const selection = val.substring(start, end);
+      const replacement = syntax + selection + syntax;
+      const newValue = val.substring(0, start) + replacement + val.substring(end);
+
+      handlePointChange(expIndex, pointIndex, newValue);
+
+      // Restore focus and update the selection to stay inside the formatted bounds
+      setTimeout(() => {
+        textarea.focus();
+        textarea.setSelectionRange(start + syntax.length, start + syntax.length + selection.length);
+      }, 0);
+      return;
+    }
+
     if (e.key === 'Enter') {
       e.preventDefault();
 
@@ -204,38 +246,68 @@ export function WorkExperience({ editingIndex, onEditingChange }: { editingIndex
                 />
               </div>
 
-              {exp.points.map((point, pointIndex) => (
-                <div
-                  key={pointIndex}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    gap: '8px',
-                    marginTop: '5px',
-                    width: '100%',
-                  }}
-                >
-                  <Text style={{ fontSize: '18px', lineHeight: '24px', paddingTop: '4px' }}>•</Text>
-                  <Textarea
-                    id={`point-${index}-${pointIndex}`}
-                    placeholder={`Bullet point ${pointIndex + 1}`}
-                    variant="unstyled"
-                    value={point}
-                    size="md"
-                    onChange={(e) => handlePointChange(index, pointIndex, e.currentTarget.value)}
-                    onKeyDown={(e) => handlePointKeyPress(e, index, pointIndex)}
-                    onFocus={() => onEditingChange(index)}
-                    onBlur={() => onEditingChange(null)}
-                    autosize
-                    minRows={1}
+              {exp.points.map((point, pointIndex) => {
+                const isFocused = focusedPoint?.expIndex === index && focusedPoint?.pointIndex === pointIndex;
+
+                return (
+                  <div
+                    key={pointIndex}
                     style={{
-                      lineHeight: '24px',
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: '8px',
+                      marginTop: '5px',
                       width: '100%',
-                      padding: '0',
                     }}
-                />
-                </div>
-              ))}
+                  >
+                    <Text style={{ fontSize: '18px', lineHeight: '24px', paddingTop: '4px' }}>•</Text>
+                    {isFocused || !point.trim() ? (
+                      <Textarea
+                        id={`point-${index}-${pointIndex}`}
+                        placeholder={`Bullet point ${pointIndex + 1}`}
+                        variant="unstyled"
+                        value={point}
+                        size="md"
+                        onChange={(e) => handlePointChange(index, pointIndex, e.currentTarget.value)}
+                        onKeyDown={(e) => handlePointKeyPress(e, index, pointIndex)}
+                        onFocus={() => {
+                          setFocusedPoint({ expIndex: index, pointIndex });
+                          onEditingChange(index);
+                        }}
+                        onBlur={() => {
+                          setFocusedPoint(null);
+                          onEditingChange(null);
+                        }}
+                        autosize
+                        minRows={1}
+                        style={{
+                          lineHeight: '24px',
+                          width: '100%',
+                          padding: '0',
+                        }}
+                        autoFocus
+                      />
+                    ) : (
+                      <div
+                        onClick={() => {
+                          setFocusedPoint({ expIndex: index, pointIndex });
+                        }}
+                        style={{
+                          lineHeight: '24px',
+                          width: '100%',
+                          fontSize: '16px',
+                          color: 'inherit',
+                          cursor: 'text',
+                          minHeight: '24px',
+                          padding: '0',
+                        }}
+                      >
+                        {renderFormattedHtml(point)}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         ))}
