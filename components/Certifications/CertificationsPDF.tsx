@@ -2,7 +2,7 @@
 import React from 'react';
 import { Text, View, StyleSheet } from '@react-pdf/renderer';
 import { Certification } from '../declarations/types'; // Adjust the import path if necessary
-import { pdfStyles } from '../ResumePDF/ResumeStyles';
+import { pdfStyles, photoStyles } from '../ResumePDF/ResumeStyles';
 
 
 // Define styles for the PDF
@@ -24,10 +24,27 @@ const styles = StyleSheet.create({
 // Define props type for CertificationsPDF
 interface CertificationsPDFProps {
     certifications: Certification[];
+    template?: string;
 }
 
 // Certifications PDF component
-const CertificationsPDF: React.FC<CertificationsPDFProps> = ({ certifications }) => {
+const CertificationsPDF: React.FC<CertificationsPDFProps> = ({ certifications, template }) => {
+    if (template === 'photo') {
+        return (
+            <>
+                <Text style={photoStyles.sidebarSectionTitle}>CERTIFICATIONS</Text>
+                {certifications.map((cert, index) => (
+                    <View key={index} style={styles.certContainer}>
+                        <Text style={[styles.certName, { color: '#ffffff', fontSize: 9 }]}>{cert.name}</Text>
+                        <Text style={[styles.certDetails, { color: '#bdc3c7', fontSize: 7, fontStyle: 'italic' }]}>
+                            {cert.organization} {cert.year ? `• ${cert.year}` : ''}
+                        </Text>
+                    </View>
+                ))}
+            </>
+        );
+    }
+
     return (
         <>
             {/* Section title */}

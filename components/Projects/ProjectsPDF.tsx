@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, StyleSheet, Text, View } from '@react-pdf/renderer';
 import { Project } from '../declarations/types';
-import { pdfStyles } from '../ResumePDF/ResumeStyles';
+import { pdfStyles, photoStyles } from '../ResumePDF/ResumeStyles';
 
 const styles = StyleSheet.create({
   projectContainer: {
@@ -32,9 +32,10 @@ const styles = StyleSheet.create({
 
 interface ProjectsPDFProps {
   projects?: Project[];
+  template?: string;
 }
 
-const ProjectsPDF: React.FC<ProjectsPDFProps> = ({ projects }) => {
+const ProjectsPDF: React.FC<ProjectsPDFProps> = ({ projects, template }) => {
   const visibleProjects = (projects ?? []).filter(
     (project) =>
       project.name?.trim() ||
@@ -49,7 +50,7 @@ const ProjectsPDF: React.FC<ProjectsPDFProps> = ({ projects }) => {
 
   return (
     <>
-      <Text style={pdfStyles.sectionTitle}>PROJECTS</Text>
+      <Text style={template === 'photo' ? photoStyles.sectionTitle : pdfStyles.sectionTitle}>PROJECTS</Text>
       {visibleProjects.map((project, index) => (
         <View key={index} style={styles.projectContainer}>
           <Text style={styles.projectName}>{project.name}</Text>

@@ -1,7 +1,7 @@
 // SkillsPDF.tsx
 import React from 'react';
 import { Text, View, StyleSheet } from '@react-pdf/renderer';
-import { pdfStyles } from '../ResumePDF/ResumeStyles';
+import { pdfStyles, photoStyles } from '../ResumePDF/ResumeStyles';
 
 const styles = StyleSheet.create({
     skillContainer: {
@@ -23,10 +23,31 @@ const styles = StyleSheet.create({
 
 interface SkillsPDFProps {
     skills: String[];
+    template?: string;
 }
 
 // WorkExperience PDF component with TypeScript
-const SkillsPDF: React.FC<SkillsPDFProps> = ({ skills }) => {
+const SkillsPDF: React.FC<SkillsPDFProps> = ({ skills, template }) => {
+    if (template === 'photo') {
+        const parseSkillName = (s: String) => {
+            const match = s.match(/^(.+?):\s*(\d+)%?$/);
+            return match ? match[1].trim() : s.trim();
+        };
+
+        return (
+            <>
+                <Text style={photoStyles.sidebarSectionTitle}>SKILLS</Text>
+                <View style={{ flexDirection: 'column', gap: 3, marginBottom: 10 }}>
+                    {skills.filter(s => s.trim()).map((skill, index) => (
+                        <View key={index} style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 3 }}>
+                            <Text style={{ color: '#ecf0f1', fontSize: 10, marginRight: 6 }}>•</Text>
+                            <Text style={{ color: '#ffffff', fontSize: 8 }}>{parseSkillName(skill)}</Text>
+                        </View>
+                    ))}
+                </View>
+            </>
+        );
+    }
 
     return (
         <>

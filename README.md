@@ -33,8 +33,13 @@ No sign-up. No backend. No lock-in.
 ## ✨ Capabilities
 
 - **Live WYSIWYG editor** at `/resume` — type and watch it update instantly.
-- **Two pluggable templates** — `professional` (two-column) and `classic`
-  (single-column). Each is a self-contained folder, so adding one is a drop-in.
+- **Three pluggable templates**:
+  - `professional` — two-column layout
+  - `classic` — single-column layout
+  - `photo` — sidebar layout built for a profile photo (dark sidebar with skill
+    proficiency bars, HUGE uppercase name with accent bar, contact info
+    centered). Add proficiency to skills with the format `Skill Name: XX%`
+    (e.g., `JavaScript: 90%`); defaults to 100% if no percentage given.
 - **Full section set** — personal info, work experience, skills, certifications,
   awards, education, languages, patents, projects.
 - **Image upload** and a **dark / light theme** toggle.

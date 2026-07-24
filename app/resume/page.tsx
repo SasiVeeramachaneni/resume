@@ -4,7 +4,9 @@ import { usePageMeta } from "@/app/usePageMeta";
 import { ResumeHeader } from "@/components/ResumeHeader/ResumeHeader";
 import { Container } from "@mantine/core";
 import { PersonalInfo } from "@/components/PersonalInfo/PersonalInfo";
+import { PhotoPersonalInfo } from "@/components/PersonalInfo/PhotoPersonalInfo";
 import { Skills } from "@/components/Skills/Skills";
+import { PhotoSkills } from "@/components/Skills/PhotoSkills";
 import { Certifications } from "@/components/Certifications/Certifications";
 import { Awards } from "@/components/Awards/Awards";
 import { Education } from "@/components/Education/Education";
@@ -29,7 +31,7 @@ import type { SectionName } from "@/templates";
 export default function ResumeBuilder() {
   usePageMeta(
     "Resume Builder - Edit & Customize Your Resume Online",
-    "Edit your resume with our intuitive builder. Add work experience, skills, education, and more. Choose between professional and classic templates.",
+    "Edit your resume with our intuitive builder. Add work experience, skills, education, and more. Choose between professional, classic and photo templates.",
   );
   const resumeContext = React.useContext(ResumeContext);
 
@@ -200,7 +202,12 @@ export default function ResumeBuilder() {
     education: <Education {...sectionProps("education")} />,
     awards: <Awards {...sectionProps("awards")} />,
     certifications: <Certifications {...sectionProps("certifications")} />,
-    skills: <Skills {...sectionProps("skills")} />,
+    skills:
+      template === "photo" ? (
+        <PhotoSkills {...sectionProps("skills")} />
+      ) : (
+        <Skills {...sectionProps("skills")} />
+      ),
     languages: <Languages {...sectionProps("languages")} />,
     patents: <Patents {...sectionProps("patents")} />,
   };
@@ -213,10 +220,15 @@ export default function ResumeBuilder() {
         <Container
           ref={innerContainerRef}
           size="xl"
-          pt={40}
-          pb={40}
+          p={template === "photo" ? 0 : undefined}
+          pt={template === "photo" ? 0 : 40}
+          pb={template === "photo" ? 0 : 40}
           bg="var(--mantine-color-white)"
-          style={{ position: "relative" }}
+          style={{
+            position: "relative",
+            minHeight: "297mm"
+          }}
+          className={template === "photo" ? "photo-template" : undefined}
         >
           {widgetPos && (
             <div
@@ -241,7 +253,7 @@ export default function ResumeBuilder() {
               />
             </div>
           )}
-          <PersonalInfo />
+          {template !== "photo" && <PersonalInfo />}
           <TemplateLayout
             sections={sections}
             isPatents={isPatents}

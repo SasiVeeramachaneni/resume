@@ -2,7 +2,7 @@
 import React from 'react';
 import { Page, Text, View, Document, StyleSheet, Font } from '@react-pdf/renderer';
 import { Education } from '../declarations/types'; // Adjust the import path as necessary
-import { pdfStyles } from '../ResumePDF/ResumeStyles';
+import { pdfStyles, photoStyles } from '../ResumePDF/ResumeStyles';
 
 
 // Define styles for the PDF layout
@@ -30,13 +30,14 @@ const styles = StyleSheet.create({
 // Define the props for EducationPDF
 interface EducationPDFProps {
     education: Education[];
+    template?: string;
 }
 
 // Education PDF component
-const EducationPDF: React.FC<EducationPDFProps> = ({ education }) => {
+const EducationPDF: React.FC<EducationPDFProps> = ({ education, template }) => {
     return (
         <>
-            <Text style={pdfStyles.sectionTitle}>EDUCATION</Text>
+            <Text style={template === 'photo' ? photoStyles.sectionTitle : pdfStyles.sectionTitle}>EDUCATION</Text>
 
             {/* Education items */}
             {education.map((edu, index) => (

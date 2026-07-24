@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from '@react-pdf/renderer';
 import { WorkExperience } from '../declarations/types'; // Import the type
-import { pdfStyles } from '../ResumePDF/ResumeStyles';
+import { pdfStyles, photoStyles } from '../ResumePDF/ResumeStyles';
 
 // Define styles for PDF
 const styles = StyleSheet.create({
@@ -46,13 +46,14 @@ const styles = StyleSheet.create({
 // Define props type for WorkExperiencePDF
 interface WorkExperiencePDFProps {
   workExperience: WorkExperience[];
+  template?: string;
 }
 
 // WorkExperience PDF component with TypeScript
-const WorkExperiencePDF: React.FC<WorkExperiencePDFProps> = ({ workExperience }) => {
+const WorkExperiencePDF: React.FC<WorkExperiencePDFProps> = ({ workExperience, template }) => {
   return (
     <>
-      <Text style={pdfStyles.sectionTitle}>WORK EXPERIENCE</Text>
+      <Text style={template === 'photo' ? photoStyles.sectionTitle : pdfStyles.sectionTitle}>WORK EXPERIENCE</Text>
 
       {workExperience.map((exp, index) => {
         const dateRange = `${exp.from} - ${exp.isCurrent ? 'Present' : exp.to}`;

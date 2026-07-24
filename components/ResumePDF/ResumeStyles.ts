@@ -28,3 +28,28 @@ export const pdfStyles = StyleSheet.create({
         paddingBottom: 2
     },
 });
+
+export const photoStyles = StyleSheet.create({
+    sectionTitle: {
+        fontSize: 10,
+        fontWeight: 'bold',
+        color: '#1e2531',
+        paddingBottom: 4,
+        paddingTop: 8,
+        borderBottom: '1.5px solid #1e2531',
+        marginBottom: 8,
+        textTransform: 'uppercase',
+        letterSpacing: 1,
+    },
+    sidebarSectionTitle: {
+        fontSize: 10,
+        fontWeight: 'bold',
+        color: '#ffffff',
+        paddingBottom: 4,
+        paddingTop: 8,
+        borderBottom: '1px solid rgba(255, 255, 255, 0.3)',
+        marginBottom: 8,
+        textTransform: 'uppercase',
+        letterSpacing: 1,
+    }
+});

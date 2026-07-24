@@ -15,7 +15,7 @@ export type SectionName =
 
 // Adding a new template only requires widening this union (or use `string`)
 // plus an entry in the registry.
-export type TemplateValue = "professional" | "classic";
+export type TemplateValue = "professional" | "classic" | "photo";
 
 export interface TemplateMetadata {
   value: TemplateValue;

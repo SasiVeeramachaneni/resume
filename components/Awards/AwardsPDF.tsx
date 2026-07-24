@@ -2,7 +2,7 @@
 import React from 'react';
 import { Text, View, StyleSheet } from '@react-pdf/renderer';
 import { Award } from '../declarations/types'; // Adjust the import path as necessary
-import { pdfStyles } from '../ResumePDF/ResumeStyles';
+import { pdfStyles, photoStyles } from '../ResumePDF/ResumeStyles';
 
 
 // Define styles for PDF rendering
@@ -24,13 +24,14 @@ const styles = StyleSheet.create({
 // Define props for AwardsPDF
 interface AwardsPDFProps {
     awards: Award[];
+    template?: string;
 }
 
 // Awards PDF component
-const AwardsPDF: React.FC<AwardsPDFProps> = ({ awards }) => {
+const AwardsPDF: React.FC<AwardsPDFProps> = ({ awards, template }) => {
     return (
         <>
-            <Text style={pdfStyles.sectionTitle}>AWARDS</Text>
+            <Text style={template === 'photo' ? photoStyles.sectionTitle : pdfStyles.sectionTitle}>AWARDS</Text>
 
             {/* Award items */}
             {awards.map((award, index) => (

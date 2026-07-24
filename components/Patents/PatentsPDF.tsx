@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, StyleSheet, Text, View } from '@react-pdf/renderer';
 import { Patent } from '../declarations/types';
-import { pdfStyles } from '../ResumePDF/ResumeStyles';
+import { pdfStyles, photoStyles } from '../ResumePDF/ResumeStyles';
 
 const styles = StyleSheet.create({
   patentContainer: {
@@ -33,15 +33,36 @@ const styles = StyleSheet.create({
 
 interface PatentsPDFProps {
   patents: Patent[];
+  template?: string;
 }
 
-const PatentsPDF: React.FC<PatentsPDFProps> = ({ patents }) => {
+const PatentsPDF: React.FC<PatentsPDFProps> = ({ patents, template }) => {
   const visiblePatents = patents.filter(
     (patent) => patent.name.trim() || patent.description.trim() || patent.link.trim() || patent.year
   );
 
   if (visiblePatents.length === 0) {
     return null;
+  }
+
+  if (template === 'photo') {
+    return (
+      <>
+        <Text style={photoStyles.sidebarSectionTitle}>PATENTS</Text>
+        {visiblePatents.map((patent, index) => (
+          <View key={index} style={styles.patentContainer}>
+            <Text style={[styles.patentName, { color: '#ffffff', fontSize: 9 }]}>{patent.name}</Text>
+            {patent.year ? <Text style={[styles.patentDetails, { color: '#bdc3c7', fontSize: 7, fontStyle: 'italic' }]}>{patent.year}</Text> : null}
+            {patent.description ? <Text style={[styles.patentDescription, { color: '#ecf0f1', fontSize: 7 }]}>{patent.description}</Text> : null}
+            {patent.link ? (
+              <Link src={patent.link} style={[styles.patentLink, { color: '#95a5a6', fontSize: 7 }]}>
+                Link
+              </Link>
+            ) : null}
+          </View>
+        ))}
+      </>
+    );
   }
 
   return (

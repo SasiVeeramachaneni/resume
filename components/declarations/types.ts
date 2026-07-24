@@ -13,7 +13,7 @@ export interface ResumeData {
 }
 
 export interface Settings {
-  template: 'professional' | 'classic';
+  template: "professional" | "classic" | "photo";
   isLinkedIn: boolean;
   isGithub: boolean;
   isImage: boolean;
@@ -28,11 +28,11 @@ export interface PersonalInfo {
   name: string;
   title: string;
   aboutMe: string;
-  image?: string; 
+  image?: string;
   email: string;
   phoneNumber: string;
-  linkedIn?: string; 
-  github?: string; 
+  linkedIn?: string;
+  github?: string;
 }
 
 export interface WorkExperience {
@@ -59,7 +59,7 @@ export interface Education {
 
 export interface Language {
   name: string;
-  proficiency: 'High' | 'medium' | 'low' | '';
+  proficiency: "High" | "medium" | "low" | "";
 }
 
 export interface Patent {

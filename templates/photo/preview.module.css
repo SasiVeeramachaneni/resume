@@ -1,0 +1,59 @@
+.preview {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  margin-bottom: var(--mantine-spacing-xs);
+  border: rem(1px) dashed
+    light-dark(var(--mantine-color-gray-4), var(--mantine-color-dark-3));
+  border-radius: var(--mantine-radius-xs);
+  background-color: light-dark(
+    var(--mantine-color-gray-0),
+    var(--mantine-color-dark-7)
+  );
+  position: relative;
+  overflow: hidden;
+  /* Left sidebar (33%) sits under the photo circle in the header. */
+  background:
+    radial-gradient(
+      circle at 50% 18%,
+      light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4)) 11%,
+      transparent 12%
+    ),
+    linear-gradient(
+      90deg,
+      light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5)) 33%,
+      transparent 33%
+    ),
+    repeating-linear-gradient(
+      180deg,
+      transparent 0,
+      transparent 10px,
+      light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-6)) 10px,
+      light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-6)) 12px
+    );
+}
+
+.mobilePreview {
+  width: 100%;
+  height: rem(60px);
+  border: rem(1px) dashed
+    light-dark(var(--mantine-color-gray-4), var(--mantine-color-dark-3));
+  border-radius: var(--mantine-radius-xs);
+  background-color: light-dark(
+    var(--mantine-color-gray-0),
+    var(--mantine-color-dark-7)
+  );
+  margin-bottom: rem(4px);
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 14px 14px,
+      light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4)) 7px,
+      transparent 8px
+    ),
+    linear-gradient(
+      90deg,
+      light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5)) 28%,
+      transparent 28%
+    );
+}

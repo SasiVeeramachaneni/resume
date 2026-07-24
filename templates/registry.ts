@@ -5,6 +5,7 @@ import type {
 } from "./types";
 import { professionalTemplate } from "./professional";
 import { classicTemplate } from "./classic";
+import { photoTemplate } from "./photo";
 
 // To add a new template: create templates/<name>/ with a descriptor and
 // append it here. Everything else (the picker, the resume page, the PDF link)
@@ -12,6 +13,7 @@ import { classicTemplate } from "./classic";
 export const allTemplates: TemplateDescriptor[] = [
   professionalTemplate,
   classicTemplate,
+  photoTemplate,
 ];
 
 export function getTemplate(value: TemplateValue): TemplateDescriptor {
