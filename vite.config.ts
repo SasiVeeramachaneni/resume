@@ -12,4 +12,25 @@ export default defineConfig(({ command }) => ({
       "@": fileURLToPath(new URL("./", import.meta.url)),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            if (id.includes("@mantine") || id.includes("@tabler")) {
+              return "vendor-ui";
+            }
+            if (
+              /node_modules\/(react|react-dom|scheduler|object-assign)\//.test(
+                id,
+              )
+            ) {
+              return "vendor-core";
+            }
+            return "vendor-libs";
+          }
+        },
+      },
+    },
+  },
 }));

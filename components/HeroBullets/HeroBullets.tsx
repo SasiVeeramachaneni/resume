@@ -128,6 +128,8 @@ export function HeroBullets() {
           width={568}
           height={804}
           alt="Resume builder preview showing a professional resume template"
+          loading="eager"
+          fetchPriority="high"
         />
       </div>
     </Container>
