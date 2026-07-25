@@ -125,6 +125,8 @@ export function HeroBullets() {
         <Image
           src={image}
           className={classes.image}
+          width={568}
+          height={804}
           alt="Resume builder preview showing a professional resume template"
         />
       </div>

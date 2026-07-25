@@ -14,17 +14,17 @@ const EditorPage = lazy(() => import("./editor/page"));
 
 function withLayout(Page: React.ComponentType) {
   return (
-    <AppLayout>
-      <Suspense
-        fallback={
-          <Center style={{ height: "50vh" }}>
-            <Loader size="md" />
-          </Center>
-        }
-      >
+    <Suspense
+      fallback={
+        <Center style={{ height: "100vh" }}>
+          <Loader size="md" />
+        </Center>
+      }
+    >
+      <AppLayout>
         <Page />
-      </Suspense>
-    </AppLayout>
+      </AppLayout>
+    </Suspense>
   );
 }
 

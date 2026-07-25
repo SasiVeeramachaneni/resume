@@ -49,6 +49,7 @@
 .image {
   width: rem(568px);
   height: rem(804px);
+  aspect-ratio: 568 / 804;
 
   @media (max-width: $mantine-breakpoint-md) {
     display: block;
