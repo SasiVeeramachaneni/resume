@@ -1,9 +1,10 @@
-import type { BlogPost } from './index';
+import type { BlogPost } from "./index";
 
 export const post: BlogPost = {
-  slug: '10-tips-for-standout-resume',
-  title: '10 Tips for a Standout Resume in 2026',
-  excerpt: 'Discover the key elements that make recruiters stop and take notice of your resume in today\'s competitive job market.',
+  slug: "10-tips-for-standout-resume",
+  title: "10 Tips for a Standout Resume in 2026",
+  excerpt:
+    "Discover the key elements that make recruiters stop and take notice of your resume in today's competitive job market.",
   content: `<h2>1. Use a Clean, Professional Layout</h2>
 <p>First impressions matter. Use a clean, well-structured layout that is easy to scan. Avoid clutter and stick to a professional font.</p>
 <h2>2. Tailor Your Resume for Each Application</h2>
@@ -24,8 +25,8 @@ export const post: BlogPost = {
 <p>Typos and grammatical errors can cost you the job. Proofread carefully and ask someone else to review your resume.</p>
 <h2>10. Keep It Updated</h2>
 <p>Regularly update your resume even when you're not actively job searching. You never know when an opportunity might arise.</p>`,
-  date: '2026-06-01',
-  author: 'Create Resume Team',
-  readTime: '5 min read',
-  tags: ['resume tips', 'career advice', 'job search'],
+  date: "2026-06-01",
+  author: "Create Resume Team",
+  readTime: "5 min read",
+  tags: ["resume tips", "career advice", "job search"],
 };

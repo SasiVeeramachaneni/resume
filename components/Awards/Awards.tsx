@@ -1,12 +1,17 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Container, TextInput, Button, Title } from '@mantine/core';
-import { ResumeContext } from '../declarations/ResumeContext';
+import React, { useState, useContext, useEffect } from "react";
+import { Container, TextInput, Button, Title } from "@mantine/core";
+import { ResumeContext } from "../declarations/ResumeContext";
 
-export function Awards({ editingIndex, onEditingChange }: { editingIndex: number | null; onEditingChange: (index: number | null) => void }) {
-
+export function Awards({
+  editingIndex,
+  onEditingChange,
+}: {
+  editingIndex: number | null;
+  onEditingChange: (index: number | null) => void;
+}) {
   const resumeContext = useContext(ResumeContext);
   if (!resumeContext) {
-    throw new Error('ResumeContext must be used within a ResumeProvider');
+    throw new Error("ResumeContext must be used within a ResumeProvider");
   }
 
   const { resumeData, updateAwards } = resumeContext;
@@ -17,21 +22,27 @@ export function Awards({ editingIndex, onEditingChange }: { editingIndex: number
 
   useEffect(() => {
     if (awards.length === 0) {
-      updateAwards([{ name: '', organization: '' }]);
+      updateAwards([{ name: "", organization: "" }]);
     }
   }, [awards, updateAwards]);
 
   const handleAddAward = () => {
-    const emptyFields = awards.some(award => award.name.trim() === '' || award.organization.trim() === '');
+    const emptyFields = awards.some(
+      (award) => award.name.trim() === "" || award.organization.trim() === "",
+    );
     if (emptyFields) {
       const newErrors = awards
-        .map((award, index) => (award.name.trim() === '' || award.organization.trim() === '' ? index : -1))
-        .filter(index => index !== -1);
+        .map((award, index) =>
+          award.name.trim() === "" || award.organization.trim() === ""
+            ? index
+            : -1,
+        )
+        .filter((index) => index !== -1);
       setErrors(newErrors);
       return;
     }
 
-    const newAwards = [...awards, { name: '', organization: '' }];
+    const newAwards = [...awards, { name: "", organization: "" }];
     updateAwards(newAwards);
     setErrors([]);
     setTimeout(() => {
@@ -47,7 +58,10 @@ export function Awards({ editingIndex, onEditingChange }: { editingIndex: number
 
     if (errors.includes(index)) {
       const newErrors = [...errors];
-      if (newAwards[index].name.trim() !== '' && newAwards[index].organization.trim() !== '') {
+      if (
+        newAwards[index].name.trim() !== "" &&
+        newAwards[index].organization.trim() !== ""
+      ) {
         newErrors.splice(newErrors.indexOf(index), 1);
         setErrors(newErrors);
       }
@@ -58,8 +72,23 @@ export function Awards({ editingIndex, onEditingChange }: { editingIndex: number
 
   return (
     <>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '5px' }}>
-        <Title order={3} style={{color: 'light-dark(var(--mantine-color-blue-6), var(--mantine-color-blue-4))'}}>AWARDS</Title>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          paddingTop: "5px",
+        }}
+      >
+        <Title
+          order={3}
+          style={{
+            color:
+              "light-dark(var(--mantine-color-blue-6), var(--mantine-color-blue-4))",
+          }}
+        >
+          AWARDS
+        </Title>
         <Button onClick={handleAddAward} variant="outline" size="xs">
           +Add
         </Button>
@@ -69,9 +98,10 @@ export function Awards({ editingIndex, onEditingChange }: { editingIndex: number
           <div
             key={index}
             style={{
-              marginBottom: '10px',
-              backgroundColor: editingIndex === index ? '#eff8ff' : 'transparent',
-              borderRadius: '4px',
+              marginBottom: "10px",
+              backgroundColor:
+                editingIndex === index ? "#eff8ff" : "transparent",
+              borderRadius: "4px",
             }}
           >
             <div>
@@ -81,28 +111,46 @@ export function Awards({ editingIndex, onEditingChange }: { editingIndex: number
                 variant="unstyled"
                 value={award.name}
                 size="md"
-                onChange={(e) => handleChange(index, 'name', e.currentTarget.value)}
+                onChange={(e) =>
+                  handleChange(index, "name", e.currentTarget.value)
+                }
                 onFocus={() => onEditingChange(index)}
                 onBlur={() => onEditingChange(null)}
                 style={{
-                  fontWeight: 'bold',
-                  border: errors.includes(index) && award.name.trim() === '' ? '0.25px solid red' : 'none'
+                  fontWeight: "bold",
+                  border:
+                    errors.includes(index) && award.name.trim() === ""
+                      ? "0.25px solid red"
+                      : "none",
                 }}
-                styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
+                styles={{
+                  root: { paddingLeft: 0 },
+                  wrapper: { paddingLeft: 0 },
+                  input: { paddingLeft: 0 },
+                }}
               />
               <TextInput
                 placeholder="Issuing Organization"
-                variant='unstyled'
+                variant="unstyled"
                 value={award.organization}
                 size="sm"
-                onChange={(e) => handleChange(index, 'organization', e.currentTarget.value)}
+                onChange={(e) =>
+                  handleChange(index, "organization", e.currentTarget.value)
+                }
                 onFocus={() => onEditingChange(index)}
                 onBlur={() => onEditingChange(null)}
                 style={{
-                  fontStyle: 'italic',
-                  border: errors.includes(index) && award.organization.trim() === '' ? '0.25px solid red' : 'none'
+                  fontStyle: "italic",
+                  border:
+                    errors.includes(index) && award.organization.trim() === ""
+                      ? "0.25px solid red"
+                      : "none",
                 }}
-                styles={{ root: { paddingLeft: 0 }, wrapper: { paddingLeft: 0 }, input: { paddingLeft: 0 } }}
+                styles={{
+                  root: { paddingLeft: 0 },
+                  wrapper: { paddingLeft: 0 },
+                  input: { paddingLeft: 0 },
+                }}
               />
             </div>
           </div>

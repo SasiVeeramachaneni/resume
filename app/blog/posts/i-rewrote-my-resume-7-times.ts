@@ -1,9 +1,10 @@
-import type { BlogPost } from './index';
+import type { BlogPost } from "./index";
 
 export const post: BlogPost = {
-  slug: 'i-rewrote-my-resume-7-times-heres-what-finally-worked',
-  title: 'I Rewrote My Resume 7 Times. Here\'s What Finally Worked.',
-  excerpt: 'Every rewrite taught me something the previous version got wrong \u2014 not about formatting, but about how interviewers actually read a resume in the first 10 seconds.',
+  slug: "i-rewrote-my-resume-7-times-heres-what-finally-worked",
+  title: "I Rewrote My Resume 7 Times. Here's What Finally Worked.",
+  excerpt:
+    "Every rewrite taught me something the previous version got wrong \u2014 not about formatting, but about how interviewers actually read a resume in the first 10 seconds.",
   content: `<div class="hero-block">
   <div class="hero-stat-row">
     <div class="hero-stat">
@@ -182,8 +183,8 @@ export const post: BlogPost = {
   <p>createresume.in helps you build a resume that passes the 7-second scan \u2014 with the right structure, language, and impact framing from the start.</p>
   <a href="/resume" class="cta-btn">Build your resume \u2192</a>
 </div>`,
-  date: '2025-06-15',
-  author: 'createresume.in editorial',
-  readTime: '8 min read',
-  tags: ['Job Search', 'Resume'],
+  date: "2025-06-15",
+  author: "createresume.in editorial",
+  readTime: "8 min read",
+  tags: ["Job Search", "Resume"],
 };

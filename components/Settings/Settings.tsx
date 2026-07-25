@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, { useContext } from 'react';
+import React, { useContext } from "react";
 import {
   Modal,
   SimpleGrid,
@@ -11,11 +11,20 @@ import {
   useMantineTheme,
   ThemeIcon,
   Checkbox,
-} from '@mantine/core';
-import { ResumeContext } from '../declarations/ResumeContext';
-import { IconBrandLinkedin, IconBrandGithub, IconAward, IconCertificate, IconCamera, IconApps, IconLanguage, IconFileCertificate } from '@tabler/icons-react';
-import { Settings } from '../declarations/types';
-import classes from './Settings.module.css';
+} from "@mantine/core";
+import { ResumeContext } from "../declarations/ResumeContext";
+import {
+  IconBrandLinkedin,
+  IconBrandGithub,
+  IconAward,
+  IconCertificate,
+  IconCamera,
+  IconApps,
+  IconLanguage,
+  IconFileCertificate,
+} from "@tabler/icons-react";
+import { Settings } from "../declarations/types";
+import classes from "./Settings.module.css";
 
 interface SettingsModalProps {
   opened: boolean;
@@ -31,7 +40,14 @@ interface ToggleButtonProps {
   onToggle: () => void;
 }
 
-const ToggleButton: React.FC<ToggleButtonProps> = ({ field, label, description, icon, isActive, onToggle }) => {
+const ToggleButton: React.FC<ToggleButtonProps> = ({
+  field,
+  label,
+  description,
+  icon,
+  isActive,
+  onToggle,
+}) => {
   const theme = useMantineTheme();
 
   return (
@@ -39,18 +55,26 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({ field, label, description, 
       className={classes.subLink}
       onClick={onToggle}
       style={{
-        border: isActive ? `2px solid ${theme.colors.blue[6]}` : `2px solid ${theme.colors.gray[6]}`,
-        borderRadius: '8px',
-        position: 'relative',
-        padding: '8px',
+        border: isActive
+          ? `2px solid ${theme.colors.blue[6]}`
+          : `2px solid ${theme.colors.gray[6]}`,
+        borderRadius: "8px",
+        position: "relative",
+        padding: "8px",
       }}
     >
       <Group wrap="nowrap" align="flex-start">
         <ThemeIcon size={34} variant="default" radius="md">
-          {React.cloneElement(icon as React.ReactElement<{ style?: React.CSSProperties; color?: string }>, {
-            style: { width: rem(30), height: rem(30) },
-            color: isActive ? "var(--mantine-color-blue-filled)" : "#000",
-          })}
+          {React.cloneElement(
+            icon as React.ReactElement<{
+              style?: React.CSSProperties;
+              color?: string;
+            }>,
+            {
+              style: { width: rem(30), height: rem(30) },
+              color: isActive ? "var(--mantine-color-blue-filled)" : "#000",
+            },
+          )}
         </ThemeIcon>
         <div>
           <Text size="sm" fw={500}>
@@ -67,10 +91,10 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({ field, label, description, 
           readOnly
           size="xs"
           style={{
-            position: 'absolute',
-            top: '4px',
-            right: '4px',
-            pointerEvents: 'none',
+            position: "absolute",
+            top: "4px",
+            right: "4px",
+            pointerEvents: "none",
           }}
         />
       )}
@@ -93,8 +117,20 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ opened, close }) => {
   };
 
   return (
-    <Modal opened={opened} radius='xl' onClose={close} size="50%" centered classNames={{ content: classes.modalContent }}>
-      <SimpleGrid cols={{ base: 1, xs: 2 }} spacing="xl" pl={{ base: 0, xs: 30 }} pr={{ base: 0, xs: 30 }}>
+    <Modal
+      opened={opened}
+      radius="xl"
+      onClose={close}
+      size="50%"
+      centered
+      classNames={{ content: classes.modalContent }}
+    >
+      <SimpleGrid
+        cols={{ base: 1, xs: 2 }}
+        spacing="xl"
+        pl={{ base: 0, xs: 30 }}
+        pr={{ base: 0, xs: 30 }}
+      >
         {/* LinkedIn Toggle Button */}
         <ToggleButton
           field="isLinkedIn"
@@ -102,9 +138,9 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ opened, close }) => {
           description="Helps with the LinkedIn URL"
           icon={<IconBrandLinkedin />}
           isActive={settings.isLinkedIn}
-          onToggle={handleToggle('isLinkedIn')}
+          onToggle={handleToggle("isLinkedIn")}
         />
-        
+
         {/* GitHub Toggle Button */}
         <ToggleButton
           field="isGithub"
@@ -112,7 +148,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ opened, close }) => {
           description="Showcase your pet projects skills"
           icon={<IconBrandGithub />}
           isActive={settings.isGithub}
-          onToggle={handleToggle('isGithub')}
+          onToggle={handleToggle("isGithub")}
         />
 
         {/* Awards Toggle Button */}
@@ -122,7 +158,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ opened, close }) => {
           description="I am recognized"
           icon={<IconAward />}
           isActive={settings.isAwards}
-          onToggle={handleToggle('isAwards')}
+          onToggle={handleToggle("isAwards")}
         />
 
         {/* Certifications Toggle Button */}
@@ -132,7 +168,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ opened, close }) => {
           description="We all do certifications"
           icon={<IconCertificate />}
           isActive={settings.isCertifications}
-          onToggle={handleToggle('isCertifications')}
+          onToggle={handleToggle("isCertifications")}
         />
 
         {/* Image Toggle Button */}
@@ -142,7 +178,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ opened, close }) => {
           description="Brand yourself"
           icon={<IconCamera />}
           isActive={settings.isImage}
-          onToggle={handleToggle('isImage')}
+          onToggle={handleToggle("isImage")}
         />
 
         {/* Patents Toggle Button */}
@@ -152,7 +188,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ opened, close }) => {
           description="Are you an inventor?"
           icon={<IconFileCertificate />}
           isActive={settings.isPatents}
-          onToggle={handleToggle('isPatents')}
+          onToggle={handleToggle("isPatents")}
         />
 
         {/* Projects Toggle Button */}
@@ -162,7 +198,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ opened, close }) => {
           description="Showcase your fun time projects"
           icon={<IconApps />}
           isActive={settings.isPersonalProjects}
-          onToggle={handleToggle('isPersonalProjects')}
+          onToggle={handleToggle("isPersonalProjects")}
         />
 
         {/* Languages Toggle Button */}
@@ -172,7 +208,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ opened, close }) => {
           description="Needed for students"
           icon={<IconLanguage />}
           isActive={settings.isLanguages}
-          onToggle={handleToggle('isLanguages')}
+          onToggle={handleToggle("isLanguages")}
         />
       </SimpleGrid>
     </Modal>

@@ -1,21 +1,28 @@
-import React, { createContext, useState, useContext, ReactNode } from 'react';
-import { ResumeData, WorkExperience, Award, Education, Certification, Publication } from './types';
+import React, { createContext, useState, useContext, ReactNode } from "react";
+import {
+  ResumeData,
+  WorkExperience,
+  Award,
+  Education,
+  Certification,
+  Publication,
+} from "./types";
 
 const initialResumeData: ResumeData = {
-    Name: "",
-    Role: "",
-    AboutMe: "",
-    Image: "",
-    Email: "",
-    PhoneNumber: "",
-    LinkedIn: "",
-    github: "",
-    workExperience: [],
-    skills: [],
-    certifications: [],
-    awards: [],
-    education: [],
-    publications: []
+  Name: "",
+  Role: "",
+  AboutMe: "",
+  Image: "",
+  Email: "",
+  PhoneNumber: "",
+  LinkedIn: "",
+  github: "",
+  workExperience: [],
+  skills: [],
+  certifications: [],
+  awards: [],
+  education: [],
+  publications: [],
 };
 
 interface ResumeContextType {
@@ -82,18 +89,35 @@ const ResumeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   const updatePublications = (publication: Publication[]) => {
     setResumeData((prevData) => ({ ...prevData, publication }));
-  }
+  };
 
   const updateCertifications = (certification: Certification[]) => {
     setResumeData((prevData) => ({ ...prevData, certification }));
-  }
+  };
 
   const updateSkills = (skill: String[]) => {
     setResumeData((prevData) => ({ ...prevData, skill }));
-  }
+  };
 
   return (
-    <ResumeContext.Provider value={{ resumeData, updateName, updateRole, updateAboutMe, updateImage, updatePhoneNumber, updateLinkedIn, updateGithub, updateWorkExperience, updateAwards, updateEducation, updatePublications, updateCertifications, updateSkills }}>
+    <ResumeContext.Provider
+      value={{
+        resumeData,
+        updateName,
+        updateRole,
+        updateAboutMe,
+        updateImage,
+        updatePhoneNumber,
+        updateLinkedIn,
+        updateGithub,
+        updateWorkExperience,
+        updateAwards,
+        updateEducation,
+        updatePublications,
+        updateCertifications,
+        updateSkills,
+      }}
+    >
       {children}
     </ResumeContext.Provider>
   );

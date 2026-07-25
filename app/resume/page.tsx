@@ -2,9 +2,25 @@
 import React, { useState, useRef, useLayoutEffect } from "react";
 import { usePageMeta } from "@/app/usePageMeta";
 import { ResumeHeader } from "@/components/ResumeHeader/ResumeHeader";
-import { Container, Paper, Group, Text, UnstyledButton, Loader, Card, Stack, Title, Button } from "@mantine/core";
+import {
+  Container,
+  Paper,
+  Group,
+  Text,
+  UnstyledButton,
+  Loader,
+  Card,
+  Stack,
+  Title,
+  Button,
+} from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { IconEdit, IconEye, IconPalette, IconDownload } from "@tabler/icons-react";
+import {
+  IconEdit,
+  IconEye,
+  IconPalette,
+  IconDownload,
+} from "@tabler/icons-react";
 import { PDFDownloadLink, BlobProvider } from "@react-pdf/renderer";
 import ResumePDF from "@/components/ResumePDF/ResumePDF";
 import { MobileEditor } from "@/components/MobileEditor/MobileEditor";
@@ -64,7 +80,9 @@ export default function ResumeBuilder() {
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
   const isMobile = useMediaQuery("(max-width: 48em)");
-  const [mobileViewMode, setMobileViewMode] = useState<"edit" | "templates" | "preview">("edit");
+  const [mobileViewMode, setMobileViewMode] = useState<
+    "edit" | "templates" | "preview"
+  >("edit");
 
   const handleDownload = async () => {
     localStorage.setItem("resumeData", JSON.stringify(resumeData));
@@ -228,25 +246,33 @@ export default function ResumeBuilder() {
 
   if (isMobile) {
     return (
-      <div style={{ minHeight: "100vh", position: "relative", backgroundColor: "var(--mantine-color-white)" }}>
+      <div
+        style={{
+          minHeight: "100vh",
+          position: "relative",
+          backgroundColor: "var(--mantine-color-white)",
+        }}
+      >
         {mobileViewMode === "edit" && (
           <>
             <Paper
               withBorder
               p="sm"
               style={{
-                position: 'sticky',
+                position: "sticky",
                 top: 0,
                 zIndex: 100,
-                borderLeft: 'none',
-                borderRight: 'none',
-                borderTop: 'none',
-                backgroundColor: '#ffffff',
+                borderLeft: "none",
+                borderRight: "none",
+                borderTop: "none",
+                backgroundColor: "#ffffff",
               }}
             >
               <Group justify="space-between" align="center">
                 <div style={{ width: 60 }} />
-                <Text fw={700} size="lg">Resume Editor</Text>
+                <Text fw={700} size="lg">
+                  Resume Editor
+                </Text>
                 <UnstyledButton
                   onClick={() => setMobileViewMode("preview")}
                   style={{
@@ -271,23 +297,32 @@ export default function ResumeBuilder() {
               withBorder
               p="sm"
               style={{
-                position: 'sticky',
+                position: "sticky",
                 top: 0,
                 zIndex: 100,
-                borderLeft: 'none',
-                borderRight: 'none',
-                borderTop: 'none',
-                backgroundColor: '#ffffff',
+                borderLeft: "none",
+                borderRight: "none",
+                borderTop: "none",
+                backgroundColor: "#ffffff",
               }}
             >
               <Group justify="center" align="center">
-                <Text fw={700} size="lg">Choose Template</Text>
+                <Text fw={700} size="lg">
+                  Choose Template
+                </Text>
               </Group>
             </Paper>
-            <Container size="sm" p="md" style={{ overflowY: "auto", paddingBottom: "100px" }}>
-              <Title order={3} ta="center" mb="md" mt="xs">Select Template</Title>
+            <Container
+              size="sm"
+              p="md"
+              style={{ overflowY: "auto", paddingBottom: "100px" }}
+            >
+              <Title order={3} ta="center" mb="md" mt="xs">
+                Select Template
+              </Title>
               <Text ta="center" size="sm" c="dimmed" mb="xl">
-                Choose a professional design for your resume. You can switch any time.
+                Choose a professional design for your resume. You can switch any
+                time.
               </Text>
               <Stack gap="lg">
                 {templateOptions.map((opt) => {
@@ -301,11 +336,19 @@ export default function ResumeBuilder() {
                       radius="md"
                       p="md"
                       style={{
-                        borderColor: isSelected ? "var(--mantine-color-blue-6)" : "var(--mantine-color-gray-2)",
-                        borderWidth: isSelected ? "2px" : "1px"
+                        borderColor: isSelected
+                          ? "var(--mantine-color-blue-6)"
+                          : "var(--mantine-color-gray-2)",
+                        borderWidth: isSelected ? "2px" : "1px",
                       }}
                     >
-                      <div style={{ display: "flex", justifyContent: "center", marginBottom: "16px" }}>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          marginBottom: "16px",
+                        }}
+                      >
                         <div
                           className={descriptor.mobilePreviewClassName}
                           style={{
@@ -314,12 +357,20 @@ export default function ResumeBuilder() {
                             border: "1px solid var(--mantine-color-gray-3)",
                             borderRadius: "4px",
                             backgroundColor: "var(--mantine-color-gray-0)",
-                            boxShadow: "var(--mantine-shadow-xs)"
+                            boxShadow: "var(--mantine-shadow-xs)",
                           }}
                         />
                       </div>
-                      <Text fw={700} size="md" ta="center" mb={4}>{opt.title}</Text>
-                      <Text size="xs" c="dimmed" ta="center" mb="md" style={{ minHeight: "36px" }}>
+                      <Text fw={700} size="md" ta="center" mb={4}>
+                        {opt.title}
+                      </Text>
+                      <Text
+                        size="xs"
+                        c="dimmed"
+                        ta="center"
+                        mb="md"
+                        style={{ minHeight: "36px" }}
+                      >
                         {opt.description}
                       </Text>
                       <Button
@@ -342,11 +393,24 @@ export default function ResumeBuilder() {
         )}
 
         {mobileViewMode === "preview" && (
-          <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh", paddingBottom: "80px" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              minHeight: "100vh",
+              paddingBottom: "80px",
+            }}
+          >
             <ResumeHeader />
-            <Container size="sm" p="md" style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+            <Container
+              size="sm"
+              p="md"
+              style={{ flex: 1, display: "flex", flexDirection: "column" }}
+            >
               <Group justify="space-between" align="center" mb="md">
-                <Title order={4} c="blue.6">PDF Preview</Title>
+                <Title order={4} c="blue.6">
+                  PDF Preview
+                </Title>
                 <PDFDownloadLink
                   key={JSON.stringify(resumeData)}
                   document={<ResumePDF resumeData={resumeData} />}
@@ -362,22 +426,58 @@ export default function ResumeBuilder() {
                 </PDFDownloadLink>
               </Group>
 
-              <Paper withBorder p={0} shadow="sm" radius="md" style={{ flex: 1, minHeight: "450px", backgroundColor: "#f8f9fa", overflow: "hidden" }}>
+              <Paper
+                withBorder
+                p={0}
+                shadow="sm"
+                radius="md"
+                style={{
+                  flex: 1,
+                  minHeight: "450px",
+                  backgroundColor: "#f8f9fa",
+                  overflow: "hidden",
+                }}
+              >
                 <BlobProvider document={<ResumePDF resumeData={resumeData} />}>
                   {({ blob, url, loading, error }) => {
                     if (loading) {
                       return (
-                        <div style={{ display: "flex", height: "450px", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "40px" }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            height: "450px",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            padding: "40px",
+                          }}
+                        >
                           <Loader size="md" mb="md" />
-                          <Text size="sm" c="dimmed">Generating professional PDF preview...</Text>
+                          <Text size="sm" c="dimmed">
+                            Generating professional PDF preview...
+                          </Text>
                         </div>
                       );
                     }
                     if (error) {
                       return (
-                        <div style={{ display: "flex", height: "450px", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "40px" }}>
-                          <Text size="sm" color="red">Failed to generate PDF automatically.</Text>
-                          <Text size="xs" c="dimmed" mt="xs" ta="center">You can still download the PDF directly using the download button above.</Text>
+                        <div
+                          style={{
+                            display: "flex",
+                            height: "450px",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            padding: "40px",
+                          }}
+                        >
+                          <Text size="sm" color="red">
+                            Failed to generate PDF automatically.
+                          </Text>
+                          <Text size="xs" c="dimmed" mt="xs" ta="center">
+                            You can still download the PDF directly using the
+                            download button above.
+                          </Text>
                         </div>
                       );
                     }
@@ -426,11 +526,20 @@ export default function ResumeBuilder() {
               justifyContent: "center",
               flex: 1,
               height: "100%",
-              color: mobileViewMode === "edit" ? "var(--mantine-color-blue-6)" : "var(--mantine-color-gray-5)",
+              color:
+                mobileViewMode === "edit"
+                  ? "var(--mantine-color-blue-6)"
+                  : "var(--mantine-color-gray-5)",
             }}
           >
             <IconEdit size={20} />
-            <Text size="xs" style={{ marginTop: 4, fontWeight: mobileViewMode === "edit" ? 600 : 400 }}>
+            <Text
+              size="xs"
+              style={{
+                marginTop: 4,
+                fontWeight: mobileViewMode === "edit" ? 600 : 400,
+              }}
+            >
               Edit Details
             </Text>
           </UnstyledButton>
@@ -443,11 +552,20 @@ export default function ResumeBuilder() {
               justifyContent: "center",
               flex: 1,
               height: "100%",
-              color: mobileViewMode === "templates" ? "var(--mantine-color-blue-6)" : "var(--mantine-color-gray-5)",
+              color:
+                mobileViewMode === "templates"
+                  ? "var(--mantine-color-blue-6)"
+                  : "var(--mantine-color-gray-5)",
             }}
           >
             <IconPalette size={20} />
-            <Text size="xs" style={{ marginTop: 4, fontWeight: mobileViewMode === "templates" ? 600 : 400 }}>
+            <Text
+              size="xs"
+              style={{
+                marginTop: 4,
+                fontWeight: mobileViewMode === "templates" ? 600 : 400,
+              }}
+            >
               Templates
             </Text>
           </UnstyledButton>
@@ -460,11 +578,20 @@ export default function ResumeBuilder() {
               justifyContent: "center",
               flex: 1,
               height: "100%",
-              color: mobileViewMode === "preview" ? "var(--mantine-color-blue-6)" : "var(--mantine-color-gray-5)",
+              color:
+                mobileViewMode === "preview"
+                  ? "var(--mantine-color-blue-6)"
+                  : "var(--mantine-color-gray-5)",
             }}
           >
             <IconEye size={20} />
-            <Text size="xs" style={{ marginTop: 4, fontWeight: mobileViewMode === "preview" ? 600 : 400 }}>
+            <Text
+              size="xs"
+              style={{
+                marginTop: 4,
+                fontWeight: mobileViewMode === "preview" ? 600 : 400,
+              }}
+            >
               Preview PDF
             </Text>
           </UnstyledButton>
@@ -486,7 +613,7 @@ export default function ResumeBuilder() {
           bg="var(--mantine-color-white)"
           style={{
             position: "relative",
-            minHeight: "297mm"
+            minHeight: "297mm",
           }}
           className={template === "photo" ? "photo-template" : undefined}
         >

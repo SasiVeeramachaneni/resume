@@ -45,15 +45,21 @@ export function PhotoLayout({
         {/* Contact Section vertically stacked */}
         <div style={{ marginBottom: "24px" }}>
           <h3 className="sidebar-contact-title">Contact</h3>
-          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+          >
             {/* Phone */}
             {phoneNumber !== undefined && (
               <div>
-                <Text size="xs" className="sidebar-field-label">Phone</Text>
+                <Text size="xs" className="sidebar-field-label">
+                  Phone
+                </Text>
                 <input
                   value={phoneNumber}
                   placeholder="+1 2345 6789"
-                  onChange={(e) => handlePersonalInfoChange("phoneNumber", e.target.value)}
+                  onChange={(e) =>
+                    handlePersonalInfoChange("phoneNumber", e.target.value)
+                  }
                   className="sidebar-input"
                 />
               </div>
@@ -62,11 +68,15 @@ export function PhotoLayout({
             {/* Email */}
             {email !== undefined && (
               <div>
-                <Text size="xs" className="sidebar-field-label">Email</Text>
+                <Text size="xs" className="sidebar-field-label">
+                  Email
+                </Text>
                 <input
                   value={email}
                   placeholder="max.johnson@email.com"
-                  onChange={(e) => handlePersonalInfoChange("email", e.target.value)}
+                  onChange={(e) =>
+                    handlePersonalInfoChange("email", e.target.value)
+                  }
                   className="sidebar-input"
                 />
               </div>
@@ -75,11 +85,15 @@ export function PhotoLayout({
             {/* LinkedIn */}
             {settings.isLinkedIn && linkedIn !== undefined && (
               <div>
-                <Text size="xs" className="sidebar-field-label">LinkedIn</Text>
+                <Text size="xs" className="sidebar-field-label">
+                  LinkedIn
+                </Text>
                 <input
                   value={linkedIn}
                   placeholder="linkedin.com/in/username"
-                  onChange={(e) => handlePersonalInfoChange("linkedIn", e.target.value)}
+                  onChange={(e) =>
+                    handlePersonalInfoChange("linkedIn", e.target.value)
+                  }
                   className="sidebar-input"
                 />
               </div>
@@ -88,11 +102,15 @@ export function PhotoLayout({
             {/* GitHub */}
             {settings.isGithub && github !== undefined && (
               <div>
-                <Text size="xs" className="sidebar-field-label">GitHub</Text>
+                <Text size="xs" className="sidebar-field-label">
+                  GitHub
+                </Text>
                 <input
                   value={github}
                   placeholder="github.com/username"
-                  onChange={(e) => handlePersonalInfoChange("github", e.target.value)}
+                  onChange={(e) =>
+                    handlePersonalInfoChange("github", e.target.value)
+                  }
                   className="sidebar-input"
                 />
               </div>
@@ -145,7 +163,9 @@ export function PhotoLayout({
             minRows={1}
             maxRows={8}
             value={aboutMe || ""}
-            onChange={(e) => handlePersonalInfoChange("aboutMe", e.currentTarget.value)}
+            onChange={(e) =>
+              handlePersonalInfoChange("aboutMe", e.currentTarget.value)
+            }
             className="profile-textarea"
           />
         </div>

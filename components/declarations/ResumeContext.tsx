@@ -1,28 +1,40 @@
-import React, { createContext, useState, ReactNode } from 'react';
-import { ResumeData, WorkExperience, Award, Education, Certification, Publication, Settings, PersonalInfo, Patent, Project, Language } from './types';
+import React, { createContext, useState, ReactNode } from "react";
+import {
+  ResumeData,
+  WorkExperience,
+  Award,
+  Education,
+  Certification,
+  Publication,
+  Settings,
+  PersonalInfo,
+  Patent,
+  Project,
+  Language,
+} from "./types";
 
 // Initializing the resume data with correct property names
 const initialResumeData: ResumeData = {
   personalInfo: {
-    name: '',
-    title: '',
-    aboutMe: '',
-    image: '',
-    email: '',
-    phoneNumber: '',
-    linkedIn: '',
-    github: '',
+    name: "",
+    title: "",
+    aboutMe: "",
+    image: "",
+    email: "",
+    phoneNumber: "",
+    linkedIn: "",
+    github: "",
   },
   settings: {
-    template: 'professional',
+    template: "professional",
     isLinkedIn: true,
     isGithub: false,
-        isImage: true,
+    isImage: true,
     isAwards: true,
     isCertifications: true,
     isPatents: false,
     isPersonalProjects: false,
-    isLanguages: false
+    isLanguages: false,
   },
   workExperience: [],
   skills: [],
@@ -38,7 +50,10 @@ const initialResumeData: ResumeData = {
 interface ResumeContextType {
   resumeData: ResumeData;
   setResumeData: React.Dispatch<React.SetStateAction<ResumeData>>; // Add this line
-  updatePersonalInfo: (field: keyof ResumeData['personalInfo'], value: string) => void;
+  updatePersonalInfo: (
+    field: keyof ResumeData["personalInfo"],
+    value: string,
+  ) => void;
   updateSettings: (updatedSettings: Partial<Settings>) => void;
   updateWorkExperience: (workExperience: WorkExperience[]) => void;
   updateSkills: (skills: string[]) => void;
@@ -56,7 +71,10 @@ const ResumeContext = createContext<ResumeContextType | undefined>(undefined);
 const ResumeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [resumeData, setResumeData] = useState<ResumeData>(initialResumeData);
 
-  const updatePersonalInfo = (field: keyof ResumeData['personalInfo'], value: string) => {
+  const updatePersonalInfo = (
+    field: keyof ResumeData["personalInfo"],
+    value: string,
+  ) => {
     setResumeData((prevData) => ({
       ...prevData,
       personalInfo: { ...prevData.personalInfo, [field]: value },

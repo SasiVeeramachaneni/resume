@@ -1,14 +1,25 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Button, Container, Textarea, TextInput, Title } from '@mantine/core';
-import { ResumeContext } from '../declarations/ResumeContext';
+import React, { useContext, useEffect, useState } from "react";
+import { Button, Container, Textarea, TextInput, Title } from "@mantine/core";
+import { ResumeContext } from "../declarations/ResumeContext";
 
-const blankProject = { name: '', githubLink: '', websiteLink: '', description: '' };
+const blankProject = {
+  name: "",
+  githubLink: "",
+  websiteLink: "",
+  description: "",
+};
 
-export function Projects({ editingIndex, onEditingChange }: { editingIndex: number | null; onEditingChange: (index: number | null) => void }) {
+export function Projects({
+  editingIndex,
+  onEditingChange,
+}: {
+  editingIndex: number | null;
+  onEditingChange: (index: number | null) => void;
+}) {
   const resumeContext = useContext(ResumeContext);
 
   if (!resumeContext) {
-    throw new Error('ResumeContext must be used within a ResumeProvider');
+    throw new Error("ResumeContext must be used within a ResumeProvider");
   }
 
   const { resumeData, updateProjects } = resumeContext;
@@ -22,11 +33,11 @@ export function Projects({ editingIndex, onEditingChange }: { editingIndex: numb
   }, [projects, updateProjects]);
 
   const handleAddProject = () => {
-    const emptyFields = projects.some((project) => project.name.trim() === '');
+    const emptyFields = projects.some((project) => project.name.trim() === "");
 
     if (emptyFields) {
       const newErrors = projects
-        .map((project, index) => (project.name.trim() === '' ? index : -1))
+        .map((project, index) => (project.name.trim() === "" ? index : -1))
         .filter((index) => index !== -1);
       setErrors(newErrors);
       return;
@@ -45,7 +56,7 @@ export function Projects({ editingIndex, onEditingChange }: { editingIndex: numb
     newProjects[index] = { ...newProjects[index], [field]: value };
     updateProjects(newProjects);
 
-    if (errors.includes(index) && newProjects[index].name.trim() !== '') {
+    if (errors.includes(index) && newProjects[index].name.trim() !== "") {
       setErrors(errors.filter((errorIndex) => errorIndex !== index));
     }
 
@@ -54,8 +65,23 @@ export function Projects({ editingIndex, onEditingChange }: { editingIndex: numb
 
   return (
     <>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '5px' }}>
-        <Title order={3} style={{ color: 'light-dark(var(--mantine-color-blue-6), var(--mantine-color-blue-4))' }}>PROJECTS</Title>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          paddingTop: "5px",
+        }}
+      >
+        <Title
+          order={3}
+          style={{
+            color:
+              "light-dark(var(--mantine-color-blue-6), var(--mantine-color-blue-4))",
+          }}
+        >
+          PROJECTS
+        </Title>
         <Button onClick={handleAddProject} variant="outline" size="xs">
           +Add
         </Button>
@@ -65,9 +91,10 @@ export function Projects({ editingIndex, onEditingChange }: { editingIndex: numb
           <div
             key={index}
             style={{
-              marginBottom: '10px',
-              backgroundColor: editingIndex === index ? '#eff8ff' : 'transparent',
-              borderRadius: '4px',
+              marginBottom: "10px",
+              backgroundColor:
+                editingIndex === index ? "#eff8ff" : "transparent",
+              borderRadius: "4px",
             }}
           >
             <div>
@@ -77,12 +104,17 @@ export function Projects({ editingIndex, onEditingChange }: { editingIndex: numb
                 variant="unstyled"
                 value={project.name}
                 size="md"
-                onChange={(e) => handleChange(index, 'name', e.currentTarget.value)}
+                onChange={(e) =>
+                  handleChange(index, "name", e.currentTarget.value)
+                }
                 onFocus={() => onEditingChange(index)}
                 onBlur={() => onEditingChange(null)}
                 style={{
-                  fontWeight: 'bold',
-                  border: errors.includes(index) && project.name.trim() === '' ? '1px solid red' : 'none',
+                  fontWeight: "bold",
+                  border:
+                    errors.includes(index) && project.name.trim() === ""
+                      ? "1px solid red"
+                      : "none",
                 }}
               />
               <Textarea
@@ -93,7 +125,9 @@ export function Projects({ editingIndex, onEditingChange }: { editingIndex: numb
                 autosize
                 minRows={1}
                 maxRows={3}
-                onChange={(e) => handleChange(index, 'description', e.currentTarget.value)}
+                onChange={(e) =>
+                  handleChange(index, "description", e.currentTarget.value)
+                }
                 onFocus={() => onEditingChange(index)}
                 onBlur={() => onEditingChange(null)}
               />
@@ -102,20 +136,24 @@ export function Projects({ editingIndex, onEditingChange }: { editingIndex: numb
                 variant="unstyled"
                 value={project.githubLink}
                 size="sm"
-                onChange={(e) => handleChange(index, 'githubLink', e.currentTarget.value)}
+                onChange={(e) =>
+                  handleChange(index, "githubLink", e.currentTarget.value)
+                }
                 onFocus={() => onEditingChange(index)}
                 onBlur={() => onEditingChange(null)}
-                style={{ fontStyle: 'italic' }}
+                style={{ fontStyle: "italic" }}
               />
               <TextInput
                 placeholder="Website link"
                 variant="unstyled"
                 value={project.websiteLink}
                 size="sm"
-                onChange={(e) => handleChange(index, 'websiteLink', e.currentTarget.value)}
+                onChange={(e) =>
+                  handleChange(index, "websiteLink", e.currentTarget.value)
+                }
                 onFocus={() => onEditingChange(index)}
                 onBlur={() => onEditingChange(null)}
-                style={{ fontStyle: 'italic' }}
+                style={{ fontStyle: "italic" }}
               />
             </div>
           </div>

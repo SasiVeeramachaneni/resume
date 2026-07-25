@@ -1,0 +1,15 @@
+# Resume Builder
+
+Build, edit and download a professional PDF resume — right in your browser. No sign-up. No backend. No lock-in.
+
+## Metadata
+- **URL**: https://createresume.in
+- **Repository**: https://github.com/SasiVeeramachaneni/resume
+- **Type**: Web Application
+
+## Key Pages
+- [/](https://createresume.in/): Home page explaining features and templates.
+- [/resume](https://createresume.in/resume): WYSWYG Resume Builder with live preview and PDF download.
+- [/about](https://createresume.in/about): About page of the resume builder.
+- [/tech](https://createresume.in/tech): Description of the technical stack used in this project.
+- [/blog](https://createresume.in/blog): Index page listing blog posts on resume-building advice.

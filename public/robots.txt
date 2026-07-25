@@ -1,0 +1,6 @@
+# robots.txt for https://createresume.in/
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://createresume.in/sitemap.xml

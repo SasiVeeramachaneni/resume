@@ -1,11 +1,17 @@
-import React, { useRef, useContext, useEffect, useState } from 'react';
-import { Container, Title, TextInput, Button } from '@mantine/core';
-import { ResumeContext } from '../declarations/ResumeContext';
+import React, { useRef, useContext, useEffect, useState } from "react";
+import { Container, Title, TextInput, Button } from "@mantine/core";
+import { ResumeContext } from "../declarations/ResumeContext";
 
-export function Skills({ editingIndex, onEditingChange }: { editingIndex: number | null; onEditingChange: (index: number | null) => void }) {
+export function Skills({
+  editingIndex,
+  onEditingChange,
+}: {
+  editingIndex: number | null;
+  onEditingChange: (index: number | null) => void;
+}) {
   const resumeContext = useContext(ResumeContext);
   if (!resumeContext) {
-    throw new Error('ResumeContext must be used within a ResumeProvider');
+    throw new Error("ResumeContext must be used within a ResumeProvider");
   }
 
   const { resumeData, updateSkills } = resumeContext;
@@ -17,43 +23,46 @@ export function Skills({ editingIndex, onEditingChange }: { editingIndex: number
 
   useEffect(() => {
     if (skills.length === 0) {
-      skills = [''];
+      skills = [""];
       updateSkills(skills);
     }
   }, [skills, updateSkills]);
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
-    if (e.key === 'Enter' && e.currentTarget.value.trim()) {
+  const handleKeyPress = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    index: number,
+  ) => {
+    if (e.key === "Enter" && e.currentTarget.value.trim()) {
       const newSkills = [...skills];
       newSkills[index] = e.currentTarget.value;
-      newSkills.push('');
+      newSkills.push("");
       updateSkills(newSkills);
       setTimeout(() => {
         inputRefs.current[newSkills.length - 1]?.focus();
       }, 0);
-    } else if (e.key === 'Enter') {
+    } else if (e.key === "Enter") {
       setShake(index);
       setTimeout(() => setShake(null), 300);
     }
   };
 
   const handleAddSkill = () => {
-    const emptyIndex = skills.findIndex(skill => skill.trim() === '');
+    const emptyIndex = skills.findIndex((skill) => skill.trim() === "");
     if (emptyIndex !== -1) {
       setShake(emptyIndex);
       setTimeout(() => setShake(null), 300);
       return;
     }
 
-    updateSkills([...skills, '']);
+    updateSkills([...skills, ""]);
     setTimeout(() => {
       inputRefs.current[skills.length]?.focus();
     }, 0);
   };
 
   function getTextWidth(text: string, font: string): number {
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d');
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
     if (context) {
       context.font = font;
       return context.measureText(text).width * 1.02;
@@ -65,19 +74,43 @@ export function Skills({ editingIndex, onEditingChange }: { editingIndex: number
 
   return (
     <>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Title order={3} style={{color: 'light-dark(var(--mantine-color-blue-6), var(--mantine-color-blue-4))'}}>SKILLS</Title>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Title
+          order={3}
+          style={{
+            color:
+              "light-dark(var(--mantine-color-blue-6), var(--mantine-color-blue-4))",
+          }}
+        >
+          SKILLS
+        </Title>
         <Button onClick={handleAddSkill} variant="outline" size="xs">
           +Add
         </Button>
       </div>
-      <Container p={0} pt={5} pb={5} m={0} fluid style={{ paddingInline: 0, display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+      <Container
+        p={0}
+        pt={5}
+        pb={5}
+        m={0}
+        fluid
+        style={{
+          paddingInline: 0,
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "4px",
+        }}
+      >
         {skills.map((skill, index) => (
-          <div
-            key={index}
-          >
+          <div key={index}>
             <TextInput
-              variant='filled'
+              variant="filled"
               ref={(el) => {
                 inputRefs.current[index] = el;
               }}
@@ -93,8 +126,8 @@ export function Skills({ editingIndex, onEditingChange }: { editingIndex: number
               placeholder="Skill"
               style={{
                 width: `${Math.max(60, getTextWidth(skill, font) + 23)}px`,
-                fontWeight: 'bold',
-                animation: shake === index ? 'shake 0.3s' : undefined
+                fontWeight: "bold",
+                animation: shake === index ? "shake 0.3s" : undefined,
               }}
             />
           </div>

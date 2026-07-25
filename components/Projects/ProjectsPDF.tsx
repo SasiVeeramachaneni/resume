@@ -1,7 +1,7 @@
-import React from 'react';
-import { Link, StyleSheet, Text, View } from '@react-pdf/renderer';
-import { Project } from '../declarations/types';
-import { pdfStyles, photoStyles } from '../ResumePDF/ResumeStyles';
+import React from "react";
+import { Link, StyleSheet, Text, View } from "@react-pdf/renderer";
+import { Project } from "../declarations/types";
+import { pdfStyles, photoStyles } from "../ResumePDF/ResumeStyles";
 
 const styles = StyleSheet.create({
   projectContainer: {
@@ -9,23 +9,23 @@ const styles = StyleSheet.create({
   },
   projectName: {
     fontSize: 10,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     paddingBottom: 2,
   },
   projectDescription: {
     fontSize: 8,
-    color: '#333',
+    color: "#333",
     lineHeight: 1.6,
     paddingBottom: 2,
   },
   links: {
-    display: 'flex',
-    flexDirection: 'row',
+    display: "flex",
+    flexDirection: "row",
   },
   projectLink: {
     fontSize: 8,
-    color: '#448DEC',
-    textDecoration: 'none',
+    color: "#448DEC",
+    textDecoration: "none",
     marginRight: 8,
   },
 });
@@ -41,7 +41,7 @@ const ProjectsPDF: React.FC<ProjectsPDFProps> = ({ projects, template }) => {
       project.name?.trim() ||
       project.description?.trim() ||
       project.githubLink?.trim() ||
-      project.websiteLink?.trim()
+      project.websiteLink?.trim(),
   );
 
   if (visibleProjects.length === 0) {
@@ -50,11 +50,21 @@ const ProjectsPDF: React.FC<ProjectsPDFProps> = ({ projects, template }) => {
 
   return (
     <>
-      <Text style={template === 'photo' ? photoStyles.sectionTitle : pdfStyles.sectionTitle}>PROJECTS</Text>
+      <Text
+        style={
+          template === "photo"
+            ? photoStyles.sectionTitle
+            : pdfStyles.sectionTitle
+        }
+      >
+        PROJECTS
+      </Text>
       {visibleProjects.map((project, index) => (
         <View key={index} style={styles.projectContainer}>
           <Text style={styles.projectName}>{project.name}</Text>
-          {project.description ? <Text style={styles.projectDescription}>{project.description}</Text> : null}
+          {project.description ? (
+            <Text style={styles.projectDescription}>{project.description}</Text>
+          ) : null}
           {project.githubLink?.trim() || project.websiteLink?.trim() ? (
             <View style={styles.links}>
               {project.githubLink?.trim() ? (

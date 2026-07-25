@@ -1,7 +1,7 @@
-import React from 'react';
-import { View, Text, StyleSheet } from '@react-pdf/renderer';
-import { WorkExperience } from '../declarations/types'; // Import the type
-import { pdfStyles, photoStyles } from '../ResumePDF/ResumeStyles';
+import React from "react";
+import { View, Text, StyleSheet } from "@react-pdf/renderer";
+import { WorkExperience } from "../declarations/types"; // Import the type
+import { pdfStyles, photoStyles } from "../ResumePDF/ResumeStyles";
 
 // Define styles for PDF
 const styles = StyleSheet.create({
@@ -9,28 +9,28 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   header: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 4,
   },
   organization: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 10,
   },
   dates: {
     fontSize: 7,
-    fontStyle: 'italic',
+    fontStyle: "italic",
   },
   role: {
     fontSize: 10,
-    fontStyle: 'italic',
+    fontStyle: "italic",
     marginBottom: 5,
   },
   bulletPoint: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'flex-start',
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start",
     fontSize: 8,
     marginBottom: 2,
     lineHeight: 1.8,
@@ -57,32 +57,53 @@ const parseMarkdownText = (text: string) => {
   const parts = text.split(/(\*\*[^*]+?\*\*|\*[^*]+?\*)/g);
 
   return parts.map((part, i) => {
-    if (part.startsWith('**') && part.endsWith('**') && part.length > 4) {
+    if (part.startsWith("**") && part.endsWith("**") && part.length > 4) {
       return (
-        <Text key={i} style={{ fontFamily: 'Merriweather', fontWeight: 'bold' }}>
+        <Text
+          key={i}
+          style={{ fontFamily: "Merriweather", fontWeight: "bold" }}
+        >
           {part.slice(2, -2)}
         </Text>
       );
     }
-    if (part.startsWith('*') && part.endsWith('*') && part.length > 2) {
+    if (part.startsWith("*") && part.endsWith("*") && part.length > 2) {
       return (
-        <Text key={i} style={{ fontFamily: 'Merriweather', fontStyle: 'italic' }}>
+        <Text
+          key={i}
+          style={{ fontFamily: "Merriweather", fontStyle: "italic" }}
+        >
           {part.slice(1, -1)}
         </Text>
       );
     }
-    return <Text key={i} style={{ fontFamily: 'Merriweather' }}>{part}</Text>;
+    return (
+      <Text key={i} style={{ fontFamily: "Merriweather" }}>
+        {part}
+      </Text>
+    );
   });
 };
 
 // WorkExperience PDF component with TypeScript
-const WorkExperiencePDF: React.FC<WorkExperiencePDFProps> = ({ workExperience, template }) => {
+const WorkExperiencePDF: React.FC<WorkExperiencePDFProps> = ({
+  workExperience,
+  template,
+}) => {
   return (
     <>
-      <Text style={template === 'photo' ? photoStyles.sectionTitle : pdfStyles.sectionTitle}>WORK EXPERIENCE</Text>
+      <Text
+        style={
+          template === "photo"
+            ? photoStyles.sectionTitle
+            : pdfStyles.sectionTitle
+        }
+      >
+        WORK EXPERIENCE
+      </Text>
 
       {workExperience.map((exp, index) => {
-        const dateRange = `${exp.from} - ${exp.isCurrent ? 'Present' : exp.to}`;
+        const dateRange = `${exp.from} - ${exp.isCurrent ? "Present" : exp.to}`;
 
         return (
           <View key={index} style={styles.experienceContainer}>
@@ -90,7 +111,6 @@ const WorkExperiencePDF: React.FC<WorkExperiencePDFProps> = ({ workExperience, t
             <View style={styles.header}>
               <Text style={styles.organization}>{exp.organization}</Text>
               <Text style={styles.dates}>{dateRange}</Text>
-
             </View>
 
             {/* Role */}
@@ -100,14 +120,15 @@ const WorkExperiencePDF: React.FC<WorkExperiencePDFProps> = ({ workExperience, t
             {exp.points.map((point, pointIndex) => (
               <View key={pointIndex} style={styles.bulletPoint}>
                 <Text style={styles.bulletSymbol}>•</Text>
-                <Text style={styles.bulletText}>{parseMarkdownText(point)}</Text>
+                <Text style={styles.bulletText}>
+                  {parseMarkdownText(point)}
+                </Text>
               </View>
             ))}
           </View>
-        )
+        );
       })}
     </>
-
   );
 };
 

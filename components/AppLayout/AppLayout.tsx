@@ -1,9 +1,9 @@
-import { Footer } from '@/components/Footer/Footer';
+import { Footer } from "@/components/Footer/Footer";
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      {children}
+      <main>{children}</main>
       <Footer />
     </>
   );

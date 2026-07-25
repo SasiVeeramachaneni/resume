@@ -1,10 +1,19 @@
-import { useEffect, useState, useRef } from 'react';
-import { Container, Title, Text, Badge, Group, Button, Anchor, Paper } from '@mantine/core';
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import { IconArrowLeft } from '@tabler/icons-react';
-import { BlogPost, getBlogPost } from './posts';
-import { Header } from '@/components/Heading/Header';
-import { usePageMeta } from '@/app/usePageMeta';
+import { useEffect, useState, useRef } from "react";
+import {
+  Container,
+  Title,
+  Text,
+  Badge,
+  Group,
+  Button,
+  Anchor,
+  Paper,
+} from "@mantine/core";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { IconArrowLeft } from "@tabler/icons-react";
+import { BlogPost, getBlogPost } from "./posts";
+import { Header } from "@/components/Heading/Header";
+import { usePageMeta } from "@/app/usePageMeta";
 
 export default function BlogPostPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -20,18 +29,20 @@ export default function BlogPostPage() {
     const el = articleRef.current;
     if (!el) return;
     const handler = (e: MouseEvent) => {
-      const a = (e.target as HTMLElement).closest<HTMLAnchorElement>('a');
-      if (!a || !a.getAttribute('href')?.startsWith('/')) return;
+      const a = (e.target as HTMLElement).closest<HTMLAnchorElement>("a");
+      if (!a || !a.getAttribute("href")?.startsWith("/")) return;
       e.preventDefault();
-      navigate(a.getAttribute('href')!);
+      navigate(a.getAttribute("href")!);
     };
-    el.addEventListener('click', handler);
-    return () => el.removeEventListener('click', handler);
+    el.addEventListener("click", handler);
+    return () => el.removeEventListener("click", handler);
   }, [navigate, post]);
 
   usePageMeta(
-    post ? `${post.title} | Create Resume Blog` : 'Blog Post | Create Resume',
-    post ? post.excerpt : 'Read our blog post for expert resume tips and career advice.',
+    post ? `${post.title} | Create Resume Blog` : "Blog Post | Create Resume",
+    post
+      ? post.excerpt
+      : "Read our blog post for expert resume tips and career advice.",
   );
 
   if (!post) {
@@ -40,7 +51,13 @@ export default function BlogPostPage() {
         <Header />
         <Container size="md" py="xl">
           <Text c="dimmed">Post not found.</Text>
-          <Button component={Link} to="/blog" variant="light" mt="md" leftSection={<IconArrowLeft size={16} />}>
+          <Button
+            component={Link}
+            to="/blog"
+            variant="light"
+            mt="md"
+            leftSection={<IconArrowLeft size={16} />}
+          >
             Back to Blog
           </Button>
         </Container>
@@ -59,23 +76,41 @@ export default function BlogPostPage() {
           </Group>
         </Anchor>
 
-        <Title order={1} mt="md">{post.title}</Title>
+        <Title order={1} mt="md">
+          {post.title}
+        </Title>
 
         <Group gap="xs" mt="sm">
-          <Text size="sm" c="dimmed">{post.date}</Text>
-          <Text size="sm" c="dimmed">·</Text>
-          <Text size="sm" c="dimmed">{post.author}</Text>
-          <Text size="sm" c="dimmed">·</Text>
-          <Text size="sm" c="dimmed">{post.readTime}</Text>
+          <Text size="sm" c="dimmed">
+            {post.date}
+          </Text>
+          <Text size="sm" c="dimmed">
+            ·
+          </Text>
+          <Text size="sm" c="dimmed">
+            {post.author}
+          </Text>
+          <Text size="sm" c="dimmed">
+            ·
+          </Text>
+          <Text size="sm" c="dimmed">
+            {post.readTime}
+          </Text>
         </Group>
 
         <Group gap="xs" mt="sm">
-          {post.tags.map(tag => (
-            <Badge key={tag} size="sm" variant="light">{tag}</Badge>
+          {post.tags.map((tag) => (
+            <Badge key={tag} size="sm" variant="light">
+              {tag}
+            </Badge>
           ))}
         </Group>
 
-        <div ref={articleRef} className="blog-article" dangerouslySetInnerHTML={{ __html: post.content }} />
+        <div
+          ref={articleRef}
+          className="blog-article"
+          dangerouslySetInnerHTML={{ __html: post.content }}
+        />
 
         <style>{`
           .blog-article { font-size: 17px; line-height: 1.7; color: light-dark(#222, #e0e0e0); }

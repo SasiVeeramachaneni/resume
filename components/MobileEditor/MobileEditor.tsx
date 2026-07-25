@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState } from "react";
 import {
   Container,
   TextInput,
@@ -16,7 +16,7 @@ import {
   Card,
   Grid,
   Box,
-} from '@mantine/core';
+} from "@mantine/core";
 import {
   IconUser,
   IconBriefcase,
@@ -29,8 +29,8 @@ import {
   IconArticle,
   IconTrash,
   IconPlus,
-} from '@tabler/icons-react';
-import { ResumeContext } from '../declarations/ResumeContext';
+} from "@tabler/icons-react";
+import { ResumeContext } from "../declarations/ResumeContext";
 import {
   WorkExperience,
   Project,
@@ -39,7 +39,7 @@ import {
   Certification,
   Language,
   Patent,
-} from '../declarations/types';
+} from "../declarations/types";
 
 interface MobileEditorProps {
   onDone?: () => void;
@@ -48,7 +48,7 @@ interface MobileEditorProps {
 export function MobileEditor({ onDone }: MobileEditorProps) {
   const resumeContext = useContext(ResumeContext);
   if (!resumeContext) {
-    throw new Error('ResumeContext must be used within a ResumeProvider');
+    throw new Error("ResumeContext must be used within a ResumeProvider");
   }
 
   const {
@@ -67,29 +67,35 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
   const { settings, personalInfo } = resumeData;
 
   // Active step (tab) state
-  const [activeTab, setActiveStep] = useState<string>('personalInfo');
-  const [newSkill, setNewSkill] = useState('');
+  const [activeTab, setActiveStep] = useState<string>("personalInfo");
+  const [newSkill, setNewSkill] = useState("");
 
   // Available steps based on settings
   const tabs = [
-    { id: 'personalInfo', label: 'Personal Info', icon: IconUser },
-    { id: 'workExperience', label: 'Experience', icon: IconBriefcase },
-    { id: 'education', label: 'Education', icon: IconSchool },
-    { id: 'skills', label: 'Skills', icon: IconBarbell },
+    { id: "personalInfo", label: "Personal Info", icon: IconUser },
+    { id: "workExperience", label: "Experience", icon: IconBriefcase },
+    { id: "education", label: "Education", icon: IconSchool },
+    { id: "skills", label: "Skills", icon: IconBarbell },
     ...(settings.isPersonalProjects
-      ? [{ id: 'projects', label: 'Projects', icon: IconExternalLink }]
+      ? [{ id: "projects", label: "Projects", icon: IconExternalLink }]
       : []),
     ...(settings.isCertifications
-      ? [{ id: 'certifications', label: 'Certifications', icon: IconCertificate }]
+      ? [
+          {
+            id: "certifications",
+            label: "Certifications",
+            icon: IconCertificate,
+          },
+        ]
       : []),
     ...(settings.isAwards
-      ? [{ id: 'awards', label: 'Awards', icon: IconAward }]
+      ? [{ id: "awards", label: "Awards", icon: IconAward }]
       : []),
     ...(settings.isLanguages
-      ? [{ id: 'languages', label: 'Languages', icon: IconLanguage }]
+      ? [{ id: "languages", label: "Languages", icon: IconLanguage }]
       : []),
     ...(settings.isPatents
-      ? [{ id: 'patents', label: 'Patents', icon: IconArticle }]
+      ? [{ id: "patents", label: "Patents", icon: IconArticle }]
       : []),
   ];
 
@@ -111,55 +117,58 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
 
   // ----- PERSONAL INFO -----
   const renderPersonalInfo = () => {
-    const { name, title, aboutMe, phoneNumber, email, linkedIn, github } = personalInfo;
+    const { name, title, aboutMe, phoneNumber, email, linkedIn, github } =
+      personalInfo;
     return (
       <Stack gap="md" p="md">
-        <Title order={4} mb="xs" c="blue.6">Personal Details</Title>
+        <Title order={4} mb="xs" c="blue.6">
+          Personal Details
+        </Title>
         <TextInput
           label="Full Name"
           placeholder="John Doe"
           value={name}
-          onChange={(e) => updatePersonalInfo('name', e.target.value)}
+          onChange={(e) => updatePersonalInfo("name", e.target.value)}
         />
         <TextInput
           label="Job Title"
           placeholder="Lead Product Manager"
           value={title}
-          onChange={(e) => updatePersonalInfo('title', e.target.value)}
+          onChange={(e) => updatePersonalInfo("title", e.target.value)}
         />
         <Textarea
           label="About Me (Summary)"
           placeholder="Brief description about yourself..."
           minRows={3}
           value={aboutMe}
-          onChange={(e) => updatePersonalInfo('aboutMe', e.target.value)}
+          onChange={(e) => updatePersonalInfo("aboutMe", e.target.value)}
         />
         <TextInput
           label="Phone Number"
           placeholder="+1 (234) 567-8900"
           value={phoneNumber}
-          onChange={(e) => updatePersonalInfo('phoneNumber', e.target.value)}
+          onChange={(e) => updatePersonalInfo("phoneNumber", e.target.value)}
         />
         <TextInput
           label="Email Address"
           placeholder="johndoe@example.com"
           value={email}
-          onChange={(e) => updatePersonalInfo('email', e.target.value)}
+          onChange={(e) => updatePersonalInfo("email", e.target.value)}
         />
         {settings.isLinkedIn && (
           <TextInput
             label="LinkedIn URL"
             placeholder="linkedin.com/in/username"
-            value={linkedIn || ''}
-            onChange={(e) => updatePersonalInfo('linkedIn', e.target.value)}
+            value={linkedIn || ""}
+            onChange={(e) => updatePersonalInfo("linkedIn", e.target.value)}
           />
         )}
         {settings.isGithub && (
           <TextInput
             label="GitHub URL"
             placeholder="github.com/username"
-            value={github || ''}
-            onChange={(e) => updatePersonalInfo('github', e.target.value)}
+            value={github || ""}
+            onChange={(e) => updatePersonalInfo("github", e.target.value)}
           />
         )}
       </Stack>
@@ -173,7 +182,14 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
     const handleAddExperience = () => {
       updateWorkExperience([
         ...experiences,
-        { organization: '', from: '', to: '', isCurrent: false, role: '', points: [''] },
+        {
+          organization: "",
+          from: "",
+          to: "",
+          isCurrent: false,
+          role: "",
+          points: [""],
+        },
       ]);
     };
 
@@ -183,7 +199,11 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
       updateWorkExperience(updated);
     };
 
-    const handleExpChange = (idx: number, field: keyof WorkExperience, val: any) => {
+    const handleExpChange = (
+      idx: number,
+      field: keyof WorkExperience,
+      val: any,
+    ) => {
       const updated = [...experiences];
       updated[idx] = { ...updated[idx], [field]: val };
       updateWorkExperience(updated);
@@ -191,7 +211,7 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
 
     const handleAddBulletPoint = (expIdx: number) => {
       const updated = [...experiences];
-      updated[expIdx].points.push('');
+      updated[expIdx].points.push("");
       updateWorkExperience(updated);
     };
 
@@ -201,7 +221,11 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
       updateWorkExperience(updated);
     };
 
-    const handleBulletChange = (expIdx: number, pointIdx: number, val: string) => {
+    const handleBulletChange = (
+      expIdx: number,
+      pointIdx: number,
+      val: string,
+    ) => {
       const updated = [...experiences];
       updated[expIdx].points[pointIdx] = val;
       updateWorkExperience(updated);
@@ -210,7 +234,9 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
     return (
       <Stack gap="md" p="md">
         <Group justify="space-between" align="center" mb="xs">
-          <Title order={4} c="blue.6">Work Experience</Title>
+          <Title order={4} c="blue.6">
+            Work Experience
+          </Title>
           <Button
             size="xs"
             leftSection={<IconPlus size={14} />}
@@ -223,7 +249,9 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
 
         {experiences.length === 0 ? (
           <Paper withBorder p="xl" ta="center" radius="md">
-            <Text c="dimmed" size="sm">No experiences added yet.</Text>
+            <Text c="dimmed" size="sm">
+              No experiences added yet.
+            </Text>
             <Button
               size="xs"
               mt="md"
@@ -237,8 +265,14 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
           experiences.map((exp, idx) => (
             <Card key={idx} withBorder radius="md" p="md" shadow="none">
               <Group justify="space-between" mb="xs">
-                <Text fw={700} c="blue.7">Experience #{idx + 1}</Text>
-                <ActionIcon color="red" variant="subtle" onClick={() => handleRemoveExperience(idx)}>
+                <Text fw={700} c="blue.7">
+                  Experience #{idx + 1}
+                </Text>
+                <ActionIcon
+                  color="red"
+                  variant="subtle"
+                  onClick={() => handleRemoveExperience(idx)}
+                >
                   <IconTrash size={16} />
                 </ActionIcon>
               </Group>
@@ -249,13 +283,15 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
                   placeholder="Acme Inc"
                   required
                   value={exp.organization}
-                  onChange={(e) => handleExpChange(idx, 'organization', e.target.value)}
+                  onChange={(e) =>
+                    handleExpChange(idx, "organization", e.target.value)
+                  }
                 />
                 <TextInput
                   label="Role / Designation"
                   placeholder="Software Engineer"
                   value={exp.role}
-                  onChange={(e) => handleExpChange(idx, 'role', e.target.value)}
+                  onChange={(e) => handleExpChange(idx, "role", e.target.value)}
                 />
                 <Grid gap="sm">
                   <Grid.Col span={6}>
@@ -264,7 +300,9 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
                       placeholder="MM/YYYY"
                       required
                       value={exp.from}
-                      onChange={(e) => handleExpChange(idx, 'from', e.target.value)}
+                      onChange={(e) =>
+                        handleExpChange(idx, "from", e.target.value)
+                      }
                     />
                   </Grid.Col>
                   <Grid.Col span={6}>
@@ -272,28 +310,38 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
                       label="To Date"
                       placeholder="MM/YYYY"
                       disabled={exp.isCurrent}
-                      value={exp.isCurrent ? 'Present' : exp.to || ''}
-                      onChange={(e) => handleExpChange(idx, 'to', e.target.value)}
+                      value={exp.isCurrent ? "Present" : exp.to || ""}
+                      onChange={(e) =>
+                        handleExpChange(idx, "to", e.target.value)
+                      }
                     />
                   </Grid.Col>
                 </Grid>
                 <Checkbox
                   label="I currently work here"
                   checked={exp.isCurrent}
-                  onChange={(e) => handleExpChange(idx, 'isCurrent', e.target.checked)}
+                  onChange={(e) =>
+                    handleExpChange(idx, "isCurrent", e.target.checked)
+                  }
                 />
 
-                <Text size="xs" fw={700} mt="xs" mb={0}>Role description (Bullet points):</Text>
+                <Text size="xs" fw={700} mt="xs" mb={0}>
+                  Role description (Bullet points):
+                </Text>
                 {exp.points.map((pt, pIdx) => (
                   <Group key={pIdx} wrap="nowrap" align="flex-start" gap="xs">
-                    <Text size="sm" pt={7} fw={600}>•</Text>
+                    <Text size="sm" pt={7} fw={600}>
+                      •
+                    </Text>
                     <Textarea
                       placeholder="Delivered high quality software, mentored junior developers..."
                       autosize
                       minRows={1}
                       style={{ flex: 1 }}
                       value={pt}
-                      onChange={(e) => handleBulletChange(idx, pIdx, e.target.value)}
+                      onChange={(e) =>
+                        handleBulletChange(idx, pIdx, e.target.value)
+                      }
                     />
                     <ActionIcon
                       color="red"
@@ -312,7 +360,7 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
                   leftSection={<IconPlus size={12} />}
                   onClick={() => handleAddBulletPoint(idx)}
                   display="inline-flex"
-                  styles={{ root: { alignSelf: 'flex-start' } }}
+                  styles={{ root: { alignSelf: "flex-start" } }}
                 >
                   Add Bullet Point
                 </Button>
@@ -331,7 +379,7 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
     const handleAddEducation = () => {
       updateEducation([
         ...educations,
-        { degree: '', college: '', discipline: '', year: NaN, percentage: NaN },
+        { degree: "", college: "", discipline: "", year: NaN, percentage: NaN },
       ]);
     };
 
@@ -343,7 +391,7 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
 
     const handleEduChange = (idx: number, field: keyof Education, val: any) => {
       const updated = [...educations];
-      if (field === 'year' || field === 'percentage') {
+      if (field === "year" || field === "percentage") {
         updated[idx] = { ...updated[idx], [field]: parseFloat(val) || NaN };
       } else {
         updated[idx] = { ...updated[idx], [field]: val };
@@ -354,7 +402,9 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
     return (
       <Stack gap="md" p="md">
         <Group justify="space-between" align="center" mb="xs">
-          <Title order={4} c="blue.6">Education</Title>
+          <Title order={4} c="blue.6">
+            Education
+          </Title>
           <Button
             size="xs"
             leftSection={<IconPlus size={14} />}
@@ -367,7 +417,9 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
 
         {educations.length === 0 ? (
           <Paper withBorder p="xl" ta="center" radius="md">
-            <Text c="dimmed" size="sm">No education entries added yet.</Text>
+            <Text c="dimmed" size="sm">
+              No education entries added yet.
+            </Text>
             <Button
               size="xs"
               mt="md"
@@ -381,8 +433,14 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
           educations.map((edu, idx) => (
             <Card key={idx} withBorder radius="md" p="md" shadow="none">
               <Group justify="space-between" mb="xs">
-                <Text fw={700} c="blue.7">Education #{idx + 1}</Text>
-                <ActionIcon color="red" variant="subtle" onClick={() => handleRemoveEducation(idx)}>
+                <Text fw={700} c="blue.7">
+                  Education #{idx + 1}
+                </Text>
+                <ActionIcon
+                  color="red"
+                  variant="subtle"
+                  onClick={() => handleRemoveEducation(idx)}
+                >
                   <IconTrash size={16} />
                 </ActionIcon>
               </Group>
@@ -393,20 +451,26 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
                   placeholder="Master of Science"
                   required
                   value={edu.degree}
-                  onChange={(e) => handleEduChange(idx, 'degree', e.target.value)}
+                  onChange={(e) =>
+                    handleEduChange(idx, "degree", e.target.value)
+                  }
                 />
                 <TextInput
                   label="College / University"
                   placeholder="Stanford University"
                   required
                   value={edu.college}
-                  onChange={(e) => handleEduChange(idx, 'college', e.target.value)}
+                  onChange={(e) =>
+                    handleEduChange(idx, "college", e.target.value)
+                  }
                 />
                 <TextInput
                   label="Discipline / Specialization"
                   placeholder="Computer Science"
                   value={edu.discipline}
-                  onChange={(e) => handleEduChange(idx, 'discipline', e.target.value)}
+                  onChange={(e) =>
+                    handleEduChange(idx, "discipline", e.target.value)
+                  }
                 />
                 <Grid gap="sm">
                   <Grid.Col span={6}>
@@ -414,8 +478,10 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
                       label="Year of Graduation"
                       placeholder="YYYY"
                       type="number"
-                      value={isNaN(edu.year) ? '' : edu.year.toString()}
-                      onChange={(e) => handleEduChange(idx, 'year', e.target.value)}
+                      value={isNaN(edu.year) ? "" : edu.year.toString()}
+                      onChange={(e) =>
+                        handleEduChange(idx, "year", e.target.value)
+                      }
                     />
                   </Grid.Col>
                   <Grid.Col span={6}>
@@ -423,8 +489,12 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
                       label="GPA / Percentage"
                       placeholder="9.5 or 95%"
                       type="number"
-                      value={isNaN(edu.percentage) ? '' : edu.percentage.toString()}
-                      onChange={(e) => handleEduChange(idx, 'percentage', e.target.value)}
+                      value={
+                        isNaN(edu.percentage) ? "" : edu.percentage.toString()
+                      }
+                      onChange={(e) =>
+                        handleEduChange(idx, "percentage", e.target.value)
+                      }
                     />
                   </Grid.Col>
                 </Grid>
@@ -443,7 +513,7 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
     const handleAddSkill = () => {
       if (newSkill.trim() && !skills.includes(newSkill.trim())) {
         updateSkills([...skills, newSkill.trim()]);
-        setNewSkill('');
+        setNewSkill("");
       }
     };
 
@@ -455,7 +525,9 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
 
     return (
       <Stack gap="md" p="md">
-        <Title order={4} mb="xs" c="blue.6">Skills & Keywords</Title>
+        <Title order={4} mb="xs" c="blue.6">
+          Skills & Keywords
+        </Title>
         <Group align="flex-end" gap="sm">
           <TextInput
             label="Add Skill"
@@ -464,16 +536,20 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
             value={newSkill}
             onChange={(e) => setNewSkill(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') handleAddSkill();
+              if (e.key === "Enter") handleAddSkill();
             }}
           />
           <Button onClick={handleAddSkill}>Add</Button>
         </Group>
 
-        <Text size="xs" c="dimmed">Tap to delete a skill:</Text>
+        <Text size="xs" c="dimmed">
+          Tap to delete a skill:
+        </Text>
         <Group gap="xs" mt="xs">
           {skills.length === 0 ? (
-            <Text c="dimmed" size="sm" style={{ fontStyle: 'italic' }}>No skills added yet.</Text>
+            <Text c="dimmed" size="sm" style={{ fontStyle: "italic" }}>
+              No skills added yet.
+            </Text>
           ) : (
             skills.map((skill, idx) => (
               <Button
@@ -482,7 +558,11 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
                 color="blue"
                 size="sm"
                 radius="xl"
-                rightSection={<Text size="xs" fw={700}>×</Text>}
+                rightSection={
+                  <Text size="xs" fw={700}>
+                    ×
+                  </Text>
+                }
                 onClick={() => handleRemoveSkill(idx)}
               >
                 {skill}
@@ -501,7 +581,7 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
     const handleAddProject = () => {
       updateProjects([
         ...projects,
-        { name: '', githubLink: '', websiteLink: '', description: '' },
+        { name: "", githubLink: "", websiteLink: "", description: "" },
       ]);
     };
 
@@ -511,7 +591,11 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
       updateProjects(updated);
     };
 
-    const handleProjectChange = (idx: number, field: keyof Project, val: string) => {
+    const handleProjectChange = (
+      idx: number,
+      field: keyof Project,
+      val: string,
+    ) => {
       const updated = [...projects];
       updated[idx] = { ...updated[idx], [field]: val };
       updateProjects(updated);
@@ -520,7 +604,9 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
     return (
       <Stack gap="md" p="md">
         <Group justify="space-between" align="center" mb="xs">
-          <Title order={4} c="blue.6">Projects</Title>
+          <Title order={4} c="blue.6">
+            Projects
+          </Title>
           <Button
             size="xs"
             leftSection={<IconPlus size={14} />}
@@ -533,7 +619,9 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
 
         {projects.length === 0 ? (
           <Paper withBorder p="xl" ta="center" radius="md">
-            <Text c="dimmed" size="sm">No projects added yet.</Text>
+            <Text c="dimmed" size="sm">
+              No projects added yet.
+            </Text>
             <Button
               size="xs"
               mt="md"
@@ -547,8 +635,14 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
           projects.map((proj, idx) => (
             <Card key={idx} withBorder radius="md" p="md" shadow="none">
               <Group justify="space-between" mb="xs">
-                <Text fw={700} c="blue.7">Project #{idx + 1}</Text>
-                <ActionIcon color="red" variant="subtle" onClick={() => handleRemoveProject(idx)}>
+                <Text fw={700} c="blue.7">
+                  Project #{idx + 1}
+                </Text>
+                <ActionIcon
+                  color="red"
+                  variant="subtle"
+                  onClick={() => handleRemoveProject(idx)}
+                >
                   <IconTrash size={16} />
                 </ActionIcon>
               </Group>
@@ -559,26 +653,34 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
                   placeholder="E-Commerce API"
                   required
                   value={proj.name}
-                  onChange={(e) => handleProjectChange(idx, 'name', e.target.value)}
+                  onChange={(e) =>
+                    handleProjectChange(idx, "name", e.target.value)
+                  }
                 />
                 <TextInput
                   label="GitHub Repo Link"
                   placeholder="github.com/user/repo"
                   value={proj.githubLink}
-                  onChange={(e) => handleProjectChange(idx, 'githubLink', e.target.value)}
+                  onChange={(e) =>
+                    handleProjectChange(idx, "githubLink", e.target.value)
+                  }
                 />
                 <TextInput
                   label="Website Link"
                   placeholder="example.com"
                   value={proj.websiteLink}
-                  onChange={(e) => handleProjectChange(idx, 'websiteLink', e.target.value)}
+                  onChange={(e) =>
+                    handleProjectChange(idx, "websiteLink", e.target.value)
+                  }
                 />
                 <Textarea
                   label="Project Description"
                   placeholder="Designed and built a microservice-based API supporting 10k DAU..."
                   minRows={2}
                   value={proj.description}
-                  onChange={(e) => handleProjectChange(idx, 'description', e.target.value)}
+                  onChange={(e) =>
+                    handleProjectChange(idx, "description", e.target.value)
+                  }
                 />
               </Stack>
             </Card>
@@ -595,7 +697,7 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
     const handleAddCertField = () => {
       updateCertifications([
         ...certifications,
-        { name: '', year: NaN, organization: '' },
+        { name: "", year: NaN, organization: "" },
       ]);
     };
 
@@ -605,9 +707,13 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
       updateCertifications(updated);
     };
 
-    const handleCertChange = (idx: number, field: keyof Certification, val: any) => {
+    const handleCertChange = (
+      idx: number,
+      field: keyof Certification,
+      val: any,
+    ) => {
       const updated = [...certifications];
-      if (field === 'year') {
+      if (field === "year") {
         updated[idx] = { ...updated[idx], [field]: parseFloat(val) || NaN };
       } else {
         updated[idx] = { ...updated[idx], [field]: val };
@@ -618,7 +724,9 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
     return (
       <Stack gap="md" p="md">
         <Group justify="space-between" align="center" mb="xs">
-          <Title order={4} c="blue.6">Certifications</Title>
+          <Title order={4} c="blue.6">
+            Certifications
+          </Title>
           <Button
             size="xs"
             leftSection={<IconPlus size={14} />}
@@ -631,7 +739,9 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
 
         {certifications.length === 0 ? (
           <Paper withBorder p="xl" ta="center" radius="md">
-            <Text c="dimmed" size="sm">No certifications added yet.</Text>
+            <Text c="dimmed" size="sm">
+              No certifications added yet.
+            </Text>
             <Button
               size="xs"
               mt="md"
@@ -645,8 +755,14 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
           certifications.map((cert, idx) => (
             <Card key={idx} withBorder radius="md" p="md" shadow="none">
               <Group justify="space-between" mb="xs">
-                <Text fw={700} c="blue.7">Certification #{idx + 1}</Text>
-                <ActionIcon color="red" variant="subtle" onClick={() => handleRemoveCertField(idx)}>
+                <Text fw={700} c="blue.7">
+                  Certification #{idx + 1}
+                </Text>
+                <ActionIcon
+                  color="red"
+                  variant="subtle"
+                  onClick={() => handleRemoveCertField(idx)}
+                >
                   <IconTrash size={16} />
                 </ActionIcon>
               </Group>
@@ -657,21 +773,27 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
                   placeholder="AWS Certified Solutions Architect"
                   required
                   value={cert.name}
-                  onChange={(e) => handleCertChange(idx, 'name', e.target.value)}
+                  onChange={(e) =>
+                    handleCertChange(idx, "name", e.target.value)
+                  }
                 />
                 <TextInput
                   label="Issuing Organization"
                   placeholder="Amazon Web Services"
                   required
                   value={cert.organization}
-                  onChange={(e) => handleCertChange(idx, 'organization', e.target.value)}
+                  onChange={(e) =>
+                    handleCertChange(idx, "organization", e.target.value)
+                  }
                 />
                 <TextInput
                   label="Year of Receipt"
                   placeholder="YYYY"
                   type="number"
-                  value={isNaN(cert.year) ? '' : cert.year.toString()}
-                  onChange={(e) => handleCertChange(idx, 'year', e.target.value)}
+                  value={isNaN(cert.year) ? "" : cert.year.toString()}
+                  onChange={(e) =>
+                    handleCertChange(idx, "year", e.target.value)
+                  }
                 />
               </Stack>
             </Card>
@@ -686,10 +808,7 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
     const awards = resumeData.awards;
 
     const handleAddAward = () => {
-      updateAwards([
-        ...awards,
-        { name: '', organization: '' },
-      ]);
+      updateAwards([...awards, { name: "", organization: "" }]);
     };
 
     const handleRemoveAward = (idx: number) => {
@@ -698,7 +817,11 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
       updateAwards(updated);
     };
 
-    const handleAwardChange = (idx: number, field: keyof Award, val: string) => {
+    const handleAwardChange = (
+      idx: number,
+      field: keyof Award,
+      val: string,
+    ) => {
       const updated = [...awards];
       updated[idx] = { ...updated[idx], [field]: val };
       updateAwards(updated);
@@ -707,7 +830,9 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
     return (
       <Stack gap="md" p="md">
         <Group justify="space-between" align="center" mb="xs">
-          <Title order={4} c="blue.6">Awards / Achievements</Title>
+          <Title order={4} c="blue.6">
+            Awards / Achievements
+          </Title>
           <Button
             size="xs"
             leftSection={<IconPlus size={14} />}
@@ -720,7 +845,9 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
 
         {awards.length === 0 ? (
           <Paper withBorder p="xl" ta="center" radius="md">
-            <Text c="dimmed" size="sm">No awards added yet.</Text>
+            <Text c="dimmed" size="sm">
+              No awards added yet.
+            </Text>
             <Button
               size="xs"
               mt="md"
@@ -734,8 +861,14 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
           awards.map((award, idx) => (
             <Card key={idx} withBorder radius="md" p="md" shadow="none">
               <Group justify="space-between" mb="xs">
-                <Text fw={700} c="blue.7">Award #{idx + 1}</Text>
-                <ActionIcon color="red" variant="subtle" onClick={() => handleRemoveAward(idx)}>
+                <Text fw={700} c="blue.7">
+                  Award #{idx + 1}
+                </Text>
+                <ActionIcon
+                  color="red"
+                  variant="subtle"
+                  onClick={() => handleRemoveAward(idx)}
+                >
                   <IconTrash size={16} />
                 </ActionIcon>
               </Group>
@@ -746,14 +879,18 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
                   placeholder="Employee of the Year"
                   required
                   value={award.name}
-                  onChange={(e) => handleAwardChange(idx, 'name', e.target.value)}
+                  onChange={(e) =>
+                    handleAwardChange(idx, "name", e.target.value)
+                  }
                 />
                 <TextInput
                   label="Presenting Institution"
                   placeholder="Acme Org"
                   required
                   value={award.organization}
-                  onChange={(e) => handleAwardChange(idx, 'organization', e.target.value)}
+                  onChange={(e) =>
+                    handleAwardChange(idx, "organization", e.target.value)
+                  }
                 />
               </Stack>
             </Card>
@@ -768,10 +905,7 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
     const languages = resumeData.languages;
 
     const handleAddLang = () => {
-      updateLanguages([
-        ...languages,
-        { name: '', proficiency: '' },
-      ]);
+      updateLanguages([...languages, { name: "", proficiency: "" }]);
     };
 
     const handleRemoveLang = (idx: number) => {
@@ -789,7 +923,9 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
     return (
       <Stack gap="md" p="md">
         <Group justify="space-between" align="center" mb="xs">
-          <Title order={4} c="blue.6">Languages</Title>
+          <Title order={4} c="blue.6">
+            Languages
+          </Title>
           <Button
             size="xs"
             leftSection={<IconPlus size={14} />}
@@ -802,7 +938,9 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
 
         {languages.length === 0 ? (
           <Paper withBorder p="xl" ta="center" radius="md">
-            <Text c="dimmed" size="sm">No languages added yet.</Text>
+            <Text c="dimmed" size="sm">
+              No languages added yet.
+            </Text>
             <Button
               size="xs"
               mt="md"
@@ -816,8 +954,14 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
           languages.map((lang, idx) => (
             <Card key={idx} withBorder radius="md" p="md" shadow="none">
               <Group justify="space-between" mb="xs">
-                <Text fw={700} c="blue.7">Language #{idx + 1}</Text>
-                <ActionIcon color="red" variant="subtle" onClick={() => handleRemoveLang(idx)}>
+                <Text fw={700} c="blue.7">
+                  Language #{idx + 1}
+                </Text>
+                <ActionIcon
+                  color="red"
+                  variant="subtle"
+                  onClick={() => handleRemoveLang(idx)}
+                >
                   <IconTrash size={16} />
                 </ActionIcon>
               </Group>
@@ -828,13 +972,17 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
                   placeholder="Spanish / English"
                   required
                   value={lang.name}
-                  onChange={(e) => handleLangChange(idx, 'name', e.target.value)}
+                  onChange={(e) =>
+                    handleLangChange(idx, "name", e.target.value)
+                  }
                 />
                 <TextInput
                   label="Proficiency Level"
                   placeholder="High / Medium / Low"
                   value={lang.proficiency}
-                  onChange={(e) => handleLangChange(idx, 'proficiency', e.target.value)}
+                  onChange={(e) =>
+                    handleLangChange(idx, "proficiency", e.target.value)
+                  }
                 />
               </Stack>
             </Card>
@@ -851,7 +999,7 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
     const handleAddPatent = () => {
       updatePatents([
         ...patents,
-        { name: '', year: NaN, description: '', link: '' },
+        { name: "", year: NaN, description: "", link: "" },
       ]);
     };
 
@@ -863,7 +1011,7 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
 
     const handlePatentChange = (idx: number, field: keyof Patent, val: any) => {
       const updated = [...patents];
-      if (field === 'year') {
+      if (field === "year") {
         updated[idx] = { ...updated[idx], [field]: parseFloat(val) || NaN };
       } else {
         updated[idx] = { ...updated[idx], [field]: val };
@@ -874,7 +1022,9 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
     return (
       <Stack gap="md" p="md">
         <Group justify="space-between" align="center" mb="xs">
-          <Title order={4} c="blue.6">Patents</Title>
+          <Title order={4} c="blue.6">
+            Patents
+          </Title>
           <Button
             size="xs"
             leftSection={<IconPlus size={14} />}
@@ -887,7 +1037,9 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
 
         {patents.length === 0 ? (
           <Paper withBorder p="xl" ta="center" radius="md">
-            <Text c="dimmed" size="sm">No patents added yet.</Text>
+            <Text c="dimmed" size="sm">
+              No patents added yet.
+            </Text>
             <Button
               size="xs"
               mt="md"
@@ -901,8 +1053,14 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
           patents.map((pat, idx) => (
             <Card key={idx} withBorder radius="md" p="md" shadow="none">
               <Group justify="space-between" mb="xs">
-                <Text fw={700} c="blue.7">Patent #{idx + 1}</Text>
-                <ActionIcon color="red" variant="subtle" onClick={() => handleRemovePatent(idx)}>
+                <Text fw={700} c="blue.7">
+                  Patent #{idx + 1}
+                </Text>
+                <ActionIcon
+                  color="red"
+                  variant="subtle"
+                  onClick={() => handleRemovePatent(idx)}
+                >
                   <IconTrash size={16} />
                 </ActionIcon>
               </Group>
@@ -913,27 +1071,35 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
                   placeholder="Distributed stream synchronization..."
                   required
                   value={pat.name}
-                  onChange={(e) => handlePatentChange(idx, 'name', e.target.value)}
+                  onChange={(e) =>
+                    handlePatentChange(idx, "name", e.target.value)
+                  }
                 />
                 <TextInput
                   label="Year Filed/Issued"
                   placeholder="YYYY"
                   type="number"
-                  value={isNaN(pat.year) ? '' : pat.year.toString()}
-                  onChange={(e) => handlePatentChange(idx, 'year', e.target.value)}
+                  value={isNaN(pat.year) ? "" : pat.year.toString()}
+                  onChange={(e) =>
+                    handlePatentChange(idx, "year", e.target.value)
+                  }
                 />
                 <TextInput
                   label="Patent Link"
                   placeholder="https://patents.google.com/..."
                   value={pat.link}
-                  onChange={(e) => handlePatentChange(idx, 'link', e.target.value)}
+                  onChange={(e) =>
+                    handlePatentChange(idx, "link", e.target.value)
+                  }
                 />
                 <Textarea
                   label="Description"
                   placeholder="Brief description about the patent filing..."
                   minRows={2}
                   value={pat.description}
-                  onChange={(e) => handlePatentChange(idx, 'description', e.target.value)}
+                  onChange={(e) =>
+                    handlePatentChange(idx, "description", e.target.value)
+                  }
                 />
               </Stack>
             </Card>
@@ -945,23 +1111,23 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
 
   const renderActiveStep = () => {
     switch (activeTab) {
-      case 'personalInfo':
+      case "personalInfo":
         return renderPersonalInfo();
-      case 'workExperience':
+      case "workExperience":
         return renderWorkExperience();
-      case 'education':
+      case "education":
         return renderEducation();
-      case 'skills':
+      case "skills":
         return renderSkills();
-      case 'projects':
+      case "projects":
         return renderProjects();
-      case 'certifications':
+      case "certifications":
         return renderCertifications();
-      case 'awards':
+      case "awards":
         return renderAwards();
-      case 'languages':
+      case "languages":
         return renderLanguages();
-      case 'patents':
+      case "patents":
         return renderPatents();
       default:
         return null;
@@ -969,7 +1135,11 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
   };
 
   return (
-    <Container size="sm" p={0} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <Container
+      size="sm"
+      p={0}
+      style={{ display: "flex", flexDirection: "column", height: "100%" }}
+    >
       <style>{`
         .hide-scrollbar::-webkit-scrollbar {
           display: none;
@@ -978,22 +1148,22 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
       {/* Horizontal pill tabs with scroll */}
       <Box
         style={{
-          borderBottom: '1px solid var(--mantine-color-gray-2)',
-          backgroundColor: 'var(--mantine-color-white)',
-          position: 'sticky',
+          borderBottom: "1px solid var(--mantine-color-gray-2)",
+          backgroundColor: "var(--mantine-color-white)",
+          position: "sticky",
           top: 0,
           zIndex: 5,
         }}
       >
         <div
           style={{
-            display: 'flex',
-            overflowX: 'auto',
-            whiteSpace: 'nowrap',
-            gap: '8px',
-            padding: '12px 16px',
-            scrollbarWidth: 'none', // For Firefox
-            msOverflowStyle: 'none', // For Internet Explorer
+            display: "flex",
+            overflowX: "auto",
+            whiteSpace: "nowrap",
+            gap: "8px",
+            padding: "12px 16px",
+            scrollbarWidth: "none", // For Firefox
+            msOverflowStyle: "none", // For Internet Explorer
           }}
           className="hide-scrollbar"
         >
@@ -1003,7 +1173,7 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
             return (
               <Button
                 key={tab.id}
-                variant={isSelected ? 'filled' : 'light'}
+                variant={isSelected ? "filled" : "light"}
                 color="blue"
                 size="sm"
                 radius="xl"
@@ -1019,7 +1189,10 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
       </Box>
 
       {/* Editor Body */}
-      <Box style={{ flex: 1, paddingBottom: '160px' }} bg="var(--mantine-color-white)">
+      <Box
+        style={{ flex: 1, paddingBottom: "160px" }}
+        bg="var(--mantine-color-white)"
+      >
         {renderActiveStep()}
       </Box>
 
@@ -1028,12 +1201,12 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
         withBorder
         p="sm"
         style={{
-          position: 'fixed',
-          bottom: '60px', // Right above the bottom footer toolbar
+          position: "fixed",
+          bottom: "60px", // Right above the bottom footer toolbar
           left: 0,
           right: 0,
           zIndex: 10,
-          borderBottom: 'none',
+          borderBottom: "none",
         }}
       >
         <Container size="sm">
@@ -1046,7 +1219,7 @@ export function MobileEditor({ onDone }: MobileEditorProps) {
               Previous
             </Button>
             <Button onClick={handleNext}>
-              {currentTabIndex === tabs.length - 1 ? 'Preview Resume' : 'Next'}
+              {currentTabIndex === tabs.length - 1 ? "Preview Resume" : "Next"}
             </Button>
           </Group>
         </Container>

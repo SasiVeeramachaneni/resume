@@ -1,9 +1,10 @@
-import type { BlogPost } from './index';
+import type { BlogPost } from "./index";
 
 export const post: BlogPost = {
-  slug: 'perfect-resume-format',
-  title: 'The Perfect Resume Format: What Recruiters Look For',
-  excerpt: 'Learn the ideal resume structure that helps you get past ATS filters and capture recruiter attention instantly.',
+  slug: "perfect-resume-format",
+  title: "The Perfect Resume Format: What Recruiters Look For",
+  excerpt:
+    "Learn the ideal resume structure that helps you get past ATS filters and capture recruiter attention instantly.",
   content: `<h2>The Reverse-Chronological Format</h2>
 <p>The reverse-chronological format is the most widely accepted resume format. It lists your most recent experience first and works backward. This format is preferred by 95% of recruiters.</p>
 <h2>The Essential Sections</h2>
@@ -26,8 +27,8 @@ export const post: BlogPost = {
 </ul>
 <h2>Length Matters</h2>
 <p>For most professionals, a one-page resume is ideal. If you have more than 10 years of experience, two pages may be acceptable. Never exceed two pages.</p>`,
-  date: '2026-05-15',
-  author: 'Create Resume Team',
-  readTime: '4 min read',
-  tags: ['resume format', 'ATS', 'recruiter tips'],
+  date: "2026-05-15",
+  author: "Create Resume Team",
+  readTime: "4 min read",
+  tags: ["resume format", "ATS", "recruiter tips"],
 };

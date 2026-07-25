@@ -1,10 +1,10 @@
-import { useContext } from 'react';
-import { ResumeContext } from './ResumeContext';
+import { useContext } from "react";
+import { ResumeContext } from "./ResumeContext";
 
 const useResume = () => {
   const context = useContext(ResumeContext);
   if (!context) {
-    throw new Error('useResume must be used within a ResumeProvider');
+    throw new Error("useResume must be used within a ResumeProvider");
   }
   return context;
 };
