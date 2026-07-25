@@ -1,17 +1,31 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import { AppLayout } from '@/components/AppLayout/AppLayout';
-import HomePage from './page';
-import ResumeBuilder from './resume/page';
-import AboutPage from './about/page';
-import BlogPage from './blog/page';
-import BlogPostPage from './blog/BlogPostPage';
-import TechPage from './tech/page';
-import NotFoundPage from './not-found';
-import EditorPage from './editor/page';
+import { Loader, Center } from '@mantine/core';
 
-function withLayout(Page: () => React.JSX.Element | null) {
-  return <AppLayout><Page /></AppLayout>;
+const HomePage = lazy(() => import('./page'));
+const ResumeBuilder = lazy(() => import('./resume/page'));
+const AboutPage = lazy(() => import('./about/page'));
+const BlogPage = lazy(() => import('./blog/page'));
+const BlogPostPage = lazy(() => import('./blog/BlogPostPage'));
+const TechPage = lazy(() => import('./tech/page'));
+const NotFoundPage = lazy(() => import('./not-found'));
+const EditorPage = lazy(() => import('./editor/page'));
+
+function withLayout(Page: React.ComponentType) {
+  return (
+    <AppLayout>
+      <Suspense
+        fallback={
+          <Center style={{ height: '50vh' }}>
+            <Loader size="md" />
+          </Center>
+        }
+      >
+        <Page />
+      </Suspense>
+    </AppLayout>
+  );
 }
 
 const routes = [

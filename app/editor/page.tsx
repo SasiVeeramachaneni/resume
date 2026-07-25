@@ -13,7 +13,7 @@ import { usePageMeta } from '@/app/usePageMeta';
 const isDev = import.meta.env.DEV;
 
 export default function EditorPage() {
-  usePageMeta('Blog Editor | Create Resume', 'Write and manage blog posts for Create Resume.');
+  usePageMeta('Blog Editor | Create Resume', 'Write and manage blog posts for Create Resume.', undefined, true);
   const navigate = useNavigate();
 
   const [title, setTitle] = useState('');
