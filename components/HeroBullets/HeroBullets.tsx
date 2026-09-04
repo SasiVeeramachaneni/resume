@@ -1,4 +1,5 @@
 import {
+  Image,
   Container,
   Title,
   Button,
@@ -13,6 +14,7 @@ import {
 import { IconCheck, IconBook2, IconBrandGithub } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 import { GITHUB_REPO_URL } from "@/config";
+import image from "./resume.webp";
 import classes from "./HeroBullets.module.css";
 
 export function HeroBullets() {
@@ -120,6 +122,15 @@ export function HeroBullets() {
             ⚡ No sign-up required — start building your resume instantly!
           </Text>
         </div>
+        <Image
+          src={image}
+          className={classes.image}
+          width={568}
+          height={804}
+          alt="Resume builder preview showing a professional resume template"
+          loading="eager"
+          fetchPriority="high"
+        />
       </div>
     </Container>
   );
