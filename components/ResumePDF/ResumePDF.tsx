@@ -22,6 +22,7 @@ import PatentsPDF from "../Patents/PatentsPDF";
 import ProjectsPDF from "../Projects/ProjectsPDF";
 
 import { photoStyles } from "./ResumeStyles";
+import { getEmbeddedJsonString } from "@/components/PdfImport/constants";
 
 Font.register({
   family: "Merriweather",
@@ -42,6 +43,21 @@ const styles = StyleSheet.create({
   section: {
     padding: 5,
     marginBottom: 10,
+  },
+});
+
+// Hidden embedded JSON style - white on white, tiny, still extractable by pdfjs
+// Must NOT wrap or clip, otherwise base64 will be broken into pieces and markers become
+// non-contiguous (e.g. "__RESUME_ JSON _START__" with spaces). Use single line, off-screen style
+// but keep within page so pdf.js still extracts it as contiguous text.
+const hiddenStyles = StyleSheet.create({
+  embed: {
+    position: "absolute",
+    fontSize: 0.5,
+    color: "#FFFFFF",
+    opacity: 0,
+    top: 0,
+    left: 0,
   },
 });
 
@@ -254,6 +270,10 @@ const ResumeBuilder: React.FC<ResumeBuilderProps> = ({ resumeData }) => {
       <Document>
         <Page size="A4" style={photoPageStyles.page}>
           <PhotoTemplatePDF resumeData={resumeData} />
+          {/* Hidden JSON for re-import - single line, white tiny text, extractable but invisible */}
+          <Text style={hiddenStyles.embed} wrap={false}>
+            {getEmbeddedJsonString(resumeData)}
+          </Text>
         </Page>
       </Document>
     );
@@ -266,6 +286,9 @@ const ResumeBuilder: React.FC<ResumeBuilderProps> = ({ resumeData }) => {
         <View style={styles.section}>
           <PersonalInfoPDF resumeData={resumeData} />
         </View>
+        <Text style={hiddenStyles.embed} wrap={false}>
+          {getEmbeddedJsonString(resumeData)}
+        </Text>
       </Page>
     </Document>
   );

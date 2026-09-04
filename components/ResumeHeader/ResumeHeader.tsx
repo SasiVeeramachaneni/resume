@@ -14,11 +14,12 @@ import {
   useMantineTheme,
   ActionIcon,
   Menu,
+  Notification,
 } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { useDisclosure } from "@mantine/hooks";
 import { PDFDownloadLink } from "@react-pdf/renderer";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import {
   IconNotification,
   IconCode,
@@ -40,7 +41,9 @@ import { CreateResumeLogo } from "../CreateResumeLogo/CreateResumeLogo";
 import SettingsModal from "../Settings/Settings";
 import ResumePDF from "../ResumePDF/ResumePDF";
 import { LinkedInImportButton } from "../LinkedInImport/LinkedInImportButton";
+import { PdfImportButton } from "../PdfImport/PdfImportButton";
 import { useLinkedInImport } from "@/hooks/useLinkedInImport";
+import { usePdfImport } from "@/hooks/usePdfImport";
 import { ResumeContext } from "../declarations/ResumeContext";
 import { getTemplate, templateOptions } from "@/templates";
 
@@ -93,6 +96,76 @@ function LinkedInImportMenuItem() {
     >
       {label}
     </Menu.Item>
+  );
+}
+
+function PdfImportMenuItem() {
+  const { status, error, importFromFile, reset } = usePdfImport();
+  const inputRef = React.useRef<HTMLInputElement>(null);
+  const isLoading = status === "loading";
+  const label = isLoading ? "Reading PDF..." : "Upload Resume PDF";
+  React.useEffect(() => {
+    if (status === "success" || status === "error") {
+      const t = setTimeout(reset, 3500);
+      return () => clearTimeout(t);
+    }
+    return undefined;
+  }, [status, reset]);
+  return (
+    <>
+      <input
+        ref={inputRef}
+        type="file"
+        accept=".pdf,application/pdf"
+        style={{ display: "none" }}
+        onChange={async (e) => {
+          const file = e.target.files?.[0];
+          if (file) {
+            await importFromFile(file);
+            e.target.value = "";
+          }
+        }}
+      />
+      <Menu.Item
+        onClick={() => inputRef.current?.click()}
+        disabled={isLoading}
+        leftSection={<IconUpload size={16} />}
+      >
+        {label}
+      </Menu.Item>
+      {status === "error" && error && (
+        <Notification
+          color="red"
+          title="PDF import failed"
+          onClose={reset}
+          style={{
+            position: "fixed",
+            bottom: 20,
+            right: 20,
+            zIndex: 1000,
+            maxWidth: 420,
+          }}
+        >
+          {error}
+        </Notification>
+      )}
+      {status === "success" && (
+        <Notification
+          color="teal"
+          title="PDF imported"
+          onClose={reset}
+          style={{
+            position: "fixed",
+            bottom: 20,
+            right: 20,
+            zIndex: 1000,
+            maxWidth: 420,
+          }}
+        >
+          Resume loaded. Redirecting to editor...
+        </Notification>
+      )}
+    </>
   );
 }
 
@@ -202,24 +275,15 @@ export function ResumeHeader() {
                 </SimpleGrid>
               </HoverCard.Dropdown>
             </HoverCard>
-            {/*
-            <a href="#" onClick={handleUpload} className={classes.link}>
-              <Center inline>
-                <Box component="span" mr={5}>
-                  Upload resume
-                </Box>
-                <IconUpload
-                  style={{ width: rem(18), height: rem(18) }}
-                  color={theme.colors.blue[6]}
-                />
-              </Center>
-            </a>
-            */}
+            <Box ml="sm">
+              <PdfImportButton variant="button" />
+            </Box>
           </Group>
 
           <SettingsModal opened={opened} close={close} />
           <Group visibleFrom="sm">
             <LinkedInImportButton variant="button" />
+            <PdfImportButton variant="button" label="Upload PDF" />
             <Button
               onClick={open}
               leftSection={<IconSettings size={18} />}
@@ -251,6 +315,7 @@ export function ResumeHeader() {
 
           <Group hiddenFrom="sm" gap="xs">
             <LinkedInImportButton variant="icon" />
+            <PdfImportButton variant="icon" />
             <PDFDownloadLink
               key={JSON.stringify(resumeData)}
               document={<ResumePDF resumeData={resumeData} />}
@@ -312,6 +377,7 @@ export function ResumeHeader() {
                   Settings
                 </Menu.Item>
                 <LinkedInImportMenuItem />
+                <PdfImportMenuItem />
                 <Menu.Item
                   component={Link}
                   to="/blog"
